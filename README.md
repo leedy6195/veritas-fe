@@ -1,6 +1,6 @@
 # veritas
 
-## Github actions 적용 완료(x)
+## Github actions 적용 완료.. please
 
 ## Project setup
 ```
