@@ -1,5 +1,7 @@
 # veritas
 
+## Github actions 적용 완료
+
 ## Project setup
 ```
 npm install
