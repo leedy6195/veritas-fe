@@ -3,7 +3,6 @@
     <v-row class="ma-4">
       <v-col>
         <v-img src="@/assets/daechi-logo.png" min-width="10em" ></v-img>
-        <v-btn>hello</v-btn>
       </v-col>
     </v-row>
     <v-row class="ma-6">
