@@ -11,7 +11,6 @@ export default {
     const code = ref(route.query.code);
     const state = ref(route.query.state);
     const token = ref('');
-    const userEmail = ref('');
     const error = ref(null);
 
     const getKakaoToken = async () => {
@@ -20,17 +19,22 @@ export default {
           code: code.value,
           state: state.value
         });
+        if (response.data.header.success) {
+          token.value = response.data.data.token;
+          localStorage.setItem('token', token.value);
+          store.commit('setLogin', true)
 
-        token.value = response.data.data.token;
-        userEmail.value = response.data.data.userEmail;
+          router.push('/');
+        } else if (response.data.header.status === 406) {
+          alert(response.data.header.message)
 
-// 토큰과 사용자 정보를 저장하거나 처리할 수 있습니다.
-// 예: localStorage에 저장
-        localStorage.setItem('token', token.value);
-        localStorage.setItem('userEmail', userEmail.value);
-        store.commit('setLogin', true)
-// 로그인 완료 후 원하는 페이지로 이동
-        router.push('/');
+
+          router.push('/login');
+        } else {
+          alert(response.data.header.message)
+          router.push('/login');
+        }
+
       } catch (err) {
         error.value = err;
         console.error(error.value);
@@ -46,7 +50,6 @@ export default {
       code,
       state,
       token,
-      userEmail,
       error
     };
   }

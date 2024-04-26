@@ -1,18 +1,27 @@
 import {createRouter, createWebHistory} from 'vue-router'
 
 
-import ReadingRooms from "@/pages/admin/ReadingRooms.vue";
-import ReadingRoom from "@/pages/admin/ReadingRoom.vue";
+import ReadingRooms from "@/pages/admin/facility/ReadingRooms.vue";
+import ReadingRoom from "@/pages/admin/facility/ReadingRoom.vue";
 import Test from "@/pages/admin/Test.vue";
 import AdminLogin from "@/pages/admin/Login.vue";
-import studentLogin from "@/pages/student/Login.vue"
 
 import AdminLayout from "@/components/AdminLayout.vue";
-import MemberLayout from "@/components/MemberLayout.vue";
-import store from "@/scripts/store";
 import Test2 from "@/pages/student/Test2.vue";
 import KakaoCallback from "@/pages/student/KakaoCallback.vue";
-
+import StudentHome from "@/pages/student/StudentHome.vue";
+import ReadingRoomView from "@/pages/view/ReadingRoomView.vue";
+import Kiosks from "@/pages/admin/device/Kiosks.vue";
+import EntryDevices from "@/pages/admin/device/EntryDevices.vue";
+import Students from "@/pages/admin/student/Students.vue";
+import ReadingRoomExitView from "@/pages/view/ReadingRoomExitView.vue";
+import LectureRooms from "@/pages/admin/facility/LectureRooms.vue";
+import LectureRoomEnterView from "@/pages/view/LectureRoomEnterView.vue";
+import LectureRoomExitView from "@/pages/view/LectureRoomExitView.vue";
+import Attendances from "@/pages/admin/attendance/Attendances.vue";
+import KakaoLogin from "@/pages/student/KakaoLogin.vue";
+import MemberLayout from "@/components/MemberLayout.vue";
+import axios from "axios";
 
 
 const routes = [
@@ -20,24 +29,38 @@ const routes = [
         path: '/admin',
         component: AdminLayout,
         children: [
+            {path: 'attendances', component: Attendances},
             {path: 'readingrooms', component: ReadingRooms},
             {path: 'readingrooms/:roomId', component: ReadingRoom},
+            {path: 'lecturerooms', component: LectureRooms},
+            {path: 'kiosks', component: Kiosks},
+            {path: 'entryDevices', component: EntryDevices},
             {path: 'test', component: Test},
-            {path: 'login', component: AdminLogin}
+            {path: 'login', component: AdminLogin},
+            {path: 'students', component: Students}
+
         ],
-        beforeEnter: checkAuth
     },
     {
         path: '/',
         component: MemberLayout,
         children: [
-            {path: 'login', component: studentLogin },
+            {path: '', component: StudentHome},
+            {path: 'login', component: KakaoLogin},
             {path: 'test', component: Test2}
-        ],
-        beforeEnter: checkLogin
+        ]
     },
     {
-        path: '/kakaocallback', component: KakaoCallback}
+        path: '/views', children: [
+            {path: 'readingrooms/:roomId', component: ReadingRoomView},
+            {path: 'readingroom/exit/:deviceId', component: ReadingRoomExitView},
+            {path: 'lectureroom/enter/:deviceId', component: LectureRoomEnterView},
+            {path: 'lectureroom/exit/:deviceId', component: LectureRoomExitView}
+        ]
+    },
+    {
+        path: '/kakaocallback', component: KakaoCallback
+    }
 
 ]
 
@@ -45,40 +68,48 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 })
-function checkLogin(to, from, next) {
+
+
+router.beforeEach(async (to, from, next) => {
+    if (to.path.startsWith('/admin')) {
+        await checkAuth(to, from, next);
+    } else if (to.path !== '/login' && to.path !== '/kakaocallback') {
+        await checkLogin(to, from, next);
+    } else {
+        next();
+    }
+});
+
+async function checkLogin(to, from, next) {
 
     if (to.path === '/login') {
         next()
-    } else if (to.path.startsWith('/') && !store.state.isLogin) {
-        next('/login')
     } else {
-        next()
+        await axios.get("/auth/check").then((response) => {
+            if (response.data.header.success && response.data.data.isLoggedIn) {
+                next()
+            }
+        })
+        next('/login')
     }
 
 
     next()
 }
-function checkAuth(to, from, next) {
+
+async function checkAuth(to, from, next) {
     if (to.path === '/admin/login') {
         next()
-    } else if (to.path.startsWith('/admin') && !store.state.isAuth) {
-        next('/admin/login')
     } else {
-        next()
+        console.log("checkAuth")
+        await axios.get("/api/admin/check").then((response) => {
+            if (response.data.header.success && response.data.data.isLoggedIn) {
+                next()
+            }
+        })
+        next('/admin/login')
     }
 }
-
-router.beforeEach((to, from, next) => {
-    const isLoggedIn = false; // 로그인 여부 확인 로직
-    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-
-    if (requiresAuth && !isLoggedIn) {
-        // 로그인이 필요한 페이지에 로그인되지 않은 경우 로그인 페이지로 리다이렉트
-        next('/admin/login');
-    } else {
-        next();
-    }
-});
 
 
 export default router;

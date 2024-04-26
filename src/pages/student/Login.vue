@@ -29,54 +29,76 @@
       </v-col>
     </v-row>
   </v-container>
+  <!--
   <v-btn @click="kakaoLogin">
     <v-icon left>mdi-chat</v-icon>
     카카오로 로그인
   </v-btn>
+
   <v-btn @click="logout">로그아웃</v-btn>
+  -->
 </template>
 
-<script>
+<script setup>
 import axios from "axios";
 import router from "@/scripts/router";
+import { ref } from "vue";
+import store from "@/scripts/store";
 
+const loginId = ref("");
+const password = ref("");
 
-export default {
-  methods: {
-    kakaoLogin() {
-      const clientId = process.env.VUE_APP_KAKAO_CLIENT_ID;
-      const redirectUri = process.env.VUE_APP_REDIRECT_URI;
-      const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?` +
-          `client_id=${clientId}&` +
-          `redirect_uri=${redirectUri}&` +
-          `response_type=code&` +
-          `scope=profile_nickname account_email&` +
-          `state=${this.generateState()}&` +
-          `prompt=consent`
+const login = () => {
+  axios
+      .post("/api/students/login", {
+        loginId: loginId.value,
+        password: password.value,
+      })
+      .then((response) => {
+        if (response.data.header.success) {
+          store.commit("setLogin", true);
+          localStorage.setItem("studentId", response.data.data.id)
+          router.push("/");
+        } else {
+          alert(response.data.header.message);
+        }
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+};
+/*
+const kakaoLogin = () => {
+  const clientId = process.env.VUE_APP_KAKAO_CLIENT_ID;
+  const redirectUri = process.env.VUE_APP_REDIRECT_URI;
+  const kakaoAuthUrl =
+      `https://kauth.kakao.com/oauth/authorize?` +
+      `client_id=${clientId}&` +
+      `redirect_uri=${redirectUri}&` +
+      `response_type=code&` +
+      `scope=profile_nickname account_email&` +
+      `state=${generateState()}&` +
+      `prompt=consent`;
 
+  window.location.href = kakaoAuthUrl;
+};
 
-      window.location.href = kakaoAuthUrl;
-    },
-    generateState() {
-      // 임의의 state 값 생성
-      const state = Math.random().toString(36).substring(7);
-      localStorage.setItem('state', state);
-      return state;
-    },
-    async logout () {
-      try {
-        await axios.post('/auth/logout');
-        // 로그아웃 성공 시 처리 로직
-        localStorage.removeItem('token');
-        localStorage.removeItem('userEmail');
-        // 로그아웃 후 이동할 페이지로 라우팅
-        router.push('/login');
-      } catch (error) {
-        // 로그아웃 실패 시 처리 로직
-        console.error(error);
-      }
-    }
-  },
+const generateState = () => {
+  const state = Math.random().toString(36).substring(7);
+  localStorage.setItem("state", state);
+  return state;
+};
 
-}
+const logout = async () => {
+  try {
+    await axios.post("/auth/logout");
+    localStorage.removeItem("token");
+    localStorage.removeItem("userEmail");
+    router.push("/login");
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+ */
 </script>

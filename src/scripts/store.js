@@ -2,6 +2,7 @@ import {createStore} from "vuex";
 import createPersistedState from "vuex-persistedstate"
 
 const store = createStore({
+    /*
     state: {
         isAuth: false,
         isLogin: false,
@@ -14,6 +15,7 @@ const store = createStore({
             state.isLogin = payload;
         }
     },
+     */
     plugins: [createPersistedState({
         storage: window.localStorage
     })]

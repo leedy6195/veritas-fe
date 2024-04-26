@@ -10,28 +10,39 @@
 
   <v-navigation-drawer v-if="$route.path !== '/admin/login'" v-model="drawer" floating :permanent="$vuetify.display.mdAndUp">
     <v-list density="compact" nav>
-      <v-list-item prepend-icon="mdi-account-multiple" title="회원 관리" value="member"></v-list-item>
-      <v-list-item prepend-icon="mdi-calendar-multiple-check" title="출결 관리" value="attendance"></v-list-item>
-      <v-list-item prepend-icon="mdi-book-open-page-variant" title="독서실 관리" value="readingrooms" to="/admin/readingrooms"></v-list-item>
-      <v-list-item prepend-icon="mdi-cog" title="설정" value="settings"></v-list-item>
+      <v-list-item prepend-icon="mdi-account-multiple" title="회원 관리" value="member" to="/admin/students"></v-list-item>
+      <v-list-item prepend-icon="mdi-calendar-multiple-check" title="출결 관리" value="attendance" to="/admin/attendances"></v-list-item>
+
+
+      <v-list-group value="facilities">
+        <template v-slot:activator="{ props }">
+          <v-list-item v-bind="props" prepend-icon="mdi-domain" title="시설 관리"></v-list-item>
+
+        </template>
+
+        <v-list-item title="독서실" value="readingrooms" to="/admin/readingrooms"></v-list-item>
+        <v-list-item title="강의실" value="lecturerooms" to="/admin/lecturerooms"></v-list-item>
+      </v-list-group>
+
+      <v-list-group value="devices">
+        <template v-slot:activator="{ props }">
+          <v-list-item v-bind="props" prepend-icon="mdi-cog" title="디바이스 관리"></v-list-item>
+        </template>
+
+        <v-list-item value="kiosks" to="/admin/kiosks" title="키오스크" />
+
+        <v-list-item value="entryDevices" to="/admin/entryDevices" title="출입 디바이스" />
+
+
+      </v-list-group>
+
       <v-divider/>
 
       <v-list-item prepend-icon="mdi-logout" title="로그아웃" value="logout" @click="logout"></v-list-item>
 
-      <!--
-      <v-list-group value="about">
-        <template v-slot:activator="{ props }">
-          <v-list-item v-bind="props" prepend-icon="mdi-forum" title="About"></v-list-item>
-        </template>
 
-        <v-list-item value="about/company" prepend-icon="mdi-forum">
-          <v-list-item-title>Company</v-list-item-title>
-        </v-list-item>
-        <v-list-item value="about/team">
-          <v-list-item-title>Team</v-list-item-title>
-        </v-list-item>
-      </v-list-group>
-      -->
+
+
 
     </v-list>
   </v-navigation-drawer>
