@@ -56,7 +56,7 @@ const inputDisabled = ref(false);
 
 const fetchData = async () => {
   try {
-    const response = await axios.get(`/api/devices/entryDevices/${deviceId}`);
+    const response = await axios.get(`http://223.130.130.160:8080/api/devices/entryDevices/${deviceId}`);
     roomName.value = response.data.data.name;
   } catch (error) {
     console.error("Error fetching device:", error);
@@ -66,7 +66,7 @@ const fetchData = async () => {
 
 const onQrInput = () => {
 
-  axios.post(`/api/access/lectureroom/exit`, {
+  axios.post(`http://223.130.130.160:8080/api/access/lectureroom/exit`, {
     accessType: 'OUT',
     deviceId: deviceId,
     serial: qrCodeInput.value

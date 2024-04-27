@@ -85,7 +85,7 @@ async function checkLogin(to, from, next) {
     if (to.path === '/login') {
         next()
     } else {
-        await axios.get("/auth/check").then((response) => {
+        await axios.get("http://223.130.130.160:8080/auth/check").then((response) => {
             if (response.data.header.success && response.data.data.isLoggedIn) {
                 next()
             }
@@ -102,7 +102,7 @@ async function checkAuth(to, from, next) {
         next()
     } else {
         console.log("checkAuth")
-        await axios.get("/api/admin/check").then((response) => {
+        await axios.get("http://223.130.130.160:8080/api/admin/check").then((response) => {
             if (response.data.header.success && response.data.data.isLoggedIn) {
                 next()
             }

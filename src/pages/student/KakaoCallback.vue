@@ -15,7 +15,7 @@ export default {
 
     const getKakaoToken = async () => {
       try {
-        const response = await axios.post('/auth/kakao/token', {
+        const response = await axios.post('http://223.130.130.160:8080/auth/kakao/token', {
           code: code.value,
           state: state.value
         });

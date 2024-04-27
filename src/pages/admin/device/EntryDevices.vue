@@ -107,7 +107,7 @@ const lectureRooms = ref([]);
 
 const fetchKioskList = async () => {
   try {
-    const response = await axios.get('/api/devices/kiosks');
+    const response = await axios.get('http://223.130.130.160:8080/api/devices/kiosks');
     kiosks.value = response.data.data;
   } catch (error) {
     console.error('Failed to fetch kiosk list:', error);
@@ -116,7 +116,7 @@ const fetchKioskList = async () => {
 
 const fetchLectureRooms = async () => {
   try {
-    const response = await axios.get('/api/lecturerooms');
+    const response = await axios.get('http://223.130.130.160:8080/api/lecturerooms');
     lectureRooms.value = response.data.data
   } catch (error) {
     console.error('Failed to fetch lectureRoom list:', error);
@@ -126,7 +126,7 @@ const fetchLectureRooms = async () => {
 
 const fetchEntryDevices = async () => {
   try {
-    const response = await axios.get('/api/devices/entryDevices');
+    const response = await axios.get('http://223.130.130.160:8080/api/devices/entryDevices');
     entryDevices.value = response.data.data;
   } catch (error) {
     console.error('Failed to fetch entryDevices list:', error);
@@ -166,7 +166,7 @@ const addEntryDevice = () => {
     lectureRoomId: selectedLectureRoom.value,
   };
   // 서버에 출입 디바이스를 추가하는 API 호출
-  axios.post('/api/devices/entryDevices', payload).then((response) => {
+  axios.post('http://223.130.130.160:8080/api/devices/entryDevices', payload).then((response) => {
     if (response.data.header.success) {
       location.reload()
     } else {
