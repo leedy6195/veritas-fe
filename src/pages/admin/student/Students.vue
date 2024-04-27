@@ -226,7 +226,7 @@ const updateMember = () => {
     return
   }
 
-  axios.put(`http://223.130.130.160:8080/api/students/${editedMember.value.id}`, editedMember.value)
+  axios.put(`http://localhost:8080/api/students/${editedMember.value.id}`, editedMember.value)
       .then((response) => {
         if (response.data.header.success) {
           location.reload()
@@ -241,7 +241,7 @@ const resetEditedMember = () => {
 };
 
 const fetchMembers = async () => {
-  await axios.get('http://223.130.130.160:8080/api/students').then((response) => {
+  await axios.get('http://localhost:8080/api/students').then((response) => {
     members.value = response.data.data.map(member => ({
       ...member,
       joinDate: formatDate(member.createdAt),
@@ -293,7 +293,7 @@ const closeAddMemberDialog = () => {
 
 const deleteSelectedMembers = async () => {
   if (confirm('선택한 회원을 삭제하시겠습니까?')) {
-    const deletePromises = selectedMembers.value.map(memberId => axios.delete(`http://223.130.130.160:8080/api/students/${memberId}`));
+    const deletePromises = selectedMembers.value.map(memberId => axios.delete(`http://localhost:8080/api/students/${memberId}`));
     await Promise.all(deletePromises).then(() => {location.reload()})
 
 
@@ -312,7 +312,7 @@ const addMember = () => {
     return
   }
 
-  axios.post('http://223.130.130.160:8080/api/students', newMember.value)
+  axios.post('http://localhost:8080/api/students', newMember.value)
       .then((response) => {
         if (response.data.header.success) {
           location.reload()

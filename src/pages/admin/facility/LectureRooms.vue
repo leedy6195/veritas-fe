@@ -94,7 +94,7 @@ const editedLectureRoomId = ref(null)
 const editedLectureRoomName = ref('')
 
 const fetchRooms = () => {
-  axios.get('http://223.130.130.160:8080/api/lecturerooms').then((response) => {
+  axios.get('http://localhost:8080/api/lecturerooms').then((response) => {
     lectureRooms.value = response.data.data
     loading.value = false;
   })
@@ -106,7 +106,7 @@ const addLectureRoom = () => {
     return
   }
 
-  axios.post('http://223.130.130.160:8080/api/lecturerooms', {
+  axios.post('http://localhost:8080/api/lecturerooms', {
     name: lectureRoomName.value
   }).then((response) => {
     if (response.data.header.success) {
@@ -129,7 +129,7 @@ const updateLectureRoom = () => {
     return
   }
 
-  axios.put(`http://223.130.130.160:8080/api/lecturerooms/${editedLectureRoomId.value}`, {
+  axios.put(`http://localhost:8080/api/lecturerooms/${editedLectureRoomId.value}`, {
     name: editedLectureRoomName.value
   }).then((response) => {
     if (response.data.header.success) {
@@ -145,7 +145,7 @@ const updateLectureRoom = () => {
 
 const deleteLectureRoom = () => {
   if (confirm('정말 삭제하시겠습니까?')) {
-    axios.delete(`http://223.130.130.160:8080/api/lecturerooms/${editedLectureRoomId.value}`).then((response) => {
+    axios.delete(`http://localhost:8080/api/lecturerooms/${editedLectureRoomId.value}`).then((response) => {
       if (response.data.header.success) {
         fetchRooms()
         editLectureRoomDialog.value = false
