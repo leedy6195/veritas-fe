@@ -33,7 +33,7 @@
 <script setup>
 import {ref} from "vue";
 import axios from "axios";
-import store from "@/scripts/store";
+
 import router from "@/scripts/router";
 
 const loginId = ref("")
@@ -45,7 +45,7 @@ const login = () => {
     password: password.value
   }).then((response) => {
     if (response.data.header.success) {
-      store.commit('setIsAuth', true)
+      //store.commit('setIsAuth', true)
       router.push('/admin')
     } else {
       alert(response.data.header.message)

@@ -43,7 +43,6 @@
 import axios from "axios";
 import router from "@/scripts/router";
 import { ref } from "vue";
-import store from "@/scripts/store";
 
 const loginId = ref("");
 const password = ref("");
@@ -56,7 +55,7 @@ const login = () => {
       })
       .then((response) => {
         if (response.data.header.success) {
-          store.commit("setLogin", true);
+          //store.commit("setLogin", true);
           localStorage.setItem("studentId", response.data.data.id)
           router.push("/");
         } else {

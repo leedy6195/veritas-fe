@@ -2,7 +2,6 @@
 import {onMounted, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import axios from 'axios';
-import store from "@/scripts/store";
 
 export default {
   setup() {
@@ -22,7 +21,7 @@ export default {
         if (response.data.header.success) {
           token.value = response.data.data.token;
           localStorage.setItem('token', token.value);
-          store.commit('setLogin', true)
+          //store.commit('setLogin', true)
 
           router.push('/');
         } else if (response.data.header.status === 406) {

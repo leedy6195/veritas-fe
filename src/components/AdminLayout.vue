@@ -53,7 +53,6 @@
 <script setup>
 import { ref } from 'vue'
 import axios from "axios";
-import store from "@/scripts/store";
 import router from "@/scripts/router";
 
 const drawer = ref(null)
@@ -62,8 +61,8 @@ const logout = () => {
   if (confirm("로그아웃하시겠습니까?")) {
     axios.post('http://223.130.130.160:8080/api/admin/logout').then((response) => {
       if (response.data.header.success) {
-        store.commit('setIsAuth', false)
-        localStorage.removeItem("vuex")
+        //store.commit('setIsAuth', false)
+        //localStorage.removeItem("vuex")
         router.push('/')
       }
     })
