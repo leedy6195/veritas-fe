@@ -3,10 +3,10 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8080'
+        target: 'http://veritas-be:8080'
       },
       '/auth': {
-        target: 'http://localhost:8080'
+        target: 'http://veritas-be:8080'
 }
     }
   },
