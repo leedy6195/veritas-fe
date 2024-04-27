@@ -14,6 +14,8 @@
 </template>
 
 <script setup>
+import {onMounted} from "vue";
+
 const kakaoLogin = () => {
   const clientId = process.env.VUE_APP_KAKAO_CLIENT_ID;
   const redirectUri = process.env.VUE_APP_REDIRECT_URI;
@@ -34,6 +36,10 @@ const generateState = () => {
   localStorage.setItem("state", state);
   return state;
 };
+
+onMounted(() => {
+    console.log("hello world")
+})
 
 
 /*
