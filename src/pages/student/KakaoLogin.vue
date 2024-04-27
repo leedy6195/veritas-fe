@@ -15,6 +15,7 @@
 
 <script setup>
 import {onMounted} from "vue";
+import axios from "axios";
 
 const kakaoLogin = () => {
   const clientId = process.env.VUE_APP_KAKAO_CLIENT_ID;
@@ -38,7 +39,7 @@ const generateState = () => {
 };
 
 onMounted(() => {
-    console.log("hello world")
+    axios.get('http://veritas-be:8080/test')
 })
 
 
