@@ -133,7 +133,7 @@ const editedReadingRoomWidth = ref(null)
 const editedReadingRoomHeight = ref(null)
 
 const fetchRooms = () => {
-  axios.get('http://localhost:8080/api/readingrooms').then((response) => {
+  axios.get('http://223.130.130.160:8080/api/readingrooms').then((response) => {
     const roomsData = response.data.data
     readingRooms.value = roomsData.map(room => {
       const seatStatuses = room.seats.reduce((acc, seat) => {
@@ -164,7 +164,7 @@ const addReadingRoom = () => {
   }
   if (!/^[1-9]\d*$/.test(readingRoomWidth.value) || !/^[1-9]\d*$/.test(readingRoomHeight.value)) return
 
-  axios.post('http://localhost:8080/api/readingrooms', {
+  axios.post('http://223.130.130.160:8080/api/readingrooms', {
     name: readingRoomName.value,
     width: readingRoomWidth.value,
     height: readingRoomHeight.value
@@ -200,7 +200,7 @@ const updateReadingRoom = () => {
   }
   if (!/^[1-9]\d*$/.test(editedReadingRoomWidth.value) || !/^[1-9]\d*$/.test(editedReadingRoomHeight.value)) return
 
-  axios.put(`http://localhost:8080/api/readingrooms/${editedReadingRoomId.value}`, {
+  axios.put(`http://223.130.130.160:8080/api/readingrooms/${editedReadingRoomId.value}`, {
     name: editedReadingRoomName.value,
     width: editedReadingRoomWidth.value,
     height: editedReadingRoomHeight.value
@@ -218,7 +218,7 @@ const updateReadingRoom = () => {
 
 const deleteReadingRoom = () => {
   if (confirm('정말 삭제하시겠습니까?')) {
-    axios.delete(`http://localhost:8080/api/readingrooms/${editedReadingRoomId.value}`).then((response) => {
+    axios.delete(`http://223.130.130.160:8080/api/readingrooms/${editedReadingRoomId.value}`).then((response) => {
       if (response.data.header.success) {
         fetchRooms()
         editReadingRoomDialog.value = false

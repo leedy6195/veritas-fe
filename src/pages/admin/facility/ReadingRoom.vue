@@ -96,7 +96,7 @@ const seatStatusOptions = ref([
 const fetchSeats = async () => {
 
   try {
-    const response = await axios.get(`http://localhost:8080/api/readingrooms/${roomId}`)
+    const response = await axios.get(`http://223.130.130.160:8080/api/readingrooms/${roomId}`)
 
     roomData.value = response.data.data
   } catch (error) {
@@ -131,7 +131,7 @@ const getSeatStatus = (x, y) => {
 
 const deleteSeat = async () => {
   try {
-    await axios.delete(`http://localhost:8080/api/readingrooms/${roomId}/seats/${selectedSeatId.value}`);
+    await axios.delete(`http://223.130.130.160:8080/api/readingrooms/${roomId}/seats/${selectedSeatId.value}`);
     roomData.value.seats = roomData.value.seats.filter(seat => seat.id !== selectedSeatId.value);
     selectedSeatId.value = null;
     contextMenuVisible.value = false;
@@ -149,7 +149,7 @@ const closeAddSeatDialog = () => {
 const submitAddSeat = async () => {
   try {
     if (selectedSeatId.value) {
-      const response = await axios.put(`http://localhost:8080/api/readingrooms/${roomId}/seats/${selectedSeatId.value}`, {
+      const response = await axios.put(`http://223.130.130.160:8080/api/readingrooms/${roomId}/seats/${selectedSeatId.value}`, {
         name: newSeatName.value,
         x: selectedX.value,
         y: selectedY.value,
@@ -158,7 +158,7 @@ const submitAddSeat = async () => {
       const updatedSeatIndex = roomData.value.seats.findIndex(seat => seat.id === selectedSeatId.value);
       roomData.value.seats[updatedSeatIndex] = response.data.data;
     } else {
-      const response = await axios.post(`http://localhost:8080/api/readingrooms/${roomId}/seats`, {
+      const response = await axios.post(`http://223.130.130.160:8080/api/readingrooms/${roomId}/seats`, {
         name: newSeatName.value,
         x: selectedX.value,
         y: selectedY.value,
@@ -217,7 +217,7 @@ const drop = async (event, x, y) => {
           draggedSeat.y = y;
 
           try {
-            await axios.put(`http://localhost:8080/api/readingrooms/${roomId}/seats/${draggedSeatId}`, {
+            await axios.put(`http://223.130.130.160:8080/api/readingrooms/${roomId}/seats/${draggedSeatId}`, {
               name: draggedSeat.name,
               x: draggedSeat.x,
               y: draggedSeat.y,
