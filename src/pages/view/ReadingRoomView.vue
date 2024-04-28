@@ -132,7 +132,7 @@ const getSeatId = (x, y) => {
 
 const fetchSeats = async () => {
   try {
-    const response = await axios.get(`http://223.130.130.160:8080/api/readingrooms/${roomId}`);
+    const response = await axios.get(`https://veritas-s.app/api/readingrooms/${roomId}`);
     roomData.value = response.data.data;
   } catch (error) {
     console.error("Error fetching seats:", error);
@@ -158,7 +158,7 @@ const onQrInput = () => {
     if (selectedSeatId.value) {
       enterReadingRoom();
     } else {
-      axios.post(`http://223.130.130.160:8080/api/access/readingroom/check`, {
+      axios.post(`https://veritas-s.app/api/access/readingroom/check`, {
         roomId: roomId,
         serial: qrCodeInput.value,
       }).then((response) => {
@@ -180,7 +180,7 @@ const onQrInput = () => {
 };
 
 const enterReadingRoom = () => {
-  axios.post(`http://223.130.130.160:8080/api/access/readingroom/enter`, {
+  axios.post(`https://veritas-s.app/api/access/readingroom/enter`, {
     roomId: roomId,
     seatId: selectedSeatId.value,
     serial: qrCodeInput.value,

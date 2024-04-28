@@ -3,10 +3,10 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://223.130.130.160:8080'
+        target: 'https://veritas-s.app'
       },
       '/auth': {
-        target: 'http://223.130.130.160:8080'
+        target: 'https://veritas-s.app'
 }
     }
   },

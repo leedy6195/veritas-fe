@@ -50,7 +50,7 @@ const facilities = ref([
 ]);
 
 const getStudentInfo = () => {
-  axios.get("http://223.130.130.160:8080/api/students/getMyInfo").then((response) => {
+  axios.get("https://veritas-s.app/api/students/getMyInfo").then((response) => {
     studentInfo.value = response.data.data;
   });
 };

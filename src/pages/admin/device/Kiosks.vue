@@ -103,13 +103,13 @@ const editedSelectedReadingRoom = ref(null);
 const editedKioskId = ref(null);
 
 const fetchReadingRooms = () => {
-  axios.get("http://223.130.130.160:8080/api/readingrooms").then((response) => {
+  axios.get("https://veritas-s.app/api/readingrooms").then((response) => {
     readingRooms.value = response.data.data;
   });
 };
 
 const fetchKiosks = () => {
-  axios.get("http://223.130.130.160:8080/api/devices/kiosks").then((response) => {
+  axios.get("https://veritas-s.app/api/devices/kiosks").then((response) => {
     kiosks.value = response.data.data;
   });
 };
@@ -136,7 +136,7 @@ const addKiosk = () => {
   }
 
   axios
-      .post("http://223.130.130.160:8080/api/devices/kiosks", {
+      .post("https://veritas-s.app/api/devices/kiosks", {
         name: kioskName.value,
         readingRoomId: selectedReadingRoom.value,
       })
@@ -176,7 +176,7 @@ const updateKiosk = () => {
   }
 
   axios
-      .put(`http://223.130.130.160:8080/api/devices/kiosks/${editedKioskId.value}`, {
+      .put(`https://veritas-s.app/api/devices/kiosks/${editedKioskId.value}`, {
         name: editedKioskName.value,
         readingRoomId: editedSelectedReadingRoom.value,
       })
@@ -192,7 +192,7 @@ const updateKiosk = () => {
 
 const deleteKiosk = () => {
   if (confirm("정말 삭제하시겠습니까?")) {
-    axios.delete(`http://223.130.130.160:8080/api/devices/kiosks/${editedKioskId.value}`).then((response) => {
+    axios.delete(`https://veritas-s.app/api/devices/kiosks/${editedKioskId.value}`).then((response) => {
       if (response.data.header.success) {
         fetchKiosks();
         closeEditKioskDialog();
