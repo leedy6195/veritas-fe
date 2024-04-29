@@ -175,8 +175,10 @@ const editEntryDevice = (item) => {
     name: item.name,
     accessType: item.accessType,
     kioskSync: item.parentKioskName ? true : false,
-    selectedKiosk: item.parentKioskId,
-    selectedLectureRoom: item.lectureRoomId,
+      selectedKiosk: kiosks.value.find(kiosk => kiosk.id === item.parentKioskId),
+    //selectedKiosk: item.parentKioskId,
+      selectedLectureRoom: lectureRooms.value.find(lectureRoom => lectureRoom.id === item.lectureRoomId)
+    //selectedLectureRoom: item.lectureRoomId,
   };
   editEntryDeviceDialog.value = true;
 };

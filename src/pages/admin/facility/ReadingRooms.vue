@@ -28,6 +28,7 @@
                         <th class="text-left">사용 가능</th>
                         <th class="text-left">사용 중</th>
                         <th class="text-left">사용 불가</th>
+                        <th class="text-left">기기 토큰</th>
                         <th class="text-left"></th>
                     </tr>
                     </thead>
@@ -170,7 +171,8 @@ const fetchRooms = () => {
                 seats: room.seats.length,
                 idle: seatStatuses.IDLE || 0,
                 occupied: seatStatuses.OCCUPIED || 0,
-                unavailable: seatStatuses.UNAVAILABLE || 0
+                unavailable: seatStatuses.UNAVAILABLE || 0,
+                receiverToken: room.receiverToken,
             };
         })
 
