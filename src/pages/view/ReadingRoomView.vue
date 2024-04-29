@@ -10,6 +10,7 @@
           ref="inputRef"
           @blur="onInputBlur"
           :disabled="inputDisabled"
+          inputmode="none"
       />
     </div>
     <div style="display:flex">
