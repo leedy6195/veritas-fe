@@ -73,7 +73,9 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
     if (to.path.startsWith('/admin')) {
         await checkAuth(to, from, next);
-    } else if (to.path !== '/login' && to.path !== '/kakaocallback') {
+    } else if (to.path !== '/login'
+            && to.path !== '/kakaocallback'
+            && !to.path.startsWith('/views/')) {
         await checkLogin(to, from, next);
     } else {
         next();

@@ -21,12 +21,14 @@
           <tr>
             <th class="text-left">디바이스 관리명</th>
             <th class="text-left">연동 독서실</th>
+            <th class="text-left">화면 바로가기</th>
           </tr>
           </thead>
           <tbody>
           <tr v-for="item in kiosks" :key="item.id">
             <td @click="openEditKioskDialog(item)" style="cursor: pointer;">{{ item.name }}</td>
             <td>{{ item.readingRoomName }}</td>
+            <td><router-link :to="`/views/readingrooms/${item.id}`">링크</router-link></td>
           </tr>
           </tbody>
         </v-table>

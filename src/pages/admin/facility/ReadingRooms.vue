@@ -70,6 +70,12 @@
                             :rules="[v => !!v || '필수 입력', v => /^[1-9]\d*$/.test(v) || '자연수를 입력하세요']"></v-text-field>
             </v-col>
           </v-row>
+          <v-row>
+            <v-col>
+              <v-text-field v-model="receiverToken" label="수신기 토큰" density="comfortable" required
+                            :rules="[v => !!v || '필수 입력']"></v-text-field>
+            </v-col>
+          </v-row>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -101,6 +107,13 @@
                             required
                             :rules="[v => !!v || '필수 입력', v => /^[1-9]\d*$/.test(v) || '자연수를 입력하세요']"></v-text-field>
             </v-col>
+
+            <v-row>
+              <v-col>
+                <v-text-field v-model="editedReceiverToken" label="수신기 토큰" density="comfortable" required
+                              :rules="[v => !!v || '필수 입력']"></v-text-field>
+              </v-col>
+            </v-row>
           </v-row>
         </v-card-text>
         <v-card-actions>
@@ -124,6 +137,7 @@ const addReadingRoomDialog = ref(false)
 const readingRoomName = ref('')
 const readingRoomWidth = ref(null)
 const readingRoomHeight = ref(null)
+const receiverToken = ref('')
 const loading = ref(true)
 
 const editReadingRoomDialog = ref(false)
@@ -131,6 +145,7 @@ const editedReadingRoomId = ref(null)
 const editedReadingRoomName = ref('')
 const editedReadingRoomWidth = ref(null)
 const editedReadingRoomHeight = ref(null)
+const editedReceiverToken = ref('')
 
 const fetchRooms = () => {
   axios.get('https://veritas-s.app/api/readingrooms').then((response) => {
@@ -158,7 +173,7 @@ const fetchRooms = () => {
 }
 
 const addReadingRoom = () => {
-  if (!readingRoomName.value || !readingRoomWidth.value || !readingRoomHeight.value) {
+  if (!readingRoomName.value || !readingRoomWidth.value || !readingRoomHeight.value || !receiverToken.value) {
     alert('필수 항목을 입력하세요')
     return
   }
@@ -167,7 +182,8 @@ const addReadingRoom = () => {
   axios.post('https://veritas-s.app/api/readingrooms', {
     name: readingRoomName.value,
     width: readingRoomWidth.value,
-    height: readingRoomHeight.value
+    height: readingRoomHeight.value,
+    receiverToken: receiverToken.value
   }).then((response) => {
     if (response.data.header.success) {
       //router.push(`/admin/readingrooms/${response.data.data.id}`)
@@ -194,7 +210,7 @@ const openEditReadingRoomDialog = (readingRoom) => {
 }
 
 const updateReadingRoom = () => {
-  if (!editedReadingRoomName.value || !editedReadingRoomWidth.value || !editedReadingRoomHeight.value) {
+  if (!editedReadingRoomName.value || !editedReadingRoomWidth.value || !editedReadingRoomHeight.value || !editedReceiverToken.value) {
     alert('필수 항목을 입력하세요')
     return
   }
@@ -203,7 +219,8 @@ const updateReadingRoom = () => {
   axios.put(`https://veritas-s.app/api/readingrooms/${editedReadingRoomId.value}`, {
     name: editedReadingRoomName.value,
     width: editedReadingRoomWidth.value,
-    height: editedReadingRoomHeight.value
+    height: editedReadingRoomHeight.value,
+    receiverToken: editedReceiverToken.value
   }).then((response) => {
     if (response.data.header.success) {
       fetchRooms()

@@ -46,6 +46,7 @@ import {useRoute} from "vue-router";
 const route = useRoute();
 const deviceId = route.params.deviceId;
 const roomName = ref("");
+const receiverToken = ref("");
 const qrCodeInput = ref("");
 
 const exitStudentName = ref("");
@@ -53,11 +54,13 @@ const exitTime = ref("");
 const exitCardOverlay = ref(false);
 const inputDisabled = ref(false);
 
+const mutex = ref(0)
 
 const fetchData = async () => {
   try {
     const response = await axios.get(`https://veritas-s.app/api/devices/entryDevices/${deviceId}`);
     roomName.value = response.data.data.name;
+    receiverToken.value = response.data.data.receiverToken;
   } catch (error) {
     console.error("Error fetching seats:", error);
   }
@@ -73,14 +76,24 @@ const onQrInput = () => {
 
     if (response.data.header.success) {
       exitStudentName.value = response.data.data.studentName
-      exitTime.value = response.data.data.exitTime
+      exitTime.value = new Date(response.data.data.exitTime).toLocaleTimeString();
       exitCardOverlay.value = true
       inputDisabled.value = true;
 
       setTimeout(() => {
-        exitCardOverlay.value = false
         resetInput()
       }, 3000)
+
+      mutex.value++;
+      axios.get(`https://blynk.cloud/external/api/update?token=${receiverToken.value}&v0=0`).then(() => {
+        setTimeout(() => {
+          if (mutex.value <= 1) {
+            axios.get(`https://blynk.cloud/external/api/update?token=${receiverToken.value}&v0=1`)
+          }
+          mutex.value--;
+        }, 10000)
+      })
+
     } else {
       resetInput()
       alert(response.data.header.message)
@@ -94,6 +107,7 @@ const resetInput = () => {
   exitTime.value = ""
   qrCodeInput.value = ""
   inputDisabled.value = false;
+  exitCardOverlay.value = false
   onInputBlur();
 }
 const onInputBlur = () => {

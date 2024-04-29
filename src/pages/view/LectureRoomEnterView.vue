@@ -74,7 +74,7 @@ const onQrInput = () => {
 
     if (response.data.header.success) {
       enterStudentName.value = response.data.data.studentName
-      enterTime.value = response.data.data.time
+      enterTime.value = new Date(response.data.data.time).toLocaleTimeString();
       enterCardOverlay.value = true
       inputDisabled.value = true;
 

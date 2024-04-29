@@ -98,7 +98,7 @@ import {useRoute} from "vue-router";
 
 const route = useRoute();
 const roomId = route.params.roomId;
-const roomData = ref({name: "", width: null, height: null, seats: []});
+const roomData = ref({name: "", width: null, height: null, receiverToken: "", seats: []});
 const qrCodeInput = ref("");
 const qrDialog = ref(false);
 const selectedSeatId = ref(null);
@@ -199,10 +199,10 @@ const enterReadingRoom = () => {
       }, 3000);
 
       mutex.value++;
-      axios.get('https://blynk.cloud/external/api/update?token=a0uzw24V3X3QUBFGxRERLD3yf1DcDIYb&v0=0').then(() => {
+      axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=0`).then(() => {
         setTimeout(() => {
           if (mutex.value <= 1) {
-            axios.get('https://blynk.cloud/external/api/update?token=a0uzw24V3X3QUBFGxRERLD3yf1DcDIYb&v0=1')
+            axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=1`)
           }
           mutex.value--;
         }, 10000)

@@ -23,7 +23,7 @@
           </thead>
           <tbody>
           <tr v-for="item in entryDevices" :key="item.id">
-            <td class="font-weight-bold">{{ item.name }}</td>
+            <td @click="editEntryDevice(item)" style="cursor: pointer;">{{ item.name }}</td>
             <td>{{ item.parentKioskName ? '독서실' : '강의실' }}</td>
             <td>{{ item.accessType === 'IN' ? '입실' : '퇴실'}}</td>
             <td>{{ item.parentKioskName || '' }}</td>
@@ -88,6 +88,60 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="editEntryDeviceDialog" max-width="500px">
+      <v-card>
+        <v-card-title>출입 디바이스 수정</v-card-title>
+
+        <v-card-text>
+          <v-row>
+            <v-col>
+              <v-text-field v-model="editedEntryDevice.name" label="디바이스 관리명" density="compact" variant="outlined" required
+                            :rules="[v => !!v || '필수 입력']"></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
+              <v-radio-group label="용도" v-model="editedEntryDevice.kioskSync" @change="onEditKioskSyncChange" inline>
+                <v-radio label="독서실" :value="true" ></v-radio>
+                <v-radio class="mr-6" label="강의실" :value="false" ></v-radio>
+              </v-radio-group>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
+              <v-radio-group label="출입구분" v-model="editedEntryDevice.accessType" inline>
+                <v-radio class="mr-6" label="입실" value="IN" :disabled="editedEntryDevice.kioskSync === true"></v-radio>
+                <v-radio label="퇴실" value="OUT"></v-radio>
+              </v-radio-group>
+            </v-col>
+          </v-row>
+
+          <v-row v-if="editedEntryDevice.kioskSync">
+            <v-col>
+              <v-select v-model="editedEntryDevice.selectedKiosk" :items="kiosks" item-title="name" item-value="id" label="키오스크 선택"
+                        density="compact" variant="outlined" required></v-select>
+            </v-col>
+          </v-row>
+
+          <v-row v-if="!editedEntryDevice.kioskSync">
+            <v-col>
+              <v-select v-model="editedEntryDevice.selectedLectureRoom" :items="lectureRooms" item-title="name" item-value="id"
+                        label="강의실 선택" density="compact" variant="outlined"></v-select>
+            </v-col>
+          </v-row>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="error" text @click="deleteEntryDevice">삭제</v-btn>
+          <v-btn color="primary" @click="updateEntryDevice">수정</v-btn>
+          <v-btn color="error" @click="editEntryDeviceDialog = false">취소</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -103,7 +157,71 @@ const selectedLectureRoom = ref(null);
 const entryDevices = ref([]);
 const kiosks = ref([]);
 const addEntryDeviceDialog = ref(false);
+const editEntryDeviceDialog = ref(false);
 const lectureRooms = ref([]);
+
+const editedEntryDevice = ref({
+  id: null,
+  name: '',
+  accessType: 'OUT',
+  kioskSync: true,
+  selectedKiosk: null,
+  selectedLectureRoom: null,
+});
+
+const editEntryDevice = (item) => {
+  editedEntryDevice.value = {
+    id: item.id,
+    name: item.name,
+    accessType: item.accessType,
+    kioskSync: item.parentKioskName ? true : false,
+    selectedKiosk: item.parentKioskId,
+    selectedLectureRoom: item.lectureRoomId,
+  };
+  editEntryDeviceDialog.value = true;
+};
+
+const onEditKioskSyncChange = () => {
+  if (!editedEntryDevice.value.kioskSync) {
+    editedEntryDevice.value.selectedKiosk = null;
+    editedEntryDevice.value.accessType = "IN";
+  } else {
+    editedEntryDevice.value.selectedLectureRoom = null;
+    editedEntryDevice.value.accessType = "OUT";
+  }
+};
+
+const updateEntryDevice = () => {
+  if (!editedEntryDevice.value.name) {
+    alert('디바이스 관리명을 입력해주세요.');
+    return;
+  }
+
+  if (editedEntryDevice.value.kioskSync && !editedEntryDevice.value.selectedKiosk) {
+    alert('키오스크를 선택해주세요.');
+    return;
+  }
+
+  if (!editedEntryDevice.value.kioskSync && !editedEntryDevice.value.selectedLectureRoom) {
+    alert('강의실을 선택해주세요.');
+    return;
+  }
+
+  const payload = {
+    name: editedEntryDevice.value.name,
+    accessType: editedEntryDevice.value.accessType,
+    parentKioskId: editedEntryDevice.value.selectedKiosk,
+    lectureRoomId: editedEntryDevice.value.selectedLectureRoom,
+  };
+
+  axios.put(`https://veritas-s.app/api/devices/entryDevices/${editedEntryDevice.value.id}`, payload).then((response) => {
+    if (response.data.header.success) {
+      location.reload();
+    } else {
+      alert(response.data.header.message);
+    }
+  });
+};
 
 const fetchKioskList = async () => {
   try {
@@ -174,6 +292,19 @@ const addEntryDevice = () => {
     }
   })
 }
+
+
+const deleteEntryDevice = () => {
+  if (confirm('정말로 삭제하시겠습니까?')) {
+    axios.delete(`https://veritas-s.app/api/devices/entryDevices/${editedEntryDevice.value.id}`).then((response) => {
+      if (response.data.header.success) {
+        location.reload();
+      } else {
+        alert(response.data.header.message);
+      }
+    });
+  }
+};
 
 watch(accessType, (newValue) => {
   if (newValue === 'IN') {
