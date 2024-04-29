@@ -180,7 +180,7 @@ const updateKiosk = () => {
   axios
       .put(`https://veritas-s.app/api/devices/kiosks/${editedKioskId.value}`, {
         name: editedKioskName.value,
-        readingRoomId: editedSelectedReadingRoom.value,
+        readingRoomId: editedSelectedReadingRoom.value.id,
       })
       .then((response) => {
         if (response.data.header.success) {

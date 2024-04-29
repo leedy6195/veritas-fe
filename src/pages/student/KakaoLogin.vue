@@ -25,7 +25,7 @@ const kakaoLogin = () => {
       `client_id=${clientId}&` +
       `redirect_uri=${redirectUri}&` +
       `response_type=code&` +
-      `scope=profile_nickname account_email&` +
+      `scope=account_email&` +
       `state=${generateState()}&` +
       `prompt=login`;
 
