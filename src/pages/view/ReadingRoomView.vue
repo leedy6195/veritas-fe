@@ -1,100 +1,104 @@
 <template>
-  <div class="blue-container">
-    <div>
-      <input
-          type="text"
-          v-model="qrCodeInput"
-          placeholder="QR 코드를 입력하세요"
-          @keyup.enter="onQrInput"
-          style="position: absolute; left: -9999px; width: 1px; height: 1px;"
-          ref="inputRef"
-          @blur="onInputBlur"
-          :disabled="inputDisabled"
-          inputmode="none"
-      />
-    </div>
-    <div style="display:flex">
-      <v-img min-width="4rem" class="mr-3" src="@/assets/veritas_logo_white.png"></v-img>
-      <h1>{{ roomData.name }}</h1>
-    </div>
+  <vue-fullscreen ref="isFullscreen">
+    <div class="blue-container">
+      <div>
+        <input
+            type="text"
+            v-model="qrCodeInput"
+            placeholder="QR 코드를 입력하세요"
+            @keyup.enter="onQrInput"
+            style="position: absolute; left: -9999px; width: 1px; height: 1px;"
+            ref="inputRef"
+            @blur="onInputBlur"
+            :disabled="inputDisabled"
+            inputmode="none"
+        />
+      </div>
+      <div style="display:flex">
+        <v-img min-width="4rem" class="mr-3" src="@/assets/veritas_logo_white.png"></v-img>
+        <h1>{{ roomData.name }}</h1>
+      </div>
 
-    <span class="current-date">{{ currentDate }}</span>
-    <span class="current-time">{{ currentTime }}</span>
+      <span class="current-date">{{ currentDate }}</span>
+      <span class="current-time">{{ currentTime }}</span>
 
-    <div class="card">
-      <div class="seating-info">
-        <div class="info-item">
-          <div class="color-box idle"></div>
-          <span>이용가능</span>
-        </div>
-        <div class="info-item">
-          <div class="color-box occupied"></div>
-          <span>사용중</span>
-        </div>
-        <div class="info-item">
-          <div class="color-box unavailable"></div>
-          <span>사용불가</span>
+      <div class="card">
+        <div class="seating-info">
+          <div class="info-item">
+            <div class="color-box idle"></div>
+            <span>이용가능</span>
+          </div>
+          <div class="info-item">
+            <div class="color-box occupied"></div>
+            <span>사용중</span>
+          </div>
+          <div class="info-item">
+            <div class="color-box unavailable"></div>
+            <span>사용불가</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <v-container class="overflow-x-auto">
-    <v-row>
-      <v-col class="d-flex justify-center">
-        <div class="seating-plan">
-          <div v-for="y in roomData.height" :key="`row-${y}`" class="row">
-            <div
-                v-for="x in roomData.width"
-                :key="`seat-${x}-${y}`"
-                class="seat rounded"
-                :class="{
+    <v-container class="overflow-x-auto">
+      <v-row>
+        <v-col class="d-flex justify-center">
+          <div class="seating-plan">
+            <div v-for="y in roomData.height" :key="`row-${y}`" class="row">
+              <div
+                  v-for="x in roomData.width"
+                  :key="`seat-${x}-${y}`"
+                  class="seat rounded"
+                  :class="{
                   idle: getSeatStatus(x, y) === 'IDLE',
                   occupied: getSeatStatus(x, y) === 'OCCUPIED',
                   unavailable: getSeatStatus(x, y) === 'UNAVAILABLE',
                   clickable: isClickable(x, y),
                 }"
-                @click="openQrDialog(x, y)"
-            >
-              {{ getSeatName(x, y) }}
+                  @click="openQrDialog(x, y)"
+              >
+                {{ getSeatName(x, y) }}
+              </div>
             </div>
           </div>
-        </div>
-      </v-col>
-    </v-row>
+        </v-col>
+      </v-row>
 
-    <v-dialog v-model="qrDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
-      <v-card class="pa-5">
-        <v-card-title class="text-h5 align-self-center">
-          좌석 입실 신청
-        </v-card-title>
-        <v-card-text>
-          <div>{{ selectedSeatName }}번 좌석 입실을 신청하시려면 QR코드를 인식해주세요.</div>
-          <div class="mt-2">{{ remainingTime }}초 후에 대기화면으로 이동합니다.</div>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" @click="closeQrDialogWithFocus">
-            닫기
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+      <v-dialog v-model="qrDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
+        <v-card class="pa-5">
+          <v-card-title class="text-h5 align-self-center">
+            좌석 입실 신청
+          </v-card-title>
+          <v-card-text>
+            <div>{{ selectedSeatName }}번 좌석 입실을 신청하시려면 QR코드를 인식해주세요.</div>
+            <div class="mt-2">{{ remainingTime }}초 후에 대기화면으로 이동합니다.</div>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" @click="closeQrDialogWithFocus">
+              닫기
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 
-    <v-overlay opacity="0.3" v-model="enterCardOverlay" class="d-flex align-center justify-center">
-      <v-card class="mt-5 ml-16 mr-16" flat>
-        <v-card-text class="text-center" style="color:#01B9E9">
-          <h3>{{ enterStudentName }}</h3>
-          <div class="mt-2">입실: {{ enterTime }}</div>
-        </v-card-text>
-      </v-card>
-    </v-overlay>
-  </v-container>
+      <v-overlay opacity="0.3" v-model="enterCardOverlay" class="d-flex align-center justify-center">
+        <v-card class="mt-5 ml-16 mr-16" flat>
+          <v-card-text class="text-center" style="color:#01B9E9">
+            <h3>{{ enterStudentName }}</h3>
+            <div class="mt-2">입실: {{ enterTime }}</div>
+          </v-card-text>
+        </v-card>
+      </v-overlay>
+    </v-container>
+  </vue-fullscreen>
+
 </template>
 
 <script setup>
 import {nextTick, onMounted, ref} from "vue";
 import axios from "axios";
+import { VueFullscreen } from "vue-fullscreen"
 import {useRoute} from "vue-router";
 
 const route = useRoute();
@@ -111,7 +115,7 @@ const remainingTime = ref(30);
 let countdownTimer = null;
 const inputDisabled = ref(false);
 const mutex = ref(0);
-
+const isFullscreen = ref(true);
 const getSeatName = (x, y) => {
   const seat = roomData.value.seats.find((seat) => seat.x === x && seat.y === y);
   return seat ? seat.name : null;
