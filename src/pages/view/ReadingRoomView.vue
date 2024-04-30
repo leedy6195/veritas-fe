@@ -1,5 +1,5 @@
 <template>
-  <fullscreen v-model="isfullscreen">
+  <fullscreen v-model="isfullscreen" style="background-color: cadetblue">
     <div class="blue-container">
       <div>
         <input
@@ -22,7 +22,7 @@
       <span class="current-date">{{ currentDate }}</span>
       <span class="current-time">{{ currentTime }}</span>
 
-      <div class="card">
+      <div class="card" v-on:dblclick="toggle">
         <div class="seating-info">
           <div class="info-item">
             <div class="color-box idle"></div>
@@ -38,9 +38,7 @@
           </div>
         </div>
 
-        <button type="button" class="button" @click="toggle">
-          {{ isfullscreen ? 'exit fullscreen' : 'request fullscreen' }}
-        </button>
+
 
       </div>
     </div>
