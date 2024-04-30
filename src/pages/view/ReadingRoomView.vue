@@ -103,7 +103,7 @@
   </v-dialog>
 
 
-  <v-overlay opacity="0.3" v-model="enterCardOverlay" class="d-flex align-center justify-center">
+  <v-overlay attach="#fullscreen" opacity="0.3" v-model="enterCardOverlay" class="d-flex align-center justify-center">
     <v-card class="mt-5 ml-16 mr-16" flat>
       <v-card-text class="text-center" style="color:#01B9E9">
         <h3>{{ enterStudentName }}</h3>

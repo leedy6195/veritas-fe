@@ -1,41 +1,53 @@
 <template>
-  <div class="blue-container">
-    <div>
-      <input
-          type="text"
-          v-model="qrCodeInput"
-          placeholder="QR 코드를 입력하세요"
-          @keyup.enter="onQrInput"
-          style="position: absolute; left: -9999px; width: 1px; height: 1px;"
-          ref="inputRef"
-          @blur="onInputBlur"
-          :disabled="inputDisabled"
-      />
+  <fullscreen id="fullscreen" v-model="isfullscreen" style="background-color: white">
+    <div class="blue-container">
+      <div>
+        <input
+            type="text"
+            v-model="qrCodeInput"
+            placeholder="QR 코드를 입력하세요"
+            @keyup.enter="onQrInput"
+            style="position: absolute; left: -9999px; width: 1px; height: 1px;"
+            ref="inputRef"
+            @blur="onInputBlur"
+            :disabled="inputDisabled"
+        />
+      </div>
+      <div style="display:flex">
+        <v-img v-on:dblclick="toggle" min-width="4rem" class="mr-3" src="@/assets/veritas_logo_white.png"></v-img>
+        <h1>{{ roomName }}</h1>
+      </div>
+
+      <span class="current-date">{{ currentDate }}</span>
+      <span class="current-time">{{ currentTime }}</span>
     </div>
-    <div style="display:flex">
-      <v-img min-width="4rem" class="mr-3" src="@/assets/veritas_logo_white.png"></v-img>
-      <h1>{{ roomName }}</h1>
-    </div>
+  </fullscreen>
 
-    <span class="current-date">{{ currentDate }}</span>
-    <span class="current-time">{{ currentTime }}</span>
+  <v-overlay attach="#fullscreen" opacity="0.3" v-model="exitCardOverlay" class="d-flex align-center justify-center"
+             transition="false">
+    <v-card class="mt-5 ml-16 mr-16" flat>
+      <v-card-text class="text-center" style="color:#DD6396">
+        <h3>{{ exitStudentName }}</h3>
+        <div class="mt-2">퇴실: {{ exitTime }}</div>
+      </v-card-text>
+    </v-card>
+  </v-overlay>
+
+  <v-dialog attach="#fullscreen" v-model="alertDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
+    <v-card class="pa-5">
+      <v-card-text>
+        <div>{{ alertMessage }}</div>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" @click="closeQrDialogWithFocus">
+          닫기
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 
 
-  </div>
-
-  <v-container class="overflow-x-auto">
-
-
-    <v-overlay opacity="0.3" v-model="exitCardOverlay" class="d-flex align-center justify-center" transition="false">
-      <v-card class="mt-5 ml-16 mr-16" flat>
-        <v-card-text class="text-center" style="color:#DD6396">
-          <h3>{{ exitStudentName }}</h3>
-          <div class="mt-2">퇴실: {{ exitTime }}</div>
-        </v-card-text>
-      </v-card>
-    </v-overlay>
-
-  </v-container>
 </template>
 
 <script setup>
@@ -54,7 +66,10 @@ const exitTime = ref("");
 const exitCardOverlay = ref(false);
 const inputDisabled = ref(false);
 
+const isfullscreen = ref(false);
 const mutex = ref(0)
+const alertDialog = ref(false);
+const alertMessage = ref("");
 
 const fetchData = async () => {
   try {
@@ -66,6 +81,13 @@ const fetchData = async () => {
   }
 };
 
+const closeQrDialogWithFocus = () => {
+  resetInput();
+
+  nextTick(() => {
+    document.querySelector("input").focus();
+  });
+};
 
 const onQrInput = () => {
 
@@ -96,11 +118,17 @@ const onQrInput = () => {
 
     } else {
       resetInput()
-      alert(response.data.header.message)
+      openAlertDialog(response.data.header.message)
+      //alert(response.data.header.message)
     }
 
   })
 }
+
+const toggle = () => {
+  isfullscreen.value = !isfullscreen.value;
+};
+
 
 const resetInput = () => {
   exitStudentName.value = ""
@@ -111,12 +139,17 @@ const resetInput = () => {
   onInputBlur();
 }
 const onInputBlur = () => {
-
-  nextTick(() => {
-    document.querySelector("input").focus();
-  });
-
+  if (!alertDialog.value) {
+    nextTick(() => {
+      document.querySelector("input").focus();
+    });
+  }
 }
+
+const openAlertDialog = (message) => {
+  alertMessage.value = message;
+  alertDialog.value = true;
+};
 
 
 const currentTime = ref("");
