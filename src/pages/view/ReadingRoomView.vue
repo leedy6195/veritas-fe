@@ -91,7 +91,7 @@
         </v-card>
       </v-overlay>
     </v-container>
-  </>
+  </fullscreen>
 
 </template>
 
