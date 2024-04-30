@@ -1,6 +1,7 @@
 import {createApp} from 'vue'
 import App from './App.vue'
 import vuetify from './plugins/vuetify'
+import VueFullscreen from "vue-fullscreen";
 //import {loadFonts} from './plugins/webfontloader'
 import router from "@/scripts/router";
 import VueSimpleContextMenu from 'vue-simple-context-menu';
@@ -13,6 +14,7 @@ axios.defaults.withCredentials = true;
 
 createApp(App)
     .use(router)
+    .use(VueFullscreen)
     .use(vuetify)
     .use(VueSimpleContextMenu)
     .mount('#app')

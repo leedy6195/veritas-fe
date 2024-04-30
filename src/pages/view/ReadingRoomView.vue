@@ -1,5 +1,5 @@
 <template>
-  <screenfull v-model:="fullscreen">
+  <vue-fullscreen v-model:="fullscreen">
     <div class="blue-container">
       <div>
         <input
@@ -91,14 +91,14 @@
         </v-card>
       </v-overlay>
     </v-container>
-  </screenfull>
+  </vue-fullscreen>
 
 </template>
 
 <script setup>
 import {nextTick, onMounted, ref} from "vue";
 import axios from "axios";
-import { screenfull } from "vue-fullscreen"
+import VueFullscreen  from "vue-fullscreen";
 import {useRoute} from "vue-router";
 
 const route = useRoute();
