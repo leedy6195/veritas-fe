@@ -172,7 +172,9 @@ const fetchSeats = async () => {
 
 const resetInput = () => {
   qrCodeInput.value = "";
+  qrDialog.value = false;
   selectedSeatId.value = null;
+  selectedSeatName.value = "";
   inputDisabled.value = false;
 
   enterStudentName.value = "";
@@ -197,7 +199,7 @@ const onQrInput = () => {
       }).then((response) => {
         if (response.data.header.success) {
           if (response.data.data == null) {
-            resetInput();
+            resetInput();Z
             openAlertDialog("입실정보가 없습니다. 좌석지정을 먼저 해주세요.");
 
           } else {
