@@ -227,6 +227,8 @@ const onQrInput = () => {
 };
 
 
+
+
 // 기존 코드 수정
 const enterReadingRoom = () => {
   axios.post(`https://veritas-s.app/api/access/readingroom/enter`, {
@@ -241,12 +243,20 @@ const enterReadingRoom = () => {
       enterTime.value = new Date(response.data.data.enterTime).toLocaleTimeString();
 
       enterCardOverlay.value = true;
-
+      const myWorker = new Worker('@/scripts/worker.js');
+      myWorker.postMessage(3000);
+      myWorker.onmessage = function () {
+        resetInput();
+      };
+      /*
       setTimeout(() => {
         resetInput();
       }, 3000);
 
+       */
+
       mutex.value++;
+
       axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=0`).then(() => {
         /*
         setTimeout(() => {
@@ -258,13 +268,14 @@ const enterReadingRoom = () => {
         }, 10000)
 
          */
-        let timerId = setInterval(() => {
-          if (mutex.value <= 1) {
-            axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=1`);
-            clearInterval(timerId);
-          }
-          mutex.value--;
-        }, 10000);
+
+        const myWorker2 = new Worker('@/scripts/worker.js');
+
+        myWorker2.postMessage(10000);
+        myWorker2.onmessage = function () {
+          axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=1`)
+        };
+
       })
 
     } else {
@@ -273,6 +284,8 @@ const enterReadingRoom = () => {
     }
   });
 };
+
+
 const openAlertDialog = (message) => {
   alertMessage.value = message;
   alertDialog.value = true;
