@@ -280,7 +280,7 @@ onMounted(() => {
   document.querySelector("input").focus();
   updateCurrentTime();
   setInterval(updateCurrentTime, 1000);
-  setInterval(() => {alert("dd")}, 10000)
+  //setInterval(() => {alert("dd")}, 10000)
 });
 </script>
 
