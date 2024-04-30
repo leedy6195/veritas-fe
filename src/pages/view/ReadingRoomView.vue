@@ -66,11 +66,10 @@
         </v-col>
       </v-row>
 
-      <portal-target name="dialog" />
     </v-container>
   </fullscreen>
 
-  <portal to="dialog">
+  <Teleport to="body">
     <v-dialog v-model="qrDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
       <v-card class="pa-5">
         <v-card-title class="text-h5 align-self-center">
@@ -88,7 +87,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </portal>
+  </Teleport>
 
 
   <v-overlay opacity="0.3" v-model="enterCardOverlay" class="d-flex align-center justify-center">
@@ -104,7 +103,7 @@
 <script setup>
 import {nextTick, onMounted, ref} from "vue";
 import axios from "axios";
-import { Portal, PortalTarget } from "portal-vue"
+//import { Portal, PortalTarget } from "portal-vue"
 
 import {useRoute} from "vue-router";
 
