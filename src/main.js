@@ -14,7 +14,7 @@ axios.defaults.withCredentials = true;
 
 createApp(App)
     .use(router)
-    .use(VueFullscreen)
+    .use(VueFullscreen.default)
     .use(vuetify)
     .use(VueSimpleContextMenu)
     .mount('#app')
