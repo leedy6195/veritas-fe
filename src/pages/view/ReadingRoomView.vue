@@ -215,7 +215,7 @@ const onQrInput = () => {
       }).then((response) => {
         if (response.data.header.success) {
           if (response.data.data == null) {
-            resetInput();Z
+            resetInput();
             openAlertDialog("입실정보가 없습니다. 좌석지정을 먼저 해주세요.");
 
           } else {
