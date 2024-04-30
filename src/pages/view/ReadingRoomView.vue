@@ -88,14 +88,14 @@
     </v-card>
   </v-dialog>
 
-  <v-dialog attach="#fullscreen" v-model="alertDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
+  <v-dialog attach="#fullscreen" v-model="alertDialog" max-width="500px" @click:outside="closeAlertDialog">
     <v-card class="pa-5">
       <v-card-text>
         <div>{{ alertMessage }}</div>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="closeQrDialogWithFocus">
+        <v-btn color="primary" @click="closeAlertDialog">
           닫기
         </v-btn>
       </v-card-actions>
@@ -186,6 +186,22 @@ const resetInput = () => {
 
   onInputBlur();
 };
+
+const closeAlertDialog = () => {
+  alertDialog.value = false;
+};
+
+const closeQrDialogWithFocus = () => {
+  resetInput();
+  closeAlertDialog(); // alertDialog 닫기
+
+  clearInterval(countdownTimer);
+  nextTick(() => {
+    document.querySelector("input").focus();
+  });
+};
+
+
 
 const onQrInput = () => {
   inputDisabled.value = true;
@@ -281,14 +297,6 @@ const startCountdownTimer = () => {
   }, 1000);
 };
 
-const closeQrDialogWithFocus = () => {
-  resetInput();
-
-  clearInterval(countdownTimer);
-  nextTick(() => {
-    document.querySelector("input").focus();
-  });
-};
 
 const currentTime = ref("");
 const currentDate = ref("");
