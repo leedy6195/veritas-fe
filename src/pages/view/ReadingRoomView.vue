@@ -66,26 +66,30 @@
         </v-col>
       </v-row>
 
-
+      <portal-target name="dialog" />
     </v-container>
   </fullscreen>
-  <v-dialog v-model="qrDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
-    <v-card class="pa-5">
-      <v-card-title class="text-h5 align-self-center">
-        좌석 입실 신청
-      </v-card-title>
-      <v-card-text>
-        <div>{{ selectedSeatName }}번 좌석 입실을 신청하시려면 QR코드를 인식해주세요.</div>
-        <div class="mt-2">{{ remainingTime }}초 후에 대기화면으로 이동합니다.</div>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="primary" @click="closeQrDialogWithFocus">
-          닫기
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+
+  <portal to="dialog">
+    <v-dialog v-model="qrDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
+      <v-card class="pa-5">
+        <v-card-title class="text-h5 align-self-center">
+          좌석 입실 신청
+        </v-card-title>
+        <v-card-text>
+          <div>{{ selectedSeatName }}번 좌석 입실을 신청하시려면 QR코드를 인식해주세요.</div>
+          <div class="mt-2">{{ remainingTime }}초 후에 대기화면으로 이동합니다.</div>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" @click="closeQrDialogWithFocus">
+            닫기
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </portal>
+
 
   <v-overlay opacity="0.3" v-model="enterCardOverlay" class="d-flex align-center justify-center">
     <v-card class="mt-5 ml-16 mr-16" flat>
@@ -100,7 +104,7 @@
 <script setup>
 import {nextTick, onMounted, ref} from "vue";
 import axios from "axios";
-
+import { Portal, PortalTarget } from "portal-vue"
 
 import {useRoute} from "vue-router";
 
