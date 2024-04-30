@@ -177,9 +177,7 @@ const resetInput = () => {
   selectedSeatName.value = "";
   inputDisabled.value = false;
 
-  enterStudentName.value = "";
-  enterTime.value = "";
-  enterCardOverlay.value = false;
+
 
   alertMessage.value = "";
   alertDialog.value = false;
@@ -243,7 +241,9 @@ const enterReadingRoom = () => {
       enterCardOverlay.value = true;
 
       setTimeout(() => {
-        resetInput();
+        enterStudentName.value = "";
+        enterTime.value = "";
+        enterCardOverlay.value = false;
       }, 3000);
 
       mutex.value++;
