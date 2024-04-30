@@ -226,24 +226,6 @@ const onQrInput = () => {
   }
 };
 
-const worker = new Worker('@/scripts/setTimeout.js');
-
-worker.onmessage = (event) => {
-  if (event.data.type === 'timeout') {
-    // 타이머 작업 수행
-    // 예: resetInput();
-  }
-};
-
-const setTimeout = (callback, delay) => {
-  worker.postMessage({ type: 'setTimeout', callback: callback.toString(), delay });
-};
-/*
-const clearTimeout = (id) => {
-  worker.postMessage({ type: 'clearTimeout', id });
-};
-
- */
 
 
 // 기존 코드 수정
@@ -262,9 +244,9 @@ const enterReadingRoom = () => {
       enterCardOverlay.value = true;
 
 
-      setTimeout(() => {
-        resetInput();
-      }, 3000);
+      //setTimeout(() => {
+      resetInput();
+      //}, 3000);
 
 
 
