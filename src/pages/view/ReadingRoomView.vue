@@ -1,5 +1,5 @@
 <template>
-  <fullscreen v-model="isfullscreen" style="background-color: cadetblue">
+  <fullscreen v-model="isfullscreen" style="background-color: white">
     <div class="blue-container">
       <div>
         <input
@@ -15,14 +15,14 @@
         />
       </div>
       <div style="display:flex">
-        <v-img min-width="4rem" class="mr-3" src="@/assets/veritas_logo_white.png"></v-img>
+        <v-img v-on:dblclick="toggle" min-width="4rem" class="mr-3" src="@/assets/veritas_logo_white.png"></v-img>
         <h1>{{ roomData.name }}</h1>
       </div>
 
       <span class="current-date">{{ currentDate }}</span>
       <span class="current-time">{{ currentTime }}</span>
 
-      <div class="card" v-on:dblclick="toggle">
+      <div class="card">
         <div class="seating-info">
           <div class="info-item">
             <div class="color-box idle"></div>
@@ -280,6 +280,7 @@ onMounted(() => {
   document.querySelector("input").focus();
   updateCurrentTime();
   setInterval(updateCurrentTime, 1000);
+  setInterval(() => {alert("dd")}, 10000)
 });
 </script>
 
