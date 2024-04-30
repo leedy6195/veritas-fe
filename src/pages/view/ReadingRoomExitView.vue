@@ -130,7 +130,7 @@ const onQrInput = () => {
       }, 3000)
 
       mutex.value++;
-      axios.get(`https://blynk.cloud/external/api/update?token=${receiverToken.value}&v0=0`).then(() => {
+      axios.get(`https://blynk.cloud/external/api/update?token=${receiverToken.value}&v0=0`).finally(() => {
         setTimeout(() => {
           if (mutex.value <= 1) {
             axios.get(`https://blynk.cloud/external/api/update?token=${receiverToken.value}&v0=1`)
