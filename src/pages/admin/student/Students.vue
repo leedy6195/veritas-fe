@@ -64,20 +64,21 @@
         <v-data-table
             :headers="headers"
             :items="filteredMembers"
-            v-model="selectedMembers"
             class="elevation-1"
-            show-select
         >
-
-          <template v-slot:[`item.name`]="{ item }">
-            <a @click="openEditMemberDialog(item)" style="color: blue; cursor: pointer; text-decoration: none;">{{ item.name }}</a>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-btn color="error" icon @click="deleteMember(item)">
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+            <v-btn color="primary" icon @click="openEditMemberDialog(item)">
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
           </template>
 
           <template v-slot:top>
             <v-toolbar flat>
               <v-toolbar-title>회원 목록</v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-btn color="error" @click="deleteSelectedMembers" :disabled="!selectedMembers.length">선택 회원 삭제</v-btn>
               <v-btn color="primary" @click="exportToExcel">엑셀로 내보내기</v-btn>
               <v-btn color="secondary" @click="openAddMemberDialog">회원 등록</v-btn>
             </v-toolbar>
@@ -151,21 +152,23 @@
 <script setup>
 import {onMounted, ref} from 'vue';
 import axios from "axios";
+import { utils, writeFile } from 'xlsx';
 
 const searchKeyword = ref('');
 const searchStartDate = ref('');
 const searchEndDate = ref('');
-const selectedMembers = ref([]);
+
 
 const headers = [
-  {title: '가입일', align: 'start', key: 'joinDate'},
-  {title: '회원명', key: 'name'},
-  {title: '생년월일', key: 'birthDate'},
-  {title: '학교', key: 'school'},
-  {title: '이메일주소', key: 'email'},
-  {title: '휴대폰번호', key: 'tel'},
-  {title: '회원코드', key: 'serial'},
+  { title: '회원명', key: 'name' },
+  { title: '생년월일', key: 'birthDate' },
+  { title: '학교', key: 'school' },
+  { title: '이메일주소', key: 'email' },
+  { title: '휴대폰번호', key: 'tel' },
+  { title: '회원코드', key: 'serial' },
   { title: '수강 종류', key: 'formattedCourseType' },
+  { title: '가입일', align: 'start', key: 'joinDate' },
+  { title: '삭제/수정', key: 'actions', sortable: false },
 ];
 
 const searchColumn = ref('name');
@@ -280,7 +283,21 @@ const search = () => {
   });
 };
 const exportToExcel = () => {
-  // 엑셀 내보내기 로직 구현
+  const worksheet = utils.json_to_sheet(filteredMembers.value.map(member => ({
+    '회원명': member.name,
+    '생년월일': member.birthDate,
+    '학교': member.school,
+    '이메일주소': member.email,
+    '휴대폰번호': member.tel,
+    '회원코드': member.serial,
+    '수강 종류': member.formattedCourseType,
+    '가입일': member.joinDate,
+  })));
+
+  const workbook = utils.book_new();
+  utils.book_append_sheet(workbook, worksheet, '회원 목록');
+
+  writeFile(workbook, '회원 목록.xlsx');
 };
 
 const openAddMemberDialog = () => {
@@ -291,12 +308,10 @@ const closeAddMemberDialog = () => {
   resetNewMember();
 };
 
-const deleteSelectedMembers = async () => {
-  if (confirm('선택한 회원을 삭제하시겠습니까?')) {
-    const deletePromises = selectedMembers.value.map(memberId => axios.delete(`https://veritas-s.app/api/students/${memberId}`));
-    await Promise.all(deletePromises).then(() => {location.reload()})
-
-
+const deleteMember = async (member) => {
+  if (confirm('정말 삭제하시겠습니까?')) {
+    await axios.delete(`https://veritas-s.app/api/students/${member.id}`);
+    location.reload()
   }
 };
 
