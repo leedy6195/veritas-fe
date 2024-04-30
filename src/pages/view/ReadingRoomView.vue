@@ -67,7 +67,9 @@
       </v-row>
 
     </v-container>
+  </fullscreen>
 
+  <Teleport to="fullscreen">
     <v-dialog v-model="qrDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
       <v-card class="pa-5">
         <v-card-title class="text-h5 align-self-center">
@@ -85,11 +87,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-  </fullscreen>
-
-
-
+  </Teleport>
 
 
   <v-overlay opacity="0.3" v-model="enterCardOverlay" class="d-flex align-center justify-center">
@@ -291,7 +289,7 @@ onMounted(() => {
 
 <style scoped>
 
-.fullscreen .v-dialog {
+.fullscreen .target-element {
   position: absolute;
   top: 0;
   right: 0;
