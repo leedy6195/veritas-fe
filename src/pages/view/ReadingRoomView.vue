@@ -88,14 +88,14 @@
     </v-card>
   </v-dialog>
 
-  <v-dialog attach="#fullscreen" v-model="alertDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
+  <v-dialog attach="#fullscreen" v-model="alertDialog" max-width="500px" @click:outside="closeAlertDialogWithFocus">
     <v-card class="pa-5">
       <v-card-text>
         <div>{{ alertMessage }}</div>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="closeQrDialogWithFocus">
+        <v-btn color="primary" @click="closeAlertDialogWithFocus">
           닫기
         </v-btn>
       </v-card-actions>
@@ -172,22 +172,41 @@ const fetchSeats = async () => {
 
 const resetInput = () => {
   qrCodeInput.value = "";
-  qrDialog.value = false;
   selectedSeatId.value = null;
   selectedSeatName.value = "";
   inputDisabled.value = false;
 
+  enterStudentName.value = "";
+  enterTime.value = "";
+  enterCardOverlay.value = false;
 
 
-  alertMessage.value = "";
-  alertDialog.value = false;
+
+  /***
+   *   qrCodeInput.value = "";
+   *   selectedSeatId.value = null;
+   *   inputDisabled.value = false;
+   *
+   *   enterStudentName.value = "";
+   *   enterTime.value = "";
+   *   enterCardOverlay.value = false;
+   */
 
   onInputBlur();
 };
 
+const closeAlertDialogWithFocus = () => {
+  resetInput();
+  alertMessage.value = "";
+  alertDialog.value = false;
+  nextTick(() => {
+    document.querySelector("input").focus();
+  });
+};
 
 const closeQrDialogWithFocus = () => {
   resetInput();
+  qrDialog.value = false;
 
   clearInterval(countdownTimer);
   nextTick(() => {
