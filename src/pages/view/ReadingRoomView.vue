@@ -188,7 +188,6 @@ const resetInput = () => {
 };
 
 
-
 const closeQrDialogWithFocus = () => {
   resetInput();
 
@@ -197,7 +196,6 @@ const closeQrDialogWithFocus = () => {
     document.querySelector("input").focus();
   });
 };
-
 
 
 const onQrInput = () => {
@@ -228,28 +226,6 @@ const onQrInput = () => {
   }
 };
 
-let timeoutId;
-
-const setTimeout = (callback, delay) => {
-  const start = performance.now();
-
-  const loop = () => {
-    const now = performance.now();
-    const elapsed = now - start;
-
-    if (elapsed >= delay) {
-      callback();
-    } else {
-      timeoutId = window.requestAnimationFrame(loop);
-    }
-  };
-
-  timeoutId = window.requestAnimationFrame(loop);
-};
-
-const clearTimeout = (id) => {
-  window.cancelAnimationFrame(id);
-};
 
 // 기존 코드 수정
 const enterReadingRoom = () => {
@@ -272,16 +248,25 @@ const enterReadingRoom = () => {
 
       mutex.value++;
       axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=0`).then(() => {
+        /*
         setTimeout(() => {
           if (mutex.value <= 1) {
             axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=1`)
-          } else {
-            clearTimeout(timeoutId);
           }
           mutex.value--;
 
         }, 10000)
+
+         */
+        let timerId = setInterval(() => {
+          if (mutex.value <= 1) {
+            axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=1`);
+            clearInterval(timerId);
+          }
+          mutex.value--;
+        }, 10000);
       })
+
     } else {
       resetInput();
       openAlertDialog(response.data.header.message);
