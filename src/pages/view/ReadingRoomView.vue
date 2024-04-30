@@ -282,7 +282,6 @@ onMounted(() => {
   document.querySelector("input").focus();
   updateCurrentTime();
   setInterval(updateCurrentTime, 1000);
-  isfullscreen.value = true;
 });
 </script>
 
