@@ -269,6 +269,7 @@ const enterReadingRoom = () => {
       axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=0`)
           .then(() => {
             setTimeout(() => {
+              console.log("second call")
               axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=1`)
                   .finally(() => {
                     mutex.value--;
