@@ -69,8 +69,8 @@
     </v-container>
   </fullscreen>
 
-  <Teleport to="#fullscreen">
-    <v-dialog v-model="qrDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
+
+    <v-dialog attach="#fullscreen" v-model="qrDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
       <v-card class="pa-5">
         <v-card-title class="text-h5 align-self-center">
           좌석 입실 신청
@@ -87,7 +87,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </Teleport>
+
 
 
   <v-overlay opacity="0.3" v-model="enterCardOverlay" class="d-flex align-center justify-center">
