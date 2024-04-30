@@ -1,5 +1,5 @@
 <template>
-  <fullscreen v-model="isfullscreen" style="background-color: white">
+  <fullscreen id="fullscreen" v-model="isfullscreen" style="background-color: white">
     <div class="blue-container">
       <div>
         <input
@@ -69,7 +69,7 @@
     </v-container>
   </fullscreen>
 
-  <Teleport to="fullscreen">
+  <Teleport to="#fullscreen">
     <v-dialog v-model="qrDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
       <v-card class="pa-5">
         <v-card-title class="text-h5 align-self-center">
