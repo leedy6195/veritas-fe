@@ -37,6 +37,11 @@
             <span>사용불가</span>
           </div>
         </div>
+
+        <button type="button" class="button" @click="toggle">
+          {{ isfullscreen ? 'exit fullscreen' : 'request fullscreen' }}
+        </button>
+
       </div>
     </div>
 
@@ -117,6 +122,10 @@ let countdownTimer = null;
 const inputDisabled = ref(false);
 const mutex = ref(0);
 const isfullscreen = ref(false);
+
+const toggle = () => {
+  isfullscreen.value = !isfullscreen.value;
+};
 const getSeatName = (x, y) => {
   const seat = roomData.value.seats.find((seat) => seat.x === x && seat.y === y);
   return seat ? seat.name : null;
