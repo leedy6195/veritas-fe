@@ -1,5 +1,5 @@
 <template>
-  <vue-fullscreen ref="isFullscreen">
+  <screenfull v-model:="fullscreen">
     <div class="blue-container">
       <div>
         <input
@@ -91,14 +91,14 @@
         </v-card>
       </v-overlay>
     </v-container>
-  </vue-fullscreen>
+  </screenfull>
 
 </template>
 
 <script setup>
 import {nextTick, onMounted, ref} from "vue";
 import axios from "axios";
-import { VueFullscreen } from "vue-fullscreen"
+import { screenfull } from "vue-fullscreen"
 import {useRoute} from "vue-router";
 
 const route = useRoute();
@@ -115,7 +115,7 @@ const remainingTime = ref(30);
 let countdownTimer = null;
 const inputDisabled = ref(false);
 const mutex = ref(0);
-const isFullscreen = ref(true);
+const fullscreen = ref(false);
 const getSeatName = (x, y) => {
   const seat = roomData.value.seats.find((seat) => seat.x === x && seat.y === y);
   return seat ? seat.name : null;
@@ -272,7 +272,7 @@ onMounted(() => {
   document.querySelector("input").focus();
   updateCurrentTime();
   setInterval(updateCurrentTime, 1000);
-  setInterval(() => {window.scroll(0, 0)}, 1000)
+  fullscreen.value = true;
 });
 </script>
 
