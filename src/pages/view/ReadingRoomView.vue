@@ -39,7 +39,6 @@
         </div>
 
 
-
       </div>
     </div>
 
@@ -67,35 +66,35 @@
         </v-col>
       </v-row>
 
-      <v-dialog v-model="qrDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
-        <v-card class="pa-5">
-          <v-card-title class="text-h5 align-self-center">
-            좌석 입실 신청
-          </v-card-title>
-          <v-card-text>
-            <div>{{ selectedSeatName }}번 좌석 입실을 신청하시려면 QR코드를 인식해주세요.</div>
-            <div class="mt-2">{{ remainingTime }}초 후에 대기화면으로 이동합니다.</div>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" @click="closeQrDialogWithFocus">
-              닫기
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
 
-      <v-overlay opacity="0.3" v-model="enterCardOverlay" class="d-flex align-center justify-center">
-        <v-card class="mt-5 ml-16 mr-16" flat>
-          <v-card-text class="text-center" style="color:#01B9E9">
-            <h3>{{ enterStudentName }}</h3>
-            <div class="mt-2">입실: {{ enterTime }}</div>
-          </v-card-text>
-        </v-card>
-      </v-overlay>
     </v-container>
   </fullscreen>
+  <v-dialog v-model="qrDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
+    <v-card class="pa-5">
+      <v-card-title class="text-h5 align-self-center">
+        좌석 입실 신청
+      </v-card-title>
+      <v-card-text>
+        <div>{{ selectedSeatName }}번 좌석 입실을 신청하시려면 QR코드를 인식해주세요.</div>
+        <div class="mt-2">{{ remainingTime }}초 후에 대기화면으로 이동합니다.</div>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" @click="closeQrDialogWithFocus">
+          닫기
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 
+  <v-overlay opacity="0.3" v-model="enterCardOverlay" class="d-flex align-center justify-center">
+    <v-card class="mt-5 ml-16 mr-16" flat>
+      <v-card-text class="text-center" style="color:#01B9E9">
+        <h3>{{ enterStudentName }}</h3>
+        <div class="mt-2">입실: {{ enterTime }}</div>
+      </v-card-text>
+    </v-card>
+  </v-overlay>
 </template>
 
 <script setup>
@@ -179,7 +178,7 @@ const onQrInput = () => {
           if (response.data.data == null) {
 
             alert("입실정보가 없습니다. 좌석지정을 먼저 해주세요.");
-              resetInput();
+            resetInput();
           } else {
             selectedSeatId.value = response.data.data.seatId;
             enterReadingRoom();
@@ -270,7 +269,7 @@ const currentTime = ref("");
 const currentDate = ref("");
 const updateCurrentTime = () => {
   const now = new Date();
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
   currentDate.value = now.toLocaleDateString(undefined, options);
   currentTime.value = now.toLocaleTimeString();
 };
@@ -320,7 +319,7 @@ onMounted(() => {
   margin: 0.2rem;
   text-align: center;
   line-height: 2rem;
-  //border: 0.1rem solid lightgray;
+//border: 0.1rem solid lightgray;
 }
 
 .seat.clickable {
