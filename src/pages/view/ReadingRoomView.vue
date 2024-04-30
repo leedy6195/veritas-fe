@@ -250,9 +250,9 @@ const enterReadingRoom = () => {
       mutex.value++;
       axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=0`).then(() => {
         setTimeout(() => {
-          if (mutex.value <= 1) {
+          //if (mutex.value <= 1) {
             axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=1`)
-          }
+          //}
           mutex.value--;
         }, 10000)
       })
