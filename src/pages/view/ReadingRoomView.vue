@@ -226,7 +226,24 @@ const onQrInput = () => {
   }
 };
 
+const worker = new Worker('@/scripts/setTimeout.js');
 
+worker.onmessage = (event) => {
+  if (event.data.type === 'timeout') {
+    // 타이머 작업 수행
+    // 예: resetInput();
+  }
+};
+
+const setTimeout = (callback, delay) => {
+  worker.postMessage({ type: 'setTimeout', callback: callback.toString(), delay });
+};
+/*
+const clearTimeout = (id) => {
+  worker.postMessage({ type: 'clearTimeout', id });
+};
+
+ */
 
 
 // 기존 코드 수정
@@ -243,38 +260,27 @@ const enterReadingRoom = () => {
       enterTime.value = new Date(response.data.data.enterTime).toLocaleTimeString();
 
       enterCardOverlay.value = true;
-      const myWorker = new Worker('@/scripts/worker.js');
-      myWorker.postMessage(3000);
-      myWorker.onmessage = function () {
-        resetInput();
-      };
-      /*
+
+
       setTimeout(() => {
         resetInput();
       }, 3000);
 
-       */
+
 
       mutex.value++;
 
       axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=0`).then(() => {
-        /*
+
         setTimeout(() => {
-          if (mutex.value <= 1) {
+          //if (mutex.value <= 1) {
             axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=1`)
-          }
+          //}
           mutex.value--;
 
         }, 10000)
 
-         */
 
-        const myWorker2 = new Worker('@/scripts/worker.js');
-
-        myWorker2.postMessage(10000);
-        myWorker2.onmessage = function () {
-          axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=1`)
-        };
 
       })
 
