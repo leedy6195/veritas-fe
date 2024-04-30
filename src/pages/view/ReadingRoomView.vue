@@ -1,5 +1,5 @@
 <template>
-  <fullscreen id="fullscreen" v-model="isfullscreen" style="background-color: white">
+  <fullscreen id="fullscreen" v-model="isfullscreen">
     <div class="blue-container">
       <div>
         <input
@@ -88,6 +88,18 @@
       </v-card>
     </v-dialog>
 
+  <v-dialog attach="#fullscreen" v-model="alertDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
+    <v-card-text>
+      <div>{{ alertMessage }}</div>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn color="primary" @click="closeQrDialogWithFocus">
+        닫기
+      </v-btn>
+    </v-card-actions>
+  </v-dialog>
+
 
 
   <v-overlay opacity="0.3" v-model="enterCardOverlay" class="d-flex align-center justify-center">
@@ -122,6 +134,8 @@ let countdownTimer = null;
 const inputDisabled = ref(false);
 const mutex = ref(0);
 const isfullscreen = ref(false);
+const alertDialog = ref(false);
+const alertMessage = ref("");
 
 const toggle = () => {
   isfullscreen.value = !isfullscreen.value;
@@ -164,6 +178,9 @@ const resetInput = () => {
   enterTime.value = "";
   enterCardOverlay.value = false;
 
+  alertMessage.value = "";
+  alertDialog.value = false;
+
   onInputBlur();
 };
 
@@ -180,7 +197,7 @@ const onQrInput = () => {
         if (response.data.header.success) {
           if (response.data.data == null) {
 
-            alert("입실정보가 없습니다. 좌석지정을 먼저 해주세요.");
+            openAlertDialog("입실정보가 없습니다. 좌석지정을 먼저 해주세요.");
             resetInput();
           } else {
             selectedSeatId.value = response.data.data.seatId;
@@ -188,7 +205,7 @@ const onQrInput = () => {
           }
         } else {
           resetInput();
-          alert(response.data.header.message);
+          openAlertDialog(response.data.header.message);
         }
       });
     }
@@ -225,11 +242,14 @@ const enterReadingRoom = () => {
       })
     } else {
       resetInput();
-      alert(response.data.header.message);
+      openAlertDialog(response.data.header.message);
     }
   });
 };
-
+const openAlertDialog = (message) => {
+  alertMessage.value = message;
+  alertDialog.value = true;
+};
 const onInputBlur = () => {
   if (!qrDialog.value) {
     nextTick(() => {
@@ -259,9 +279,8 @@ const startCountdownTimer = () => {
 };
 
 const closeQrDialogWithFocus = () => {
-  qrDialog.value = false;
-  selectedSeatId.value = null;
-  selectedSeatName.value = "";
+  resetInput();
+
   clearInterval(countdownTimer);
   nextTick(() => {
     document.querySelector("input").focus();
@@ -288,13 +307,8 @@ onMounted(() => {
 
 
 <style scoped>
-
-.fullscreen .target-element {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+.fullscreen {
+  background-color: white;
 }
 
 .seating-plan {
