@@ -1,5 +1,5 @@
 <template>
-  <fullscreen id="fullscreen" v-model="isfullscreen">
+  <fullscreen id="fullscreen" v-model="isfullscreen" style="background-color: white">
     <div class="blue-container">
       <div>
         <input
@@ -70,36 +70,37 @@
   </fullscreen>
 
 
-    <v-dialog attach="#fullscreen" v-model="qrDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
-      <v-card class="pa-5">
-        <v-card-title class="text-h5 align-self-center">
-          좌석 입실 신청
-        </v-card-title>
-        <v-card-text>
-          <div>{{ selectedSeatName }}번 좌석 입실을 신청하시려면 QR코드를 인식해주세요.</div>
-          <div class="mt-2">{{ remainingTime }}초 후에 대기화면으로 이동합니다.</div>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" @click="closeQrDialogWithFocus">
-            닫기
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-  <v-dialog attach="#fullscreen" v-model="alertDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
-    <v-card-text>
-      <div>{{ alertMessage }}</div>
-    </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn color="primary" @click="closeQrDialogWithFocus">
-        닫기
-      </v-btn>
-    </v-card-actions>
+  <v-dialog attach="#fullscreen" v-model="qrDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
+    <v-card class="pa-5">
+      <v-card-title class="text-h5 align-self-center">
+        좌석 입실 신청
+      </v-card-title>
+      <v-card-text>
+        <div>{{ selectedSeatName }}번 좌석 입실을 신청하시려면 QR코드를 인식해주세요.</div>
+        <div class="mt-2">{{ remainingTime }}초 후에 대기화면으로 이동합니다.</div>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" @click="closeQrDialogWithFocus">
+          닫기
+        </v-btn>
+      </v-card-actions>
+    </v-card>
   </v-dialog>
 
+  <v-dialog attach="#fullscreen" v-model="alertDialog" max-width="500px" @click:outside="closeQrDialogWithFocus">
+    <v-card class="pa-5">
+      <v-card-text>
+        <div>{{ alertMessage }}</div>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" @click="closeQrDialogWithFocus">
+          닫기
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 
 
   <v-overlay opacity="0.3" v-model="enterCardOverlay" class="d-flex align-center justify-center">
@@ -196,9 +197,9 @@ const onQrInput = () => {
       }).then((response) => {
         if (response.data.header.success) {
           if (response.data.data == null) {
-
-            openAlertDialog("입실정보가 없습니다. 좌석지정을 먼저 해주세요.");
             resetInput();
+            openAlertDialog("입실정보가 없습니다. 좌석지정을 먼저 해주세요.");
+
           } else {
             selectedSeatId.value = response.data.data.seatId;
             enterReadingRoom();
@@ -307,9 +308,6 @@ onMounted(() => {
 
 
 <style scoped>
-.fullscreen {
-  background-color: white;
-}
 
 .seating-plan {
   display: inline-block;
