@@ -89,6 +89,29 @@ const closeQrDialogWithFocus = () => {
   });
 };
 
+let timeoutId;
+
+const setTimeout = (callback, delay) => {
+  const start = performance.now();
+
+  const loop = () => {
+    const now = performance.now();
+    const elapsed = now - start;
+
+    if (elapsed >= delay) {
+      callback();
+    } else {
+      timeoutId = window.requestAnimationFrame(loop);
+    }
+  };
+
+  timeoutId = window.requestAnimationFrame(loop);
+};
+
+const clearTimeout = (id) => {
+  window.cancelAnimationFrame(id);
+};
+
 const onQrInput = () => {
 
   axios.post(`https://veritas-s.app/api/access/readingroom/exit`, {
@@ -109,9 +132,11 @@ const onQrInput = () => {
       mutex.value++;
       axios.get(`https://blynk.cloud/external/api/update?token=${receiverToken.value}&v0=0`).then(() => {
         setTimeout(() => {
-          //if (mutex.value <= 1) {
+          if (mutex.value <= 1) {
             axios.get(`https://blynk.cloud/external/api/update?token=${receiverToken.value}&v0=1`)
-          //}
+          } else {
+            clearTimeout(timeoutId)
+          }
           mutex.value--;
         }, 10000)
       })
