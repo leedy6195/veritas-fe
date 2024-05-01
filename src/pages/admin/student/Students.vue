@@ -64,15 +64,13 @@
         <v-data-table
             :headers="headers"
             :items="filteredMembers"
+            v-model="selectedMembers"
             class="elevation-1"
+            show-select
         >
-          <template v-slot:[`item.actions`]="{ item }">
-            <v-btn color="error" icon @click="deleteMember(item)">
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-            <v-btn color="primary" icon @click="openEditMemberDialog(item)">
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
+
+          <template v-slot:[`item.name`]="{ item }">
+            <a @click="openEditMemberDialog(item)" style="cursor: pointer; text-decoration: none;">{{ item.name }}</a>
           </template>
 
           <template v-slot:top>
@@ -139,6 +137,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
+          <v-btn color="error" text @click="deleteMember">삭제</v-btn>
           <v-btn color="blue darken-1" text @click="closeEditMemberDialog">취소</v-btn>
           <v-btn color="blue darken-1" text @click="updateMember">수정</v-btn>
         </v-card-actions>
@@ -160,15 +159,14 @@ const searchEndDate = ref('');
 
 
 const headers = [
-  { title: '회원명', key: 'name' },
-  { title: '생년월일', key: 'birthDate' },
-  { title: '학교', key: 'school' },
-  { title: '이메일주소', key: 'email' },
-  { title: '휴대폰번호', key: 'tel' },
-  { title: '회원코드', key: 'serial' },
+  {title: '회원명', key: 'name'},
+  {title: '생년월일', key: 'birthDate'},
+  {title: '학교', key: 'school'},
+  {title: '이메일주소', key: 'email'},
+  {title: '휴대폰번호', key: 'tel'},
+  {title: '회원코드', key: 'serial'},
   { title: '수강 종류', key: 'formattedCourseType' },
-  { title: '가입일', align: 'start', key: 'joinDate' },
-  { title: '삭제/수정', key: 'actions', sortable: false },
+  {title: '가입일', align: 'start', key: 'joinDate'},
 ];
 
 const searchColumn = ref('name');
@@ -237,6 +235,14 @@ const updateMember = () => {
           alert(response.data.header.message)
         }
       })
+};
+
+const deleteMember = () => {
+  if (confirm('정말 삭제하시겠습니까?')) {
+    axios.delete(`https://veritas-s.app/api/students/${editedMember.value.id}`).then(() => {
+      location.reload()
+    })
+  }
 };
 
 const resetEditedMember = () => {
@@ -308,12 +314,7 @@ const closeAddMemberDialog = () => {
   resetNewMember();
 };
 
-const deleteMember = async (member) => {
-  if (confirm('정말 삭제하시겠습니까?')) {
-    await axios.delete(`https://veritas-s.app/api/students/${member.id}`);
-    location.reload()
-  }
-};
+
 
 const addMember = () => {
   if (!newMember.value.name ||

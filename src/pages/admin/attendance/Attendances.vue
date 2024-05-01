@@ -66,16 +66,124 @@
             :items="filteredAttendances"
             class="elevation-1"
         >
+          <template v-slot:[`item.studentName`]="{ item }">
+            <a @click="openEditAttendanceDialog(item)" style="cursor: pointer; text-decoration: none;">{{ item.studentName }}</a>
+          </template>
+
           <template v-slot:top>
             <v-toolbar flat>
-              <v-toolbar-title>회원 목록</v-toolbar-title>
+              <v-toolbar-title>출입 목록</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-btn color="primary" @click="exportToExcel">엑셀로 내보내기</v-btn>
+              <v-btn color="secondary" @click="openAddAttendanceDialog">출입기록 등록</v-btn>
             </v-toolbar>
           </template>
         </v-data-table>
       </v-col>
     </v-row>
+
+    <v-dialog v-model="addAttendanceDialog" max-width="500px">
+      <v-card>
+        <v-card-title>
+          <span class="text-h5">출입기록 등록</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="addAttendanceForm" @submit.prevent="addAttendance">
+            <v-select
+                v-model="newAttendance.serial"
+                :items="members"
+                item-title="name"
+                item-value="id"
+                label="회원코드"
+                :rules="[v => !!v || '필수 선택']"
+            ></v-select>
+            <v-select
+                v-model="newAttendance.roomType"
+                :items="roomTypeOptions"
+                label="시설구분"
+                :rules="[v => !!v || '필수 선택']"
+                @change="onRoomTypeChange"
+            ></v-select>
+            <v-select
+                v-if="newAttendance.roomType === 'CLASSROOM'"
+                v-model="newAttendance.roomId"
+                :items="classrooms"
+                item-title="name"
+                item-value="id"
+                label="강의실"
+                :rules="[v => !!v || '필수 선택']"
+            ></v-select>
+            <v-select
+                v-if="newAttendance.roomType === 'READING_ROOM'"
+                v-model="newAttendance.roomId"
+                :items="readingRooms"
+                item-title="name"
+                item-value="id"
+                label="독서실"
+                :rules="[v => !!v || '필수 선택']"
+                @change="onReadingRoomChange"
+            ></v-select>
+            <v-select
+                v-if="newAttendance.roomType === 'READING_ROOM' && newAttendance.roomId"
+                v-model="newAttendance.seatId"
+                :items="seats"
+                item-title="name"
+                item-value="id"
+                label="좌석"
+                :rules="[v => !!v || '필수 선택']"
+            ></v-select>
+            <v-text-field
+                v-model="newAttendance.enterTime"
+                label="입실시간"
+                type="datetime-local"
+                :rules="[v => !!v || '필수 입력']"
+            ></v-text-field>
+            <v-text-field
+                v-model="newAttendance.exitTime"
+                label="퇴실시간"
+                type="datetime-local"
+            ></v-text-field>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="closeAddAttendanceDialog">취소</v-btn>
+          <v-btn color="blue darken-1" text @click="addAttendance">등록</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="editAttendanceDialog" max-width="500px">
+      <v-card>
+        <v-card-title>
+          <span class="text-h5">출입기록 수정</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="editAttendanceForm" @submit.prevent="updateAttendance">
+            <v-text-field v-model="editedAttendance.studentName" label="회원명" readonly></v-text-field>
+            <v-text-field v-model="editedAttendance.roomName" label="시설명" readonly></v-text-field>
+            <v-text-field
+                v-model="editedAttendance.enterTime"
+                label="입실시간"
+                type="datetime-local"
+                :rules="[v => !!v || '필수 입력']"
+            ></v-text-field>
+            <v-text-field
+                v-model="editedAttendance.exitTime"
+                label="퇴실시간"
+                type="datetime-local"
+                :rules="exitTimeRules"
+            ></v-text-field>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="error" text @click="deleteAttendance">삭제</v-btn>
+          <v-btn color="blue darken-1" text @click="closeEditAttendanceDialog">취소</v-btn>
+          <v-btn color="blue darken-1" text @click="updateAttendance">수정</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
 
 
@@ -199,10 +307,162 @@ const formatDate = (dateString) => {
   return `${year}-${month}-${day} ${hours}:${minutes}`;
 };
 
+/**
+ * 출입 기록 등록, 수정
+ * */
 
+const addAttendanceDialog = ref(false);
+const editAttendanceDialog = ref(false);
+const editedAttendance = ref({});
+const newAttendance = ref({
+  studentId: null,
+  roomType: null,
+  roomId: null,
+  seatId: null,
+  enterTime: null,
+  exitTime: null,
+});
 
+const members = ref([]);
+const roomTypeOptions = [
+  { title: '강의실', value: 'CLASSROOM' },
+  { title: '독서실', value: 'READING_ROOM' },
+];
+const classrooms = ref([]);
+const readingRooms = ref([]);
+const seats = ref([]);
+
+const exitTimeRules = [
+  v => !v || new Date(v) >= new Date(editedAttendance.value.enterTime) || '퇴실 시간은 입실 시간보다 이후여야 합니다.',
+];
+
+const fetchMembers = async () => {
+  const response = await axios.get('https://veritas-s.app/api/students');
+  members.value = response.data.data;
+};
+
+const fetchClassrooms = async () => {
+  const response = await axios.get('https://veritas-s.app/api/lecturerooms');
+  classrooms.value = response.data.data;
+};
+
+const fetchReadingRooms = async () => {
+  const response = await axios.get('https://veritas-s.app/api/readingrooms');
+  readingRooms.value = response.data.data;
+};
+
+const fetchSeats = async (readingRoomId) => {
+  const response = await axios.get(`https://veritas-s.app/api/readingrooms/${readingRoomId}/seats`);
+  seats.value = response.data.data;
+};
+
+const openAddAttendanceDialog = () => {
+  addAttendanceDialog.value = true;
+};
+
+const closeAddAttendanceDialog = () => {
+  addAttendanceDialog.value = false;
+  resetNewAttendance();
+};
+
+const openEditAttendanceDialog = (attendance) => {
+  editedAttendance.value = { ...attendance };
+  editAttendanceDialog.value = true;
+};
+
+const closeEditAttendanceDialog = () => {
+  editAttendanceDialog.value = false;
+  resetEditedAttendance();
+};
+
+const onRoomTypeChange = () => {
+  newAttendance.value.roomId = null;
+  newAttendance.value.seatId = null;
+};
+
+const onReadingRoomChange = () => {
+  newAttendance.value.seatId = null;
+  if (newAttendance.value.roomId) {
+    fetchSeats(newAttendance.value.roomId);
+  }
+};
+
+const addAttendance = async () => {
+  if (!newAttendance.value.studentId ||
+      !newAttendance.value.roomType ||
+      !newAttendance.value.roomId ||
+      (newAttendance.value.roomType === 'READING_ROOM' && !newAttendance.value.seatId) ||
+      !newAttendance.value.enterTime
+  ) {
+    alert('필수 항목을 입력하세요');
+    return;
+  }
+
+  if (newAttendance.value.exitTime && new Date(newAttendance.value.exitTime) < new Date(newAttendance.value.enterTime)) {
+    alert('퇴실 시간은 입실 시간보다 이후여야 합니다.');
+    return;
+  }
+
+  const response = await axios.post('https://veritas-s.app/api/attendances', newAttendance.value);
+  if (response.data.success) {
+    fetchAttendances();
+    closeAddAttendanceDialog();
+  } else {
+    alert('출입기록 등록에 실패했습니다.');
+  }
+};
+
+const updateAttendance = async () => {
+  if (!editedAttendance.value.enterTime) {
+    alert('필수 항목을 입력하세요');
+    return;
+  }
+
+  if (editedAttendance.value.exitTime && new Date(editedAttendance.value.exitTime) < new Date(editedAttendance.value.enterTime)) {
+    alert('퇴실 시간은 입실 시간보다 이후여야 합니다.');
+    return;
+  }
+
+  const response = await axios.put(`https://veritas-s.app/api/attendances/${editedAttendance.value.id}`, editedAttendance.value);
+  if (response.data.success) {
+    fetchAttendances();
+    closeEditAttendanceDialog();
+  } else {
+    alert('출입기록 수정에 실패했습니다.');
+  }
+};
+
+const deleteAttendance = async () => {
+  if (confirm('정말 삭제하시겠습니까?')) {
+    const response = await axios.delete(`https://veritas-s.app/api/attendances/${editedAttendance.value.id}`);
+    if (response.data.success) {
+      fetchAttendances();
+      closeEditAttendanceDialog();
+    } else {
+      alert('출입기록 삭제에 실패했습니다.');
+    }
+  }
+};
+
+const resetNewAttendance = () => {
+  newAttendance.value = {
+    studentId: null,
+    roomType: null,
+    roomId: null,
+    seatId: null,
+    enterTime: null,
+    exitTime: null,
+  };
+};
+
+const resetEditedAttendance = () => {
+  editedAttendance.value = {};
+};
 
 onMounted(() => {
-  fetchAttendances()
-})
+  fetchAttendances();
+  fetchMembers();
+  fetchClassrooms();
+  fetchReadingRooms();
+});
 </script>
