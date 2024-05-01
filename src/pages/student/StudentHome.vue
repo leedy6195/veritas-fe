@@ -7,6 +7,7 @@
         </v-card>
       </v-col>
     </v-row>
+    <!--
     <v-row>
       <v-col class="text-center">
         <v-card class="pa-1" flat>
@@ -32,6 +33,7 @@
         </v-card>
       </v-col>
     </v-row>
+    -->
   </v-container>
 </template>
 
@@ -39,25 +41,28 @@
 import {onMounted, ref} from "vue";
 import axios from "axios";
 import QrcodeVue from "qrcode.vue";
-import {useRouter} from "vue-router";
+//import {useRouter} from "vue-router";
 
-const router = useRouter();
+//const router = useRouter();
 const studentInfo = ref({serial: "", name: ""});
+/*
 const facilities = ref([
   {name: "독서실 A", entryTime: "09:00", exitTime: "18:00"},
   {name: "체육관", entryTime: "13:00", exitTime: "17:00"},
   {name: "강의실", entryTime: "10:00", exitTime: "16:00"},
 ]);
+ */
 
 const getStudentInfo = () => {
   axios.get("https://veritas-s.app/api/students/getMyInfo").then((response) => {
     studentInfo.value = response.data.data;
   });
 };
-
+/*
 const goToDetailPage = () => {
   router.push({name: "DetailPage"});
 };
+ */
 
 onMounted(() => {
   getStudentInfo();

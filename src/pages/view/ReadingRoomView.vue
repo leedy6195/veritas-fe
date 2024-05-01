@@ -185,7 +185,6 @@ const resetInput = () => {
   enterCardOverlay.value = false;
 
 
-
   /***
    *   qrCodeInput.value = "";
    *   selectedSeatId.value = null;
@@ -273,11 +272,13 @@ const enterReadingRoom = () => {
       axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=0`)
           .finally(() => {
             setTimeout(() => {
-              console.log("second call")
-              axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=1`)
-                  .finally(() => {
-                    mutex.value--;
-                  });
+              if (mutex.value <= 1) {
+                axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=1`)
+                    .finally(() => {
+                      mutex.value--;
+                    });
+              }
+
             }, 10000);
           });
     } else {
