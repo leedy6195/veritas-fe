@@ -21,6 +21,7 @@
 
       <span class="current-date">{{ currentDate }}</span>
       <span class="current-time">{{ currentTime }}</span>
+      <v-icon @click="refreshAndFullsize">mdi-refresh</v-icon>
 
       <div class="card">
         <div class="seating-info">
@@ -138,6 +139,9 @@ const isfullscreen = ref(false);
 const alertDialog = ref(false);
 const alertMessage = ref("");
 
+const refreshAndFullsize = () => {
+  location.reload()
+}
 const toggle = () => {
   isfullscreen.value = !isfullscreen.value;
 };
@@ -367,12 +371,13 @@ onMounted(() => {
 
 .seat {
   font-weight: bold;
-  width: 5rem;
-  height: 3rem;
+  width: 8rem;
+  height: 5rem;
   margin: 0.4rem;
   text-align: center;
-  line-height: 2rem;
-//border: 0.1rem solid lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .seat.clickable {
