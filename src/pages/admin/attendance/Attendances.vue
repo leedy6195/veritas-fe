@@ -163,6 +163,10 @@ const search = () => {
 };
 
 const deleteItem = async (item) => {
+  if (confirm('정말 삭제하시겠습니까?') === false) {
+    return;
+  }
+
   const attendanceCode = item.attendanceCode.slice(1);
   const isLectureRoom = attendanceCode.startsWith('L');
   const apiUrl = isLectureRoom ?

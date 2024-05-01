@@ -20,32 +20,37 @@
 
         <v-row>
             <v-col>
-                <v-table density="comfortable">
-                    <thead>
-                    <tr>
-                        <th class="text-left">이름</th>
-                        <th class="text-left">좌석 수</th>
-                        <th class="text-left">사용 가능</th>
-                        <th class="text-left">사용 중</th>
-                        <th class="text-left">사용 불가</th>
-                        <th class="text-left">기기 토큰</th>
-                        <th class="text-left"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="item in readingRooms" :key="item.id">
-                        <td @click="openEditReadingRoomDialog(item)" style="cursor: pointer;">{{ item.name }}</td>
-                        <td>{{ item.seats }}</td>
-                        <td>{{ item.idle }}</td>
-                        <td>{{ item.occupied }}</td>
-                        <td>{{ item.unavailable }}</td>
-                        <td>{{ item.receiverToken }}</td>
-                        <td>
-                            <router-link :to="`/admin/readingrooms/${item.id}`">좌석 보기</router-link>
-                        </td>
-                    </tr>
-                    </tbody>
-                </v-table>
+              <v-table density="comfortable">
+                <thead>
+                <tr>
+                  <th class="text-left">이름</th>
+                  <th class="text-left">좌석 수</th>
+                  <th class="text-left">사용 가능</th>
+                  <th class="text-left">사용 중</th>
+                  <th class="text-left">사용 불가</th>
+                  <th class="text-left">기기 토큰</th>
+                  <th class="text-left"></th>
+                  <th class="text-left"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="item in readingRooms" :key="item.id">
+                  <td @click="openEditReadingRoomDialog(item)" style="cursor: pointer;">{{ item.name }}</td>
+                  <td>{{ item.seats }}</td>
+                  <td>{{ item.idle }}</td>
+                  <td>{{ item.occupied }}</td>
+                  <td>{{ item.unavailable }}</td>
+                  <td>{{ item.receiverToken }}</td>
+                  <td>
+                    <v-btn color="primary" @click="openReadingRoom(item.receiverToken)">열림</v-btn>
+                    <v-btn color="error" @click="closeReadingRoom(item.receiverToken)">닫힘</v-btn>
+                  </td>
+                  <td>
+                    <router-link :to="`/admin/readingrooms/${item.id}`">좌석 보기</router-link>
+                  </td>
+                </tr>
+                </tbody>
+              </v-table>
             </v-col>
         </v-row>
 
@@ -255,7 +260,24 @@ const deleteReadingRoom = () => {
     }
 }
 
+const openReadingRoom = (receiverToken) => {
+  axios.get(`https://blynk.cloud/external/api/update?token=${receiverToken}&v0=0`).then(() => {
+    console.log('독서실 열림')
+  }).catch((error) => {
+    console.log(error)
+  })
+}
+
+const closeReadingRoom = (receiverToken) => {
+  axios.get(`https://blynk.cloud/external/api/update?token=${receiverToken}&v0=1`).then(() => {
+    console.log('독서실 닫힘')
+  }).catch((error) => {
+    console.log(error)
+  })
+}
+
 onMounted(() => {
-    fetchRooms()
+  fetchRooms()
 })
+
 </script>
