@@ -64,9 +64,8 @@
         <v-data-table
             :headers="headers"
             :items="filteredMembers"
-            v-model="selectedMembers"
             class="elevation-1"
-            show-select
+
         >
 
           <template v-slot:[`item.name`]="{ item }">

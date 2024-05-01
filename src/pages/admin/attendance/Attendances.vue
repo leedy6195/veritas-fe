@@ -5,59 +5,58 @@
         <h2 class="text-h5 mb-4">출결 관리</h2>
       </v-col>
     </v-row>
-
     <v-row>
-      <v-col>
-        <v-card>
-          <v-card-text>
-            <v-row>
-              <v-col cols="12" sm="4">
-                <v-select
-                    v-model="searchColumn"
-                    :items="searchColumnOptions"
-                    label="검색 기준"
-                    density="comfortable"
-                ></v-select>
-              </v-col>
-              <v-col cols="12" sm="8">
-                <v-text-field
-                    v-model="searchKeyword"
-                    label="검색어"
-                    clearable
-                    density="comfortable"
-                    @keyup.enter="search"
-                ></v-text-field>
-              </v-col>
-            </v-row>
+    <v-col>
+      <v-card>
+        <v-card-text>
+          <v-row>
+            <v-col cols="12" sm="4">
+              <v-select
+                  v-model="searchColumn"
+                  :items="searchColumnOptions"
+                  label="검색 기준"
+                  density="comfortable"
+              ></v-select>
+            </v-col>
+            <v-col cols="12" sm="8">
+              <v-text-field
+                  v-model="searchKeyword"
+                  label="검색어"
+                  clearable
+                  density="comfortable"
+                  @keyup.enter="search"
+              ></v-text-field>
+            </v-col>
+          </v-row>
 
-            <v-row>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                    v-model="searchStartDate"
-                    label="입실 시작일"
-                    type="date"
-                    density="comfortable"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                    v-model="searchEndDate"
-                    label="입실 종료일"
-                    type="date"
-                    density="comfortable"
-                ></v-text-field>
-              </v-col>
-            </v-row>
+          <v-row>
+            <v-col cols="12" sm="6">
+              <v-text-field
+                  v-model="searchStartDate"
+                  label="입실 시작일"
+                  type="date"
+                  density="comfortable"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-text-field
+                  v-model="searchEndDate"
+                  label="입실 종료일"
+                  type="date"
+                  density="comfortable"
+              ></v-text-field>
+            </v-col>
+          </v-row>
 
-            <v-row>
-              <v-col>
-                <v-btn color="primary" @click="search">검색</v-btn>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+          <v-row>
+            <v-col>
+              <v-btn color="primary" @click="search">검색</v-btn>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-col>
+  </v-row>
 
     <v-row>
       <v-col>
@@ -68,20 +67,24 @@
         >
           <template v-slot:top>
             <v-toolbar flat>
-              <v-toolbar-title>회원 목록</v-toolbar-title>
+              <v-toolbar-title>출입 내역</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-btn color="primary" @click="exportToExcel">엑셀로 내보내기</v-btn>
             </v-toolbar>
           </template>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-icon
+                size="small"
+                @click="deleteItem(item)"
+            >
+              mdi-delete
+            </v-icon>
+          </template>
         </v-data-table>
       </v-col>
     </v-row>
-
-
-
   </v-container>
 </template>
-
 <script setup>
 import {onMounted, ref} from 'vue';
 import { utils, writeFile } from 'xlsx';
@@ -99,6 +102,7 @@ const headers = [
   {title: '입실시간', key: 'formattedEnterTime'},
   {title: '퇴실시간', key: 'formattedExitTime'},
   { title: '수강 종류', key: 'formattedCourseType' },
+  { title: '삭제', key: 'actions', sortable: false },
 ];
 
 const searchColumn = ref('studentName');
@@ -157,6 +161,26 @@ const search = () => {
     }
   })
 };
+
+const deleteItem = async (item) => {
+  const attendanceCode = item.attendanceCode.slice(1);
+  const isLectureRoom = attendanceCode.startsWith('L');
+  const apiUrl = isLectureRoom ?
+      `https://veritas-s.app/api/access/lectureroom/${attendanceCode}` :
+      `https://veritas-s.app/api/access/readingroom/${attendanceCode}`;
+
+  try {
+    await axios.delete(apiUrl);
+    const index = filteredAttendances.value.indexOf(item);
+    if (index > -1) {
+      filteredAttendances.value.splice(index, 1);
+    }
+  } catch (error) {
+    console.error('Error deleting item:', error);
+    // 삭제 실패 시 에러 처리 로직 추가
+  }
+};
+
 const exportToExcel = () => {
   const worksheet = utils.json_to_sheet(filteredAttendances.value.map(attendance => ({
     '회원명': attendance.studentName,
