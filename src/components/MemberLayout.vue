@@ -12,6 +12,24 @@
   </v-navigation-drawer>
 
   <router-view/>
+  <!-- footer -->
+  <v-footer color="#e6e6e6" app>
+    <v-row>
+      <v-col>
+        <div>상호명: (주) 골든이스트에듀</div>
+        <div>대표자: 금동흠</div>
+        <div>대표번호: 02-564-5557</div>
+        <div>주소: 서울특별시 강남구 선릉로 64길 8-1, 지하1층-6층(대치동)</div>
+        <div>사업자등록번호: 475-87-02839</div>
+        <div>이메일: veritasedus@gmail.com</div>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-footer-title>© 2021 Veritas</v-footer-title>
+      </v-col>
+    </v-row>
+  </v-footer>
 </template>
 <script setup>
 import {ref} from "vue";
