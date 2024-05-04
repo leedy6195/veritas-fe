@@ -89,28 +89,6 @@ const closeQrDialogWithFocus = () => {
   });
 };
 
-let timeoutId;
-
-const setTimeout = (callback, delay) => {
-  const start = performance.now();
-
-  const loop = () => {
-    const now = performance.now();
-    const elapsed = now - start;
-
-    if (elapsed >= delay) {
-      callback();
-    } else {
-      timeoutId = window.requestAnimationFrame(loop);
-    }
-  };
-
-  timeoutId = window.requestAnimationFrame(loop);
-};
-
-const clearTimeout = (id) => {
-  window.cancelAnimationFrame(id);
-};
 
 const onQrInput = () => {
 
