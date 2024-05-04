@@ -43,6 +43,6 @@ const logout = () => {
 .footer {
   color: darkgray;
   font-size: small;
-  background-color: #e0e0e0;
+  background-color: #f5f5f5;
 }
 </style>

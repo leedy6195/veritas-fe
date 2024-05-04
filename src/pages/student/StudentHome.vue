@@ -25,8 +25,8 @@
             <tbody>
             <tr v-for="attendance in attendances" :key="attendance.attendanceCoode">
               <td>{{ attendance.roomName }}</td>
-              <td>{{ attendance.entryTime }}</td>
-              <td>{{ attendance.exitTime }}</td>
+              <td>{{ attendance.formattedEnterTime }}</td>
+              <td>{{ attendance.formattedExitTime }}</td>
             </tr>
             </tbody>
           </v-table>
