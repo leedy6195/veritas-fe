@@ -7,7 +7,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <!--
+
     <v-row>
       <v-col class="text-center">
         <v-card class="pa-1" flat>
@@ -23,17 +23,17 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="facility in facilities" :key="facility.name">
-              <td>{{ facility.name }}</td>
-              <td>{{ facility.entryTime }}</td>
-              <td>{{ facility.exitTime }}</td>
+            <tr v-for="attendance in attendances" :key="attendance.attendanceCoode">
+              <td>{{ attendance.roomName }}</td>
+              <td>{{ attendance.entryTime }}</td>
+              <td>{{ attendance.exitTime }}</td>
             </tr>
             </tbody>
           </v-table>
         </v-card>
       </v-col>
     </v-row>
-    -->
+
   </v-container>
 </template>
 
@@ -52,6 +52,31 @@ const facilities = ref([
   {name: "강의실", entryTime: "10:00", exitTime: "16:00"},
 ]);
  */
+const attendances = ref([]);
+
+
+const getMyAccess = () => {
+  axios.get("https://veritas-s.app/api/access/my").then((response) => {
+    attendances.value = response.data.data.map(attendance => ({
+          ...attendance,
+          formattedEnterTime: formatDate(attendance.enterTime),
+          formattedExitTime: formatDate(attendance.exitTime)
+        })
+    )
+  });
+};
+
+const formatDate = (dateString) => {
+  if (!dateString) return '';
+
+  const date = new Date(dateString);
+  const year = date.getFullYear().toString().slice(-2);
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${year}-${month}-${day} ${hours}:${minutes}`;
+};
 
 const getStudentInfo = () => {
   axios.get("https://veritas-s.app/api/students/getMyInfo").then((response) => {
@@ -66,6 +91,7 @@ const goToDetailPage = () => {
 
 onMounted(() => {
   getStudentInfo();
+  getMyAccess();
 });
 </script>
 
