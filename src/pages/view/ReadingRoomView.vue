@@ -174,6 +174,15 @@ const fetchSeats = async () => {
   }
 };
 
+const fetchSeatsFlux = () => {
+  axios.get(`https://veritas-s.app/api/readingrooms/flux/${roomId}`).then((response) => {
+    console.log(response.data.data);
+  }).catch((error) => {
+    console.error("Error fetching seats:", error);
+    // 오류 메시지를 사용자에게 표시하거나 다른 작업 수행
+  });
+};
+
 const resetInput = () => {
   qrCodeInput.value = "";
   selectedSeatId.value = null;
@@ -333,6 +342,7 @@ const updateCurrentTime = () => {
 
 onMounted(() => {
   fetchSeats();
+  fetchSeatsFlux();
   document.querySelector("input").focus();
   updateCurrentTime();
   setInterval(updateCurrentTime, 1000);
