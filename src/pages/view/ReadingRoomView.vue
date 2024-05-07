@@ -331,11 +331,9 @@ const updateCurrentTime = () => {
   currentTime.value = now.toLocaleTimeString();
 };
 
-const setupEventSource = async () => {
+const setupEventSource = () => {
   const eventSource = new EventSource(`https://veritas-s.app/api/readingrooms/${roomId}/seats/status`)
-  await eventSource.addEventListener("seatUpdate", fetchSeats)
-
-  await axios.get(`https://veritas-s.app/api/readingrooms/${roomId}/seats/status/ping`)
+  eventSource.addEventListener("seatUpdate", fetchSeats)
 }
 
 
