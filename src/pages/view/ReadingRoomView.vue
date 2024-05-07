@@ -338,6 +338,7 @@ const setupEventSource = () => {
 
 const onSeatUpdate = (event) => {
   const data = JSON.parse(event.data)
+  console.log(data)
   const seat = roomData.value.seats.find((seat) => seat.id === data.seatId)
   if (seat) {
     seat.status = data.status
