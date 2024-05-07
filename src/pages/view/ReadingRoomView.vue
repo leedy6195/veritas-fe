@@ -331,15 +331,17 @@ const updateCurrentTime = () => {
   currentTime.value = now.toLocaleTimeString();
 };
 
-const setupEventSource = () => {
+const setupEventSource = async () => {
   const eventSource = new EventSource(`https://veritas-s.app/api/readingrooms/${roomId}/seats/status`)
-  eventSource.addEventListener("seatUpdate", fetchSeats)
+  await eventSource.addEventListener("seatUpdate", fetchSeats)
+
+  await axios.get(`https://veritas-s.app/api/readingrooms/${roomId}/seats/status/ping`)
 }
 
 
 onMounted(() => {
   fetchSeats();
-  setupEventSource();
+  setupEventSource()
   document.querySelector("input").focus();
   updateCurrentTime();
   setInterval(updateCurrentTime, 1000);
