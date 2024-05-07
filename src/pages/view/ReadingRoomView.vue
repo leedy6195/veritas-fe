@@ -333,19 +333,9 @@ const updateCurrentTime = () => {
 
 const setupEventSource = () => {
   const eventSource = new EventSource(`https://veritas-s.app/api/readingrooms/${roomId}/seats/status`)
-  eventSource.addEventListener("seatUpdate", onSeatUpdate)
+  eventSource.addEventListener("seatUpdate", fetchSeats)
 }
 
-const onSeatUpdate = (event) => {
-  const data = JSON.parse(event.data)
-  console.log(data)
-  const seat = roomData.value.seats.find((seat) => seat.id === data.seatId)
-  if (seat) {
-    seat.status = data.status
-    seat.x = data.x;
-    seat.y = data.y;
-  }
-}
 
 onMounted(() => {
   fetchSeats();
