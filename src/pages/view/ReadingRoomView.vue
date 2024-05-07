@@ -174,15 +174,6 @@ const fetchSeats = async () => {
   }
 };
 
-const fetchSeatsFlux = () => {
-  axios.get(`https://veritas-s.app/api/readingrooms/flux/${roomId}`).then((response) => {
-    console.log(response.data.data);
-  }).catch((error) => {
-    console.error("Error fetching seats:", error);
-    // 오류 메시지를 사용자에게 표시하거나 다른 작업 수행
-  });
-};
-
 const resetInput = () => {
   qrCodeInput.value = "";
   selectedSeatId.value = null;
@@ -340,9 +331,24 @@ const updateCurrentTime = () => {
   currentTime.value = now.toLocaleTimeString();
 };
 
+const setupEventSource = () => {
+  const eventSource = new EventSource(`https://veritas-s.app/api/readingrooms/${roomId}/seats/status`)
+  eventSource.addEventListener("seatUpdate", onSeatUpdate)
+}
+
+const onSeatUpdate = (event) => {
+  const data = JSON.parse(event.data)
+  const seat = roomData.value.seats.find((seat) => seat.id === data.seatId)
+  if (seat) {
+    seat.status = data.status
+    seat.x = data.x;
+    seat.y = data.y;
+  }
+}
+
 onMounted(() => {
   fetchSeats();
-  fetchSeatsFlux();
+  setupEventSource();
   document.querySelector("input").focus();
   updateCurrentTime();
   setInterval(updateCurrentTime, 1000);
