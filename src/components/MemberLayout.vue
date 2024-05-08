@@ -2,11 +2,10 @@
   <v-app-bar color="transparent" flat density="compact" v-if="$route.path !== '/login'">
     <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="!$vuetify.display.mdAndUp"></v-app-bar-nav-icon>
 
-    <v-toolbar-title class="mx-auto">
+    <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="!$vuetify.display.mdAndUp"></v-app-bar-nav-icon>
+    <v-toolbar-title class="mx-auto text-center" style="position: absolute; left: 50%; transform: translateX(-50%);">
       <v-img src="@/assets/daechi-logo.png" max-height="40"></v-img>
     </v-toolbar-title>
-    <v-spacer style="width: 48px" v-if="!$vuetify.display.mdAndUp"></v-spacer>
-    <!--<v-btn class="logout-button">로그아웃</v-btn>-->
   </v-app-bar>
 
   <v-navigation-drawer :location="'bottom'" style="height: auto" v-if="$route.path !== '/login'" v-model="drawer"
