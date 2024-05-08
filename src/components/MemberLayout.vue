@@ -2,7 +2,7 @@
   <v-app-bar color="white" flat density="compact" v-if="$route.path !== '/login'">
     <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="!$vuetify.display.mdAndUp"></v-app-bar-nav-icon>
 
-    <v-toolbar-title class="mr-8">
+    <v-toolbar-title class="mr-12">
       <v-img src="@/assets/daechi-logo.png" max-height="40"></v-img>
     </v-toolbar-title>
 

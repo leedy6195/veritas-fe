@@ -139,6 +139,8 @@ const resetInput = () => {
   qrCodeInput.value = ""
   inputDisabled.value = false;
   exitCardOverlay.value = false
+  alertMessage.value = ""
+  alertDialog.value = false
   onInputBlur();
 }
 const onInputBlur = () => {
