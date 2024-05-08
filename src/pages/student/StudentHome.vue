@@ -3,7 +3,7 @@
     <v-row>
       <v-col class="text-center">
         <v-card class="pa-5" min-width="" flat>
-          <qrcode-vue size="300" :value="studentInfo.serial"/>
+          <qrcode-vue size="200" :value="studentInfo.serial"/>
         </v-card>
       </v-col>
     </v-row>
