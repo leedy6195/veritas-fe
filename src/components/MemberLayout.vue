@@ -1,9 +1,11 @@
 <template>
-  <v-app-bar color="white" flat density="compact" v-if="$route.path !== '/login'">
+  <v-app-bar color="transparent" flat density="compact" v-if="$route.path !== '/login'">
     <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="!$vuetify.display.mdAndUp"></v-app-bar-nav-icon>
-    <v-toolbar-title class="mx-auto text-center" style="position: absolute; left: 50%; transform: translateX(-50%);">
+
+    <v-toolbar-title class="mr-4">
       <v-img src="@/assets/daechi-logo.png" max-height="40"></v-img>
     </v-toolbar-title>
+
   </v-app-bar>
 
   <v-navigation-drawer :location="'bottom'" style="height: auto" v-if="$route.path !== '/login'" v-model="drawer"
