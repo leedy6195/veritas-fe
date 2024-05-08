@@ -21,7 +21,7 @@
 
       <span class="current-date">{{ currentDate }}</span>
       <span class="current-time">{{ currentTime }}</span>
-      <v-icon @click="refreshAndFullsize">mdi-refresh</v-icon>
+      <v-icon @click="fetchSeats">mdi-refresh</v-icon>
 
       <div class="card">
         <div class="seating-info">
@@ -139,9 +139,6 @@ const isfullscreen = ref(false);
 const alertDialog = ref(false);
 const alertMessage = ref("");
 
-const refreshAndFullsize = () => {
-  location.reload()
-}
 const toggle = () => {
   isfullscreen.value = !isfullscreen.value;
 };
