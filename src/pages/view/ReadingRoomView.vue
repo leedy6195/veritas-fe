@@ -134,7 +134,7 @@ const enterCardOverlay = ref(false);
 const remainingTime = ref(30);
 let countdownTimer = null;
 const inputDisabled = ref(false);
-const mutex = ref(0);
+//const mutex = ref(0);
 const isfullscreen = ref(false);
 const alertDialog = ref(false);
 const alertMessage = ref("");
@@ -268,6 +268,7 @@ const enterReadingRoom = () => {
         enterCardOverlay.value = false;
       }, 3000);
 
+      /*
       mutex.value++;
       axios.get(`https://blynk.cloud/external/api/update?token=${roomData.value.receiverToken}&v0=0`)
           .finally(() => {
@@ -281,6 +282,8 @@ const enterReadingRoom = () => {
 
             }, 10000);
           });
+          */
+
     } else {
       resetInput();
       openAlertDialog(response.data.header.message);
