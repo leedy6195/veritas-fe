@@ -20,13 +20,13 @@
       <v-col>
         <v-divider></v-divider>
         <div class="font-weight-bold">[필수 제공 항목]</div>
-        <div>이름, 카카오계정(전화번호)</div>
+        <div>카카오계정(전화번호)</div>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
         <div class="font-weight-bold">[선택 제공 항목]</div>
-        <div>생일</div>
+        <div>이름</div>
       </v-col>
     </v-row>
     <v-row>
