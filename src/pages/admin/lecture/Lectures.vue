@@ -164,6 +164,7 @@ const lectureToDto = (lecture) => {
     instructor: lecture.instructor,
     startDate: lecture.startDate,
     endDate: lecture.endDate,
+    fee: lecture.fee,
     monStartTime: lecture.schedule.MON.checked ? lecture.schedule.MON.startTime : null,
     monEndTime: lecture.schedule.MON.checked ? lecture.schedule.MON.endTime : null,
     tueStartTime: lecture.schedule.TUE.checked ? lecture.schedule.TUE.startTime : null,
