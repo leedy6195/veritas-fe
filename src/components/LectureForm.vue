@@ -55,6 +55,9 @@
         <v-row>
           <v-col cols="4">
             <v-checkbox v-model="lecture.schedule.THU.checked" label="목요일" value="목요일"></v-checkbox>
+            <v-text-field v-model="lecture.schedule.THU.checked"></v-text-field>
+            <v-text-field v-model="lecture.schedule"></v-text-field>
+            <v-text-field v-model="lecture.schedule.THU"></v-text-field>
           </v-col>
           <v-col cols="4">
             <v-text-field v-model="lecture.schedule.THU.startTime" type="time" label="시작시간"
@@ -110,7 +113,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import {onMounted, ref, watch} from 'vue'
 
 // eslint-disable-next-line no-undef
 const props = defineProps({
@@ -142,4 +145,9 @@ daysOfWeek.forEach(day => {
 watch(lecture, (newVal) => {
   emit('update:modelValue', newVal)
 }, { deep: true })
+
+onMounted(() => {
+  console.log(lecture)
+  console.log()
+})
 </script>
