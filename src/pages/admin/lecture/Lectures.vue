@@ -24,19 +24,17 @@
             <th class="text-left">강의 일정</th>
             <th class="text-left">수강료</th>
             <th class="text-left">수강생 수</th>
-            <th class="text-left">수정</th>
+
           </tr>
           </thead>
           <tbody>
           <tr v-for="lecture in lectures" :key="lecture.id">
-            <td>{{ lecture.name }}</td>
+            <td @click="editLecture(lecture)" style="cursor: pointer;">{{ lecture.name }}</td>
             <td>{{ lecture.instructor }}</td>
             <td>{{ lecture.startDate }} ~ {{ lecture.endDate }}</td>
             <td>{{ lecture.fee }}</td>
             <td>{{ lecture.enrolledStudents }}</td>
-            <td>
-              <v-btn color="primary" @click="openEditLectureDialog(lecture)">수정</v-btn>
-            </td>
+
           </tr>
           </tbody>
         </v-table>
@@ -77,7 +75,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import {onMounted, ref, watch} from 'vue'
 import axios from "axios";
 import LectureForm from "@/components/LectureForm.vue";
 
@@ -93,16 +91,16 @@ const newLecture = ref({
   fee: 0,
   enrolledStudents: 0,
   schedule: {
-    MON: { checked: false, startTime: null, endTime: null },
-    TUE: { checked: false, startTime: null, endTime: null },
-    WED: { checked: false, startTime: null, endTime: null },
-    THU: { checked: false, startTime: null, endTime: null },
-    FRI: { checked: false, startTime: null, endTime: null },
-    SAT: { checked: false, startTime: null, endTime: null },
-    SUN: { checked: false, startTime: null, endTime: null },
+    MON: {checked: false, startTime: null, endTime: null},
+    TUE: {checked: false, startTime: null, endTime: null},
+    WED: {checked: false, startTime: null, endTime: null},
+    THU: {checked: false, startTime: null, endTime: null},
+    FRI: {checked: false, startTime: null, endTime: null},
+    SAT: {checked: false, startTime: null, endTime: null},
+    SUN: {checked: false, startTime: null, endTime: null},
   },
 })
-const editedLecture = ref({ ...newLecture.value })
+const editedLecture = ref({...newLecture.value})
 
 const fetchLectures = () => {
   axios.get('https://veritas-s.app/api/lectures').then((response) => {
@@ -114,10 +112,50 @@ const openAddLectureDialog = () => {
   addLectureDialog.value = true
 }
 
-const openEditLectureDialog = (lecture) => {
-  editedLecture.value = { ...lecture }
-  editLectureDialog.value = true
-}
+const editLecture = (lecture) => {
+  editedLecture.value = {
+    ...lecture,
+    schedule: {
+      MON: {
+        checked: lecture.monStartTime !== null,
+        startTime: lecture.monStartTime,
+        endTime: lecture.monEndTime,
+      },
+      TUE: {
+        checked: lecture.tueStartTime !== null,
+        startTime: lecture.tueStartTime,
+        endTime: lecture.tueEndTime,
+      },
+      WED: {
+        checked: lecture.wedStartTime !== null,
+        startTime: lecture.wedStartTime,
+        endTime: lecture.wedEndTime,
+      },
+      THU: {
+        checked: lecture.thuStartTime !== null,
+        startTime: lecture.thuStartTime,
+        endTime: lecture.thuEndTime,
+      },
+      FRI: {
+        checked: lecture.friStartTime !== null,
+        startTime: lecture.friStartTime,
+        endTime: lecture.friEndTime,
+      },
+      SAT: {
+        checked: lecture.satStartTime !== null,
+        startTime: lecture.satStartTime,
+        endTime: lecture.satEndTime,
+      },
+      SUN: {
+        checked: lecture.sunStartTime !== null,
+        startTime: lecture.sunStartTime,
+        endTime: lecture.sunEndTime,
+      },
+    },
+  };
+
+  editLectureDialog.value = true;
+};
 
 const lectureToDto = (lecture) => {
   return {
