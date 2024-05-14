@@ -110,7 +110,7 @@
 </template>
 
 <script setup>
-import {onMounted, ref, watch} from 'vue'
+import {ref, watch} from 'vue'
 
 // eslint-disable-next-line no-undef
 const props = defineProps({
