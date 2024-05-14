@@ -23,6 +23,7 @@ import KakaoLogin from "@/pages/student/KakaoLogin.vue";
 import MemberLayout from "@/components/MemberLayout.vue";
 import axios from "axios";
 import Privacy from "@/pages/view/Privacy.vue";
+import Lectures from "@/pages/admin/lecture/Lectures.vue";
 
 
 const routes = [
@@ -38,7 +39,8 @@ const routes = [
             {path: 'entryDevices', component: EntryDevices},
             {path: 'test', component: Test},
             {path: 'login', component: AdminLogin},
-            {path: 'students', component: Students}
+            {path: 'students', component: Students},
+            {path: 'lectures', component: Lectures},
 
         ],
     },
