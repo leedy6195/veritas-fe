@@ -22,7 +22,7 @@ import Attendances from "@/pages/admin/attendance/Attendances.vue";
 import KakaoLogin from "@/pages/student/KakaoLogin.vue";
 import MemberLayout from "@/components/MemberLayout.vue";
 import axios from "axios";
-import Lectures from "@/pages/admin/lecture/Lectures.vue";
+import Privacy from "@/pages/view/Privacy.vue";
 
 
 const routes = [
@@ -38,8 +38,7 @@ const routes = [
             {path: 'entryDevices', component: EntryDevices},
             {path: 'test', component: Test},
             {path: 'login', component: AdminLogin},
-            {path: 'students', component: Students},
-            {path: 'lectures', component: Lectures}
+            {path: 'students', component: Students}
 
         ],
     },
@@ -57,7 +56,8 @@ const routes = [
             {path: 'readingrooms/:roomId', component: ReadingRoomView},
             {path: 'readingroom/exit/:deviceId', component: ReadingRoomExitView},
             {path: 'lectureroom/enter/:deviceId', component: LectureRoomEnterView},
-            {path: 'lectureroom/exit/:deviceId', component: LectureRoomExitView}
+            {path: 'lectureroom/exit/:deviceId', component: LectureRoomExitView},
+            {path: 'privacy', component: Privacy}
         ]
     },
     {
