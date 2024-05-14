@@ -15,7 +15,7 @@
       <v-col cols="12">
         <v-row>
           <v-col cols="4">
-            <v-checkbox v-model="lecture.schedule.MON.checked" label="월요일" value="월요일"></v-checkbox>
+            <v-checkbox :model-value="lecture.schedule.MON.checked" label="월요일" value="월요일"></v-checkbox>
           </v-col>
           <v-col cols="4">
             <v-text-field v-model="lecture.schedule.MON.startTime" type="time" label="시작시간"
@@ -28,7 +28,7 @@
         </v-row>
         <v-row>
           <v-col cols="4">
-            <v-checkbox v-model="lecture.schedule.TUE.checked" label="화요일" value="화요일"></v-checkbox>
+            <v-checkbox :model-value="lecture.schedule.TUE.checked" label="화요일" value="화요일"></v-checkbox>
           </v-col>
           <v-col cols="4">
             <v-text-field v-model="lecture.schedule.TUE.startTime" type="time" label="시작시간"
@@ -41,7 +41,7 @@
         </v-row>
         <v-row>
           <v-col cols="4">
-            <v-checkbox v-model="lecture.schedule.WED.checked" label="수요일" value="수요일"></v-checkbox>
+            <v-checkbox :model-value="lecture.schedule.WED.checked" label="수요일" value="수요일"></v-checkbox>
           </v-col>
           <v-col cols="4">
             <v-text-field v-model="lecture.schedule.WED.startTime" type="time" label="시작시간"
@@ -54,7 +54,7 @@
         </v-row>
         <v-row>
           <v-col cols="4">
-            <v-checkbox v-model="lecture.schedule.THU.checked" label="목요일" value="목요일"></v-checkbox>
+            <v-checkbox :model-value="lecture.schedule.THU.checked" label="목요일" value="목요일"></v-checkbox>
           </v-col>
           <v-col cols="4">
             <v-text-field v-model="lecture.schedule.THU.startTime" type="time" label="시작시간"
@@ -67,7 +67,7 @@
         </v-row>
         <v-row>
           <v-col cols="4">
-            <v-checkbox v-model="lecture.schedule.FRI.checked" label="금요일" value="금요일"></v-checkbox>
+            <v-checkbox :model-value="lecture.schedule.FRI.checked" label="금요일" value="금요일"></v-checkbox>
           </v-col>
           <v-col cols="4">
             <v-text-field v-model="lecture.schedule.FRI.startTime" type="time" label="시작시간"
@@ -80,7 +80,7 @@
         </v-row>
         <v-row>
           <v-col cols="4">
-            <v-checkbox v-model="lecture.schedule.SAT.checked" label="토요일" value="토요일"></v-checkbox>
+            <v-checkbox :model-value="lecture.schedule.SAT.checked" label="토요일" value="토요일"></v-checkbox>
           </v-col>
           <v-col cols="4">
             <v-text-field v-model="lecture.schedule.SAT.startTime" type="time" label="시작시간"
@@ -93,7 +93,7 @@
         </v-row>
         <v-row>
           <v-col cols="4">
-            <v-checkbox v-model="lecture.schedule.SUN.checked" label="일요일" value="일요일"></v-checkbox>
+            <v-checkbox :model-value="lecture.schedule.SUN.checked" label="일요일" value="일요일"></v-checkbox>
           </v-col>
           <v-col cols="4">
             <v-text-field v-model="lecture.schedule.SUN.startTime" type="time" label="시작시간"
