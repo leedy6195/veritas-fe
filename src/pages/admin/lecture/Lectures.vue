@@ -201,7 +201,7 @@ const updateLecture = () => {
     fetchLectures()
   })
 }
-
+/*
 const daysOfWeek = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 daysOfWeek.forEach(day => {
   watch(() => newLecture.value.schedule[day].checked, (newVal) => {
@@ -217,6 +217,8 @@ daysOfWeek.forEach(day => {
     }
   })
 })
+*/
+
 
 onMounted(() => {
   fetchLectures()
