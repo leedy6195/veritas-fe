@@ -29,8 +29,8 @@
           <tr v-for="(schedule, index) in lecture.schedules" :key="schedule.id">
             <td>{{ index + 1 }}</td>
             <td>{{ schedule.date }}</td>
-            <td><v-chip>{{ new Date(schedule.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</v-chip>
-              ~ <v-chip>{{ new Date(schedule.endTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</v-chip></td>
+            <td><v-chip>{{ formatTime(schedule.startTime) }}</v-chip>
+              ~ <v-chip>{{ formatTime(schedule.endTime) }}</v-chip></td>
             <td>{{ schedule.description }}</td>
           </tr>
           </tbody>
@@ -90,6 +90,9 @@ const addScheduleDialog = ref(false)
 const route = useRoute()
 const lectureId = route.params.lectureId
 
+const formatTime = (timeString) => {
+  return timeString.split(":").slice(0, 2).join(":");
+}
 const lecture = ref({
   id: null,
   name: '',
