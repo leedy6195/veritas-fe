@@ -108,7 +108,7 @@ const newSchedule = ref({
 })
 
 const addSchedule = () => {
-  axios.post(`/lectures/${lectureId}/schedules`, newSchedule.value)
+  axios.post(`/api/lectures/${lectureId}/schedules`, newSchedule.value)
       .then(response => {
         console.log(response.data.data)
         //location.reload()
@@ -119,7 +119,7 @@ const addSchedule = () => {
 }
 
 const fetchLecture = () => {
-  axios.get(`/lectures/${lectureId}`)
+  axios.get(`/api/lectures/${lectureId}`)
       .then(response => {
         console.log(response.data.data)
         lecture.value = response.data.data
