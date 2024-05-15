@@ -31,7 +31,7 @@
           <tr v-for="lecture in lectures" :key="lecture.id">
             <td @click="editLecture(lecture)" style="cursor: pointer;">{{ lecture.name }}</td>
             <td>{{ lecture.instructor }}</td>
-            <td @click="goToSchedule(lecture.id)">{{ lecture.startDate }} ~ {{ lecture.endDate }}</td>
+            <td @click="goToSchedule(lecture.id)" style="cursor: pointer;">{{ lecture.startDate }} ~ {{ lecture.endDate }}</td>
             <td>{{ lecture.fee }}</td>
             <td>{{ lecture.enrolledStudents }}</td>
 

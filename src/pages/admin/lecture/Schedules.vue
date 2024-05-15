@@ -19,7 +19,7 @@
         <v-table density="comfortable">
           <thead>
           <tr>
-            <th class="text-left">순번</th>
+            <th class="text-left">회차</th>
             <th class="text-left">강의일</th>
             <th class="text-left">강의시간</th>
             <th class="text-left">강의내용</th>
@@ -29,7 +29,8 @@
           <tr v-for="(schedule, index) in lecture.schedules" :key="schedule.id">
             <td>{{ index + 1 }}</td>
             <td>{{ schedule.date }}</td>
-            <td><v-chip>{{ schedule.startTime }}</v-chip> ~ <v-chip>{{ schedule.endTime }}</v-chip></td>
+            <td><v-chip>{{ schedule.startTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</v-chip>
+              ~ <v-chip>{{ schedule.endTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</v-chip></td>
             <td>{{ schedule.description }}</td>
           </tr>
           </tbody>
@@ -109,9 +110,8 @@ const newSchedule = ref({
 
 const addSchedule = () => {
   axios.post(`/api/lectures/${lectureId}/schedules`, newSchedule.value)
-      .then(response => {
-        console.log(response.data.data)
-        //location.reload()
+      .then(() => {
+        location.reload()
       })
       .catch(error => {
         console.error(error)
@@ -121,7 +121,7 @@ const addSchedule = () => {
 const fetchLecture = () => {
   axios.get(`/api/lectures/${lectureId}`)
       .then(response => {
-        console.log(response.data.data)
+        //console.log(response.data.data)
         lecture.value = response.data.data
       })
       .catch(error => {
