@@ -31,7 +31,7 @@
           <tr v-for="lecture in lectures" :key="lecture.id">
             <td @click="editLecture(lecture)" style="cursor: pointer;">{{ lecture.name }}</td>
             <td>{{ lecture.instructor }}</td>
-            <td>{{ lecture.startDate }} ~ {{ lecture.endDate }}</td>
+            <td @click="goToSchedule(lecture.id)">{{ lecture.startDate }} ~ {{ lecture.endDate }}</td>
             <td>{{ lecture.fee }}</td>
             <td>{{ lecture.enrolledStudents }}</td>
 
@@ -71,6 +71,8 @@
       </v-card>
     </v-dialog>
 
+
+
   </v-container>
 </template>
 
@@ -78,6 +80,7 @@
 import {onMounted, ref} from 'vue'
 import axios from "axios";
 import LectureForm from "@/components/LectureForm.vue";
+import router from "@/scripts/router";
 
 const addLectureDialog = ref(false)
 const editLectureDialog = ref(false)
@@ -101,6 +104,10 @@ const newLecture = ref({
   },
 })
 const editedLecture = ref({...newLecture.value})
+
+const goToSchedule = (lectureId) => {
+  router.push(`/admin/lectures/${lectureId}/schedules`)
+}
 
 const fetchLectures = () => {
   axios.get('https://veritas-s.app/api/lectures').then((response) => {
@@ -201,24 +208,6 @@ const updateLecture = () => {
     fetchLectures()
   })
 }
-/*
-const daysOfWeek = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
-daysOfWeek.forEach(day => {
-  watch(() => newLecture.value.schedule[day].checked, (newVal) => {
-    if (!newVal) {
-      newLecture.value.schedule[day].startTime = null
-      newLecture.value.schedule[day].endTime = null
-    }
-  })
-  watch(() => editedLecture.value.schedule[day].checked, (newVal) => {
-    if (!newVal) {
-      editedLecture.value.schedule[day].startTime = null
-      editedLecture.value.schedule[day].endTime = null
-    }
-  })
-})
-*/
-
 
 onMounted(() => {
   fetchLectures()
