@@ -13,6 +13,7 @@
       <v-list-item prepend-icon="mdi-account-multiple" title="회원 관리" value="member" to="/admin/students"></v-list-item>
       <v-list-item prepend-icon="mdi-calendar-multiple-check" title="출결 관리" value="attendance" to="/admin/attendances"></v-list-item>
       <v-list-item prepend-icon="mdi-book-open" title="강의 관리" value="lecture" to="/admin/lectures"></v-list-item>
+      <v-list-item prepend-icon="mdi-file-sign" title="수강 관리" value="enrollment" to="/admin/enrollments"></v-list-item>
 
       <v-list-group value="facilities">
         <template v-slot:activator="{ props }">
