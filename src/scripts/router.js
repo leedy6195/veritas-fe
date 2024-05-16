@@ -25,6 +25,7 @@ import axios from "axios";
 import Privacy from "@/pages/view/Privacy.vue";
 import Lectures from "@/pages/admin/lecture/Lectures.vue";
 import Schedules from "@/pages/admin/lecture/Schedules.vue";
+import Enrollments from "@/pages/admin/enrollment/Enrollments.vue";
 
 
 const routes = [
@@ -42,7 +43,8 @@ const routes = [
             {path: 'login', component: AdminLogin},
             {path: 'students', component: Students},
             {path: 'lectures', component: Lectures},
-            {path: 'lectures/:lectureId/schedules',component: Schedules }
+            {path: 'lectures/:lectureId/schedules',component: Schedules },
+            {path: 'enrollments', component: Enrollments}
 
         ],
     },

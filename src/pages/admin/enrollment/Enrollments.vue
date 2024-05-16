@@ -1,0 +1,90 @@
+<template>
+  <v-container>
+    <v-row>
+      <v-col>
+        <h2 class="text-h5 mb-4">수강 관리</h2>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col>
+        <v-btn class="mb-4 float-right" color="primary" @click="addEnrollmentDialog = true">
+          수강신청
+        </v-btn>
+      </v-col>
+    </v-row>
+
+    <v-dialog v-model="addEnrollmentDialog" max-width="600">
+      <v-card>
+        <v-card-title>수강신청</v-card-title>
+        <v-card-text>
+          <v-form ref="addEnrollmentForm" @submit.prevent="addEnrollment">
+            <v-select v-model="newEnrollment.lectureId" :items="lectures" label="강의" required></v-select>
+            <v-select v-model="newEnrollment.studentId" :items="students" label="학생" required></v-select>
+            <v-text-field v-model="newEnrollment.paymentAmount" label="결제금액" required></v-text-field>
+            <v-radio-group v-model="newEnrollment.paymentMethod" row>
+              <v-radio label="신용카드" value="CREDIT_CARD"></v-radio>
+              <v-radio label="계좌이체" value="BANK_TRANSFER"></v-radio>
+              <v-radio label="현금" value="CASH"></v-radio>
+            </v-radio-group>
+          </v-form>
+
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="primary" @click="addEnrollment">신청</v-btn>
+          <v-btn color="primary" @click="addEnrollmentDialog = false">취소</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+
+  </v-container>
+</template>
+
+<script setup>
+import axios from "axios";
+import {onMounted, ref} from "vue";
+
+const enrollments = ref([]);
+const students = ref([]);
+const lectures = ref([]);
+
+const addEnrollmentDialog = ref(false)
+
+const newEnrollment = ref({
+  lectureId: '',
+  studentId: '',
+  paymentAmount: 0,
+  paymentMethod: 'CREDIT_CARD'
+})
+
+const addEnrollment = () => {
+  axios.post('https://veritas-s.app/api/enrollments', newEnrollment.value).then(() => {
+    location.reload()
+  })
+}
+
+const fetchStudents = () => {
+  axios.get('https://veritas-s.app/api/students').then((response) => {
+    students.value = response.data.data
+  })
+}
+
+const fetchLectures = () => {
+  axios.get('https://veritas-s.app/api/lectures').then((response) => {
+    lectures.value = response.data.data
+  })
+}
+const fetchEnrollments = () => {
+  axios.get('https://veritas-s.app/api/enrollments').then((response) => {
+    enrollments.value = response.data.data
+  })
+}
+
+
+onMounted(() => {
+  fetchStudents()
+  fetchLectures()
+  fetchEnrollments()
+})
+</script>

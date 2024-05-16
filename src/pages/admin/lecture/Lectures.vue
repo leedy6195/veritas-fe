@@ -24,6 +24,7 @@
             <th class="text-left">강의 일정</th>
             <th class="text-left">수강료</th>
             <th class="text-left">수강생 수</th>
+            <th class="text-left">강의노출</th>
 
           </tr>
           </thead>
@@ -34,7 +35,7 @@
             <td @click="goToSchedule(lecture.id)" style="cursor: pointer;">{{ lecture.startDate }} ~ {{ lecture.endDate }}</td>
             <td>{{ lecture.fee }}</td>
             <td>{{ lecture.enrolledStudents }}</td>
-
+            <td>{{ lecture.status === 'OPEN'? '노출' : '숨김' }}</td>
           </tr>
           </tbody>
         </v-table>
@@ -92,6 +93,7 @@ const newLecture = ref({
   startDate: '',
   endDate: '',
   fee: 0,
+  status: 'OPEN',
   enrolledStudents: 0,
   schedule: {
     MON: {checked: false, startTime: null, endTime: null},
@@ -172,6 +174,8 @@ const lectureToDto = (lecture) => {
     startDate: lecture.startDate,
     endDate: lecture.endDate,
     fee: lecture.fee,
+    status: lecture.status,
+
     monStartTime: lecture.schedule.MON.checked ? lecture.schedule.MON.startTime : null,
     monEndTime: lecture.schedule.MON.checked ? lecture.schedule.MON.endTime : null,
     tueStartTime: lecture.schedule.TUE.checked ? lecture.schedule.TUE.startTime : null,

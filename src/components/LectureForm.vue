@@ -2,6 +2,7 @@
   <v-form @submit.prevent="submit">
     <v-row>
       <v-col cols="12">
+        <v-select v-model="lecture.status" :items="statusOptions" label="강의노출" density="comfortable"></v-select>
         <v-text-field v-model="lecture.name" label="강의명" density="comfortable"></v-text-field>
         <v-text-field v-model="lecture.instructor" label="강사명" density="comfortable"></v-text-field>
         <v-text-field v-model="lecture.fee" label="수강료" type="number" density="comfortable"></v-text-field>
@@ -119,6 +120,11 @@ const props = defineProps({
     required: true,
   },
 })
+
+const statusOptions = ref([
+  {title: '노출', value: 'OPEN'},
+  {title: '숨김', value: 'CLOSED'},
+])
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['update:modelValue', 'submit'])
