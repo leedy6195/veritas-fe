@@ -119,7 +119,7 @@ const fetchEnrollments = () => {
 }
 
 const studentTitle = (student) => {
-  return `${student.name} (${student.serial})`;
+  return student ? `${student.name} (${student.serial})` : '';
 };
 
 
