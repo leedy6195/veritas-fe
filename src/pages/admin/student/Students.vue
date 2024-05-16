@@ -107,8 +107,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="closeAddMemberDialog">취소</v-btn>
-          <v-btn color="blue darken-1" text @click="addMember">등록</v-btn>
+          <v-btn color="blue darken-1" @click="closeAddMemberDialog">취소</v-btn>
+          <v-btn color="blue darken-1" @click="addMember">등록</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -123,9 +123,18 @@
             <v-text-field v-model="editedMember.name" label="회원명" :rules="[v => !!v || '필수 입력']"></v-text-field>
             <v-text-field v-model="editedMember.birthDate" label="생년월일" :rules="[v => !!v || '필수 입력']"></v-text-field>
             <v-text-field v-model="editedMember.school" label="학교" :rules="[v => !!v || '필수 입력']"></v-text-field>
+
+            <v-select
+                v-model="editedMember.gradeType"
+                :items="gradeTypeOptions"
+                label="수강 종류"
+                density="comfortable"
+            ></v-select>
+
             <v-text-field v-model="editedMember.email" label="이메일주소" :rules="[v => !!v || '필수 입력']"></v-text-field>
             <v-text-field v-model="editedMember.tel" label="연락처" :rules="[v => !!v || '필수 입력']"></v-text-field>
-            <v-text-field v-model="editedMember.parentTel" label="부모님 연락처" :rules="[v => !!v || '필수 입력']"></v-text-field>
+            <v-text-field v-model="editedMember.parentTel" label="부모님 연락처"
+                          :rules="[v => !!v || '필수 입력']"></v-text-field>
             <v-select
                 v-model="editedMember.courseType"
                 :items="courseTypeOptions"
@@ -136,9 +145,9 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="error" text @click="deleteMember">삭제</v-btn>
-          <v-btn color="blue darken-1" text @click="closeEditMemberDialog">취소</v-btn>
-          <v-btn color="blue darken-1" text @click="updateMember">수정</v-btn>
+          <v-btn color="error" @click="deleteMember">삭제</v-btn>
+          <v-btn color="blue darken-1" @click="closeEditMemberDialog">취소</v-btn>
+          <v-btn color="blue darken-1" @click="updateMember">수정</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -150,7 +159,7 @@
 <script setup>
 import {onMounted, ref} from 'vue';
 import axios from "axios";
-import { utils, writeFile } from 'xlsx';
+import {utils, writeFile} from 'xlsx';
 
 const searchKeyword = ref('');
 const searchStartDate = ref('');
@@ -161,10 +170,11 @@ const headers = [
   {title: '회원명', key: 'name'},
   {title: '생년월일', key: 'birthDate'},
   {title: '학교', key: 'school'},
+  {title: '학년', key: 'formattedGradeType'},
   {title: '이메일주소', key: 'email'},
   {title: '휴대폰번호', key: 'tel'},
   {title: '회원코드', key: 'serial'},
-  { title: '수강 종류', key: 'formattedCourseType' },
+  {title: '수강 종류', key: 'formattedCourseType'},
   {title: '가입일', align: 'start', key: 'joinDate'},
 ];
 
@@ -172,6 +182,7 @@ const searchColumn = ref('name');
 const searchColumnOptions = [
   {title: '회원명', value: 'name'},
   {title: '학교', value: 'school'},
+  {title: '학년', value: 'formattedGradeType'},
   {title: '이메일주소', value: 'email'},
   {title: '휴대폰번호', value: 'tel'},
   {title: '회원코드', value: 'serial'},
@@ -185,10 +196,18 @@ const filteredMembers = ref([]);
 const addMemberDialog = ref(false);
 
 const courseTypeOptions = [
-  { title: '해당없음', value: 'GENERAL' },
-  { title: '주중반', value: 'WEEKDAY' },
-  { title: '주말반', value: 'WEEKEND' },
+  {title: '해당없음', value: 'GENERAL'},
+  {title: '주중반', value: 'WEEKDAY'},
+  {title: '주말반', value: 'WEEKEND'},
 ];
+
+const gradeTypeOptions = [
+  {title: '1학년', value: 'GRADE1'},
+  {title: '2학년', value: 'GRADE2'},
+  {title: '3학년', value: 'GRADE3'},
+  {title: '졸업생', value: 'GRADUATE'},
+
+]
 
 const newMember = ref({
   name: '',
@@ -197,7 +216,8 @@ const newMember = ref({
   email: '',
   tel: '',
   parentTel: '',
-  courseType: 'GENERAL'
+  courseType: 'GENERAL',
+  gradeType: 'GRADE1',
 });
 
 const editMemberDialog = ref(false);
@@ -205,7 +225,7 @@ const editedMember = ref({});
 
 
 const openEditMemberDialog = (member) => {
-  editedMember.value = { ...member };
+  editedMember.value = {...member};
   editMemberDialog.value = true;
 };
 
@@ -253,7 +273,9 @@ const fetchMembers = async () => {
     members.value = response.data.data.map(member => ({
       ...member,
       joinDate: formatDate(member.createdAt),
-      formattedCourseType: formatCourseType(member.courseType)
+      formattedCourseType: formatCourseType(member.courseType),
+      formattedGradeType: formatGradeType(member.gradeType)
+
     }))
 
     filteredMembers.value = members.value
@@ -292,6 +314,7 @@ const exportToExcel = () => {
     '회원명': member.name,
     '생년월일': member.birthDate,
     '학교': member.school,
+    '학년': member.formattedGradeType,
     '이메일주소': member.email,
     '휴대폰번호': member.tel,
     '회원코드': member.serial,
@@ -312,7 +335,6 @@ const closeAddMemberDialog = () => {
   addMemberDialog.value = false;
   resetNewMember();
 };
-
 
 
 const addMember = () => {
@@ -346,7 +368,7 @@ const resetNewMember = () => {
     tel: '',
     parentTel: '',
     courseType: 'GENERAL',
-
+    gradeType: 'GRADE1',
   };
 };
 const formatCourseType = (courseType) => {
@@ -361,6 +383,22 @@ const formatCourseType = (courseType) => {
       return '';
   }
 };
+
+const formatGradeType = (gradeType) => {
+  switch (gradeType) {
+    case 'GRADE1':
+      return '1학년';
+    case 'GRADE2':
+      return '2학년';
+    case 'GRADE3':
+      return '3학년';
+    case 'GRADUATE':
+      return '졸업생';
+    default:
+      return '';
+  }
+}
+
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
