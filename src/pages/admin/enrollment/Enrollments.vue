@@ -59,7 +59,7 @@
                 required
             ></v-autocomplete>
             <v-text-field v-model="newEnrollment.paymentAmount" label="결제금액" required></v-text-field>
-            <v-radio-group v-model="newEnrollment.paymentMethod" row>
+            <v-radio-group v-model="newEnrollment.paymentMethod" inline>
               <v-radio label="신용카드" value="CREDIT_CARD"></v-radio>
               <v-radio label="계좌이체" value="BANK_TRANSFER"></v-radio>
               <v-radio label="현금" value="CASH"></v-radio>
@@ -80,7 +80,7 @@
 
 <script setup>
 import axios from "axios";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 
 const enrollments = ref([]);
 const students = ref([]);
@@ -128,4 +128,16 @@ onMounted(() => {
   fetchLectures()
   fetchEnrollments()
 })
+
+watch(
+    () => newEnrollment.value.lectureId,
+    (lectureId) => {
+      if (lectureId) {
+        const selectedLecture = lectures.value.find((lecture) => lecture.id === lectureId);
+        newEnrollment.value.paymentAmount = selectedLecture ? selectedLecture.fee : 0;
+      } else {
+        newEnrollment.value.paymentAmount = 0;
+      }
+    }
+);
 </script>
