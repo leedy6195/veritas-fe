@@ -43,7 +43,7 @@
         <v-card-text>
           <v-form ref="addEnrollmentForm" @submit.prevent="addEnrollment">
             <v-select v-model="newEnrollment.lectureId" :items="lectures" item-title="name" item-value="id" label="강의" required></v-select>
-            <v-select v-model="newEnrollment.studentId" :items="students" item-title="name" item-value="id" label="학생" required></v-select>
+            <v-select v-model="newEnrollment.studentId" :items="students" :item-title="studentTitle" item-value="id" label="학생" required></v-select>
             <v-text-field v-model="newEnrollment.paymentAmount" label="결제금액" required></v-text-field>
             <v-radio-group v-model="newEnrollment.paymentMethod" row>
               <v-radio label="신용카드" value="CREDIT_CARD"></v-radio>
@@ -103,6 +103,10 @@ const fetchEnrollments = () => {
     enrollments.value = response.data.data
   })
 }
+
+const studentTitle = (student) => {
+  return `${student.name} (${student.serial})`;
+};
 
 
 onMounted(() => {
