@@ -14,6 +14,29 @@
       </v-col>
     </v-row>
 
+    <v-row>
+      <v-col>
+        <v-table density="comfortable">
+          <thead>
+          <tr>
+            <th class="text-left">강의</th>
+            <th class="text-left">학생</th>
+            <th class="text-left">결제금액</th>
+            <th class="text-left">결제수단</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="enrollment in enrollments" :key="enrollment.id">
+            <td>{{ enrollment.lecture.name }}</td>
+            <td>{{ enrollment.student.name }}</td>
+            <td>{{ enrollment.paymentAmount }}</td>
+            <td>{{ enrollment.paymentMethod }}</td>
+          </tr>
+          </tbody>
+        </v-table>
+      </v-col>
+    </v-row>
+
     <v-dialog v-model="addEnrollmentDialog" max-width="600">
       <v-card>
         <v-card-title>수강신청</v-card-title>
