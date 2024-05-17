@@ -1,5 +1,5 @@
 <template>
-  <v-card v-for="enrollment in enrollments" max-width="358" :key="enrollment.id" class="mx-auto" elevation="8">
+  <v-card v-for="enrollment in enrollments" max-width="358" :key="enrollment.id" class="ma-8" elevation="4">
     <v-card-item>
       <v-card-title>
         {{ enrollment.lecture.name }}
