@@ -11,7 +11,9 @@
   <v-navigation-drawer :location="'bottom'" style="height: auto" v-if="$route.path !== '/login'" v-model="drawer"
                        floating :permanent="$vuetify.display.mdAndUp">
     <v-list density="compact" nav>
+      <v-list-item prepend-icon="mdi-file-document-edit-outline" title="수강증" value="enrollment" to="/enrollments"></v-list-item>
       <v-list-item prepend-icon="mdi-logout" title="로그아웃" value="logout" @click="logout"></v-list-item>
+
     </v-list>
   </v-navigation-drawer>
   <v-main class="main-content">

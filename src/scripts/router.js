@@ -26,6 +26,7 @@ import Privacy from "@/pages/view/Privacy.vue";
 import Lectures from "@/pages/admin/lecture/Lectures.vue";
 import Schedules from "@/pages/admin/lecture/Schedules.vue";
 import Enrollments from "@/pages/admin/enrollment/Enrollments.vue";
+import EnrolledStudents from "@/pages/admin/lecture/EnrolledStudents.vue";
 
 
 const routes = [
@@ -44,6 +45,7 @@ const routes = [
             {path: 'students', component: Students},
             {path: 'lectures', component: Lectures},
             {path: 'lectures/:lectureId/schedules',component: Schedules },
+            {path: 'lectures/:lectureId/enrolled',component: EnrolledStudents},
             {path: 'enrollments', component: Enrollments}
 
         ],
@@ -54,7 +56,8 @@ const routes = [
         children: [
             {path: '', component: StudentHome},
             {path: 'login', component: KakaoLogin},
-            {path: 'test', component: Test2}
+            {path: 'test', component: Test2},
+            {path: 'enrollments'}
         ]
     },
     {

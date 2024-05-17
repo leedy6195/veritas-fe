@@ -34,7 +34,7 @@
             <td>{{ lecture.instructor }}</td>
             <td @click="goToSchedule(lecture.id)" style="cursor: pointer;">{{ lecture.startDate }} ~ {{ lecture.endDate }}</td>
             <td>{{ lecture.fee }}</td>
-            <td>{{ lecture.enrolledStudents }}</td>
+            <td @click="goToEnrolledStudents(lecture.id)">{{ lecture.enrolledStudents }}</td>
             <td>{{ lecture.status === 'OPEN'? '노출' : '숨김' }}</td>
           </tr>
           </tbody>
@@ -111,6 +111,9 @@ const goToSchedule = (lectureId) => {
   router.push(`/admin/lectures/${lectureId}/schedules`)
 }
 
+const goToEnrolledStudents = (lectureId) => {
+  router.push(`/admin/lectures/${lectureId}/enrolled`)
+}
 const fetchLectures = () => {
   axios.get('https://veritas-s.app/api/lectures').then((response) => {
     lectures.value = response.data.data
