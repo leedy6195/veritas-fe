@@ -48,7 +48,7 @@ const logout = () => {
 
 const handleClick = () => {
   this.drawer = !this.drawer;
-  this.location.href = '/';
+  router.push('/')
 }
 </script>
 <style scoped>
