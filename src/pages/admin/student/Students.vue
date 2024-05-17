@@ -94,6 +94,12 @@
             <v-text-field v-model="newMember.name" label="회원명" :rules="[v => !!v || '필수 입력']"></v-text-field>
             <v-text-field v-model="newMember.birthDate" label="생년월일" :rules="[v => !!v || '필수 입력']"></v-text-field>
             <v-text-field v-model="newMember.school" label="학교" :rules="[v => !!v || '필수 입력']"></v-text-field>
+            <v-select
+                v-model="newMember.gradeType"
+                :items="gradeTypeOptions"
+                label="학년"
+                density="comfortable"
+            ></v-select>
             <v-text-field v-model="newMember.email" label="이메일주소" :rules="[v => !!v || '필수 입력']"></v-text-field>
             <v-text-field v-model="newMember.tel" label="연락처" :rules="[v => !!v || '필수 입력']"></v-text-field>
             <v-text-field v-model="newMember.parentTel" label="부모님 연락처" :rules="[v => !!v || '필수 입력']"></v-text-field>
@@ -127,7 +133,7 @@
             <v-select
                 v-model="editedMember.gradeType"
                 :items="gradeTypeOptions"
-                label="수강 종류"
+                label="학년"
                 density="comfortable"
             ></v-select>
 
