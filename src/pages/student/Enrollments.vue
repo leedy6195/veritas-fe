@@ -1,5 +1,5 @@
 <template>
-  <v-card v-for="enrollment in enrollments" max-width="300" :key="enrollment.id" class="mx-auto" elevation="8">
+  <v-card v-for="enrollment in enrollments" max-width="358" :key="enrollment.id" class="mx-auto" elevation="8">
     <v-card-item>
       <v-card-title>
         {{ enrollment.lecture.name }}
@@ -13,7 +13,7 @@
         <v-col>
           강사 <b>{{ enrollment.lecture.instructor }}</b>
         </v-col>
-        <v-col style="color: blue">
+        <v-col class="text-right" style="color: blue">
           총 {{ enrollment.lecture.schedules.length }} 회
         </v-col>
       </v-row>
