@@ -14,7 +14,7 @@
       <v-list-item prepend-icon="mdi-logout" title="로그아웃" value="logout" @click="logout"></v-list-item>
     </v-list>
   </v-navigation-drawer>
-  <v-main>
+  <v-main class="main-content">
     <router-view/>
   </v-main>
   <!-- footer -->
@@ -47,7 +47,11 @@ const logout = () => {
 <style scoped>
 .footer {
   color: darkgray;
-  font-size: small;
+  font-size: smaller;
   background-color: #f5f5f5;
+}
+
+.main-content {
+  min-height: calc(100vh - 64px - 50px);
 }
 </style>

@@ -6,8 +6,8 @@
       </v-col>
     </v-row>
     <v-row class="ma-6">
-      <v-col>
-        <v-img src="@/assets/kakao_login_medium_narrow.png" min-width="10em" @click="kakaoLogin"></v-img>
+      <v-col class="text-center">
+        <v-img src="@/assets/kakao_login_medium_narrow.png" min-width="6em" max-width="10em"  @click="kakaoLogin"></v-img>
       </v-col>
     </v-row>
   </v-container>
