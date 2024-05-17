@@ -22,9 +22,9 @@
               <th class="text-center">퇴실</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody style="font-size: 10px;">
             <tr v-for="attendance in attendances" :key="attendance.attendanceCoode">
-              <td>{{ attendance.roomName }}</td>
+              <td><v-chip>{{ attendance.roomName }}</v-chip></td>
               <td>{{ attendance.formattedEnterTime }}</td>
               <td>{{ attendance.formattedExitTime }}</td>
             </tr>
