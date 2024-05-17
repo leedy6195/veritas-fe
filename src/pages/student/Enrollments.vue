@@ -1,23 +1,24 @@
 <template>
-  <v-card v-for="enrollment in enrollments" :key="enrollment.id">
-    <v-card-title>
-      {{ enrollment.lecture.name }}
-    </v-card-title>
+  <v-card v-for="enrollment in enrollments" max-width="300" :key="enrollment.id" class="mx-auto" elevation="8">
+    <v-card-item>
+      <v-card-title>
+        {{ enrollment.lecture.name }}
+      </v-card-title>
+      <v-card-subtitle>
+        {{ enrollment.lecture.startDate }} ~ {{ enrollment.lecture.endDate }}
+      </v-card-subtitle>
+    </v-card-item>
     <v-card-text>
       <v-row>
         <v-col>
-          {{ enrollment.lecture.startDate }} ~ {{ enrollment.lecture.endDate }}
+          강사 <b>{{ enrollment.lecture.instructor }}</b>
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          강사 {{ enrollment.lecture.instructor }}
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
+        <v-col style="color: blue">
           총 {{ enrollment.lecture.schedules.length }} 회
         </v-col>
+      </v-row>
+      <v-row>
+
       </v-row>
     </v-card-text>
   </v-card>
