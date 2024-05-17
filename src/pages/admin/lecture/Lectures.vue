@@ -34,7 +34,7 @@
             <td>{{ lecture.instructor }}</td>
             <td @click="goToSchedule(lecture.id)" style="cursor: pointer;">{{ lecture.startDate }} ~ {{ lecture.endDate }}</td>
             <td>{{ lecture.fee }}</td>
-            <td @click="goToEnrolledStudents(lecture.id)">{{ lecture.enrolledStudents }}</td>
+            <td @click="goToEnrolledStudents(lecture.id)" style="cursor: pointer;">{{ lecture.enrolledStudents }}</td>
             <td>{{ lecture.status === 'OPEN'? '노출' : '숨김' }}</td>
           </tr>
           </tbody>

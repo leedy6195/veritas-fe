@@ -62,7 +62,7 @@ const getAttendanceStatus = (studentId, scheduleId) => {
   const record = attendanceRecords.value.find(
       (r) => r.student.id === studentId && r.schedule.id === scheduleId
   );
-  return record ? record.status : "";
+  return record ? formatStatus(record.status) : "";
 };
 
 const fetchLecture = () => {
@@ -74,6 +74,10 @@ const fetchLecture = () => {
       .catch((error) => {
         console.error(error);
       });
+};
+
+const formatStatus = (status) => {
+  return status === "ATTENDED" ? "출석" : status === "ABSENT" ? "결석" : status === "LATE" ? "지각" : "조퇴";
 };
 
 const fetchStudents = () => {
