@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2 class="text-h5 mb-4">강의 일정 [{{ lecture.name }}]</h2>
+        <h2 class="text-h5 mb-4">출석 내역 [{{ lecture.name }}]</h2>
       </v-col>
     </v-row>
 
