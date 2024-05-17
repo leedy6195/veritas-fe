@@ -1,6 +1,6 @@
 <template>
   <v-app-bar color="white" flat density="compact" v-if="$route.path !== '/login'">
-    <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="!$vuetify.display.mdAndUp"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon @click="handleClick" v-if="!$vuetify.display.mdAndUp"></v-app-bar-nav-icon>
 
     <v-toolbar-title class="mr-12">
       <v-img src="@/assets/daechi-logo.png" max-height="40"></v-img>
@@ -44,6 +44,11 @@ const logout = () => {
   axios.post('https://veritas-s.app/api/auth/logout').then(() => {
     router.push('/login')
   })
+}
+
+const handleClick = () => {
+  this.drawer = !this.drawer;
+  this.location.href = '/';
 }
 </script>
 <style scoped>
