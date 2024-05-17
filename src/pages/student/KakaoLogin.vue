@@ -5,9 +5,9 @@
         <v-img src="@/assets/daechi-logo.png" min-width="10em" ></v-img>
       </v-col>
     </v-row>
-    <v-row class="ma-6">
+    <v-row class="ma-12">
       <v-col class="text-center">
-        <v-img src="@/assets/kakao_login_medium_narrow.png" min-width="6em" max-width="10em"  @click="kakaoLogin"></v-img>
+        <v-img src="@/assets/kakao_login_medium_narrow.png" min-width="6em" max-width="14em"  @click="kakaoLogin"></v-img>
       </v-col>
     </v-row>
   </v-container>
