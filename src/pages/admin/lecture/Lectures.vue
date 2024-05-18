@@ -33,7 +33,7 @@
             <td @click="editLecture(lecture)" style="cursor: pointer;">{{ lecture.name }}</td>
             <td>{{ lecture.instructor }}</td>
             <td @click="goToSchedule(lecture.id)" style="cursor: pointer;">{{ lecture.startDate }} ~ {{ lecture.endDate }}</td>
-            <td>{{ lecture.fee }}</td>
+            <td>{{ formatPrice(lecture.fee) }}</td>
             <td @click="goToEnrolledStudents(lecture.id)" style="cursor: pointer;">{{ lecture.enrolledStudents }}</td>
             <td>{{ lecture.status === 'OPEN'? '노출' : '숨김' }}</td>
           </tr>
@@ -52,7 +52,7 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="primary" @click="addLecture">추가</v-btn>
-          <v-btn color="primary" @click="addLectureDialog = false">취소</v-btn>
+          <v-btn color="error" @click="addLectureDialog = false">취소</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -66,8 +66,9 @@
           <lecture-form v-model="editedLecture" @submit="updateLecture"></lecture-form>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="primary" @click="updateLecture">저장</v-btn>
-          <v-btn color="primary" @click="editLectureDialog = false">취소</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" @click="updateLecture">수정</v-btn>
+          <v-btn color="error" @click="editLectureDialog = false">취소</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -109,6 +110,10 @@ const editedLecture = ref({...newLecture.value})
 
 const goToSchedule = (lectureId) => {
   router.push(`/admin/lectures/${lectureId}/schedules`)
+}
+
+const formatPrice = (price) => {
+  return price.toLocaleString() + '원'
 }
 
 const goToEnrolledStudents = (lectureId) => {

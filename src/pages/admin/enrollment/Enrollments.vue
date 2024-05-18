@@ -29,8 +29,8 @@
           <tr v-for="enrollment in enrollments" :key="enrollment.id">
             <td>{{ enrollment.lecture.name }}</td>
             <td>{{ enrollment.student.name }}</td>
-            <td>{{ enrollment.paymentAmount }}</td>
-            <td>{{ enrollment.paymentMethod }}</td>
+            <td>{{ formatPrice(enrollment.paymentAmount) }}</td>
+            <td>{{ formatPaymentMethod(enrollment.paymentMethod) }}</td>
           </tr>
           </tbody>
         </v-table>
@@ -99,6 +99,21 @@ const addEnrollment = () => {
   axios.post('https://veritas-s.app/api/enrollments', newEnrollment.value).then(() => {
     location.reload()
   })
+}
+
+const formatPaymentMethod = (paymentMethod) => {
+  switch (paymentMethod) {
+    case 'CREDIT_CARD':
+      return '신용카드'
+    case 'BANK_TRANSFER':
+      return '계좌이체'
+    case 'CASH':
+      return '현금'
+  }
+}
+
+const formatPrice = (price) => {
+  return price.toLocaleString() + '원'
 }
 
 const fetchStudents = () => {
