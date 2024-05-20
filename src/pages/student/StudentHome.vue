@@ -11,9 +11,11 @@
     <v-row>
       <v-col class="text-center">
         <v-card class="pa-1" flat>
+          <!--
           <v-card-actions class="justify-end">
             <v-icon @click="goToDetailPage">mdi-dots-horizontal</v-icon>
           </v-card-actions>
+          -->
           <v-table density="comfortable">
             <thead>
             <tr>
