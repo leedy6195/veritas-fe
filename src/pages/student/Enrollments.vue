@@ -1,5 +1,5 @@
 <template>
-  <v-card v-for="enrollment in enrollments" prepend-icon="mdi-file-document-edit-outline" max-width="358"
+  <v-card v-for="enrollment in enrollments" max-width="358"
           :key="enrollment.id" class="ma-4" elevation="2">
 
     <v-card-title style="font-weight: 800;">
@@ -9,7 +9,7 @@
       {{ enrollment.lecture.startDate }} ~ {{ enrollment.lecture.endDate }}
     </v-card-subtitle>
 
-    <v-card-text class="bg-grey-lighten-5">
+    <v-card-text >
       <v-row>
         <v-col>
           강사 <b>{{ enrollment.lecture.instructor }}</b>
