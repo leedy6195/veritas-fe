@@ -51,6 +51,7 @@
           <lecture-form v-model="newLecture" @submit="addLecture"></lecture-form>
         </v-card-text>
         <v-card-actions>
+          <v-spacer></v-spacer>
           <v-btn color="primary" @click="addLecture">추가</v-btn>
           <v-btn color="error" @click="addLectureDialog = false">취소</v-btn>
         </v-card-actions>
@@ -67,6 +68,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
+          <v-btn color="error" @click="deleteLecture">삭제</v-btn>
           <v-btn color="primary" @click="updateLecture">수정</v-btn>
           <v-btn color="error" @click="editLectureDialog = false">취소</v-btn>
         </v-card-actions>
@@ -204,8 +206,8 @@ const lectureToDto = (lecture) => {
 const addLecture = () => {
   const lectureCreateRequest = lectureToDto(newLecture.value)
 
-  axios.post('https://veritas-s.app/api/lectures', lectureCreateRequest).then((response) => {
-    console.log(response)
+  axios.post('https://veritas-s.app/api/lectures', lectureCreateRequest).then(() => {
+
     addLectureDialog.value = false
     fetchLectures()
   })
@@ -214,11 +216,20 @@ const addLecture = () => {
 const updateLecture = () => {
   const lectureUpdateRequest = lectureToDto(editedLecture.value)
 
-  axios.put(`https://veritas-s.app/api/lectures/${editedLecture.value.id}`, lectureUpdateRequest).then((response) => {
-    console.log(response)
+  axios.put(`https://veritas-s.app/api/lectures/${editedLecture.value.id}`, lectureUpdateRequest).then(() => {
     editLectureDialog.value = false
     fetchLectures()
   })
+}
+
+const deleteLecture = () => {
+  if (confirm('정말 삭제하시겠습니까?')) {
+    axios.delete(`https://veritas-s.app/api/lectures/${editedLecture.value.id}`).then(() => {
+
+      editLectureDialog.value = false
+      fetchLectures()
+    })
+  }
 }
 
 onMounted(() => {
