@@ -26,7 +26,8 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="enrollment in enrollments" :key="enrollment.id" @click="openEditEnrollmentDialog(enrollment)" style="cursor: pointer;">
+          <tr v-for="enrollment in enrollments" :key="enrollment.id" @click="openEditEnrollmentDialog(enrollment)"
+              style="cursor: pointer;">
             <td>{{ enrollment.lecture.name }}</td>
             <td>{{ enrollment.student.name }}</td>
             <td>{{ formatPrice(enrollment.paymentAmount) }}</td>
@@ -78,17 +79,17 @@
       <v-card>
         <v-card-title>수강신청 수정</v-card-title>
         <v-card-text>
-          <v-form ref="editEnrollmentForm" @submit.prevent="editEnrollment">
-            <v-text-field disabled label="강의" v-model="editedEnrollment.selectedLectureName"></v-text-field>
-            <v-text-field disabled label="학생" v-model="editedEnrollment.selectedStudentName"></v-text-field>
 
-            <v-text-field v-model="editedEnrollment.paymentAmount" label="결제금액" required></v-text-field>
-            <v-radio-group v-model="editedEnrollment.paymentMethod" inline>
-              <v-radio label="신용카드" value="CREDIT_CARD"></v-radio>
-              <v-radio label="계좌이체" value="BANK_TRANSFER"></v-radio>
-              <v-radio label="현금" value="CASH"></v-radio>
-            </v-radio-group>
-          </v-form>
+          <v-text-field disabled label="강의" v-model="editedEnrollment.lecture.name"></v-text-field>
+          <v-text-field disabled label="학생" v-model="editedEnrollment.student.name"></v-text-field>
+
+          <v-text-field v-model="editedEnrollment.paymentAmount" label="결제금액" required></v-text-field>
+          <v-radio-group v-model="editedEnrollment.paymentMethod" inline>
+            <v-radio label="신용카드" value="CREDIT_CARD"></v-radio>
+            <v-radio label="계좌이체" value="BANK_TRANSFER"></v-radio>
+            <v-radio label="현금" value="CASH"></v-radio>
+          </v-radio-group>
+
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -131,8 +132,6 @@ const newEnrollment = ref({
 
 const openEditEnrollmentDialog = (enrollment) => {
   editedEnrollment.value = {...enrollment}
-  editedEnrollment.value.selectedLectureName = enrollment.lecture.name
-  editedEnrollment.value.selectedStudentName = enrollment.student.name
   editEnrollmentDialog.value = true
 }
 
