@@ -19,11 +19,11 @@
             <v-checkbox v-model="lecture.schedule.MON.checked" label="월요일"></v-checkbox>
           </v-col>
           <v-col cols="4">
-            <v-text-field v-model="lecture.schedule.MON.startTime" type="time" label="시작시간"
+            <v-text-field v-model="lecture.schedule.MON.startTime" type="time" label="시작시간" density="comfortable"
                           :disabled="!lecture.schedule.MON.checked"></v-text-field>
           </v-col>
           <v-col cols="4">
-            <v-text-field v-model="lecture.schedule.MON.endTime" type="time" label="종료시간"
+            <v-text-field v-model="lecture.schedule.MON.endTime" type="time" label="종료시간" density="comfortable"
                           :disabled="!lecture.schedule.MON.checked"></v-text-field>
           </v-col>
         </v-row>
@@ -32,11 +32,11 @@
             <v-checkbox v-model="lecture.schedule.TUE.checked" label="화요일"></v-checkbox>
           </v-col>
           <v-col cols="4">
-            <v-text-field v-model="lecture.schedule.TUE.startTime" type="time" label="시작시간"
+            <v-text-field v-model="lecture.schedule.TUE.startTime" type="time" label="시작시간" density="comfortable"
                           :disabled="!lecture.schedule.TUE.checked"></v-text-field>
           </v-col>
           <v-col cols="4">
-            <v-text-field v-model="lecture.schedule.TUE.endTime" type="time" label="종료시간"
+            <v-text-field v-model="lecture.schedule.TUE.endTime" type="time" label="종료시간" density="comfortable"
                           :disabled="!lecture.schedule.TUE.checked"></v-text-field>
           </v-col>
         </v-row>
@@ -45,11 +45,11 @@
             <v-checkbox v-model="lecture.schedule.WED.checked" label="수요일"></v-checkbox>
           </v-col>
           <v-col cols="4">
-            <v-text-field v-model="lecture.schedule.WED.startTime" type="time" label="시작시간"
+            <v-text-field v-model="lecture.schedule.WED.startTime" type="time" label="시작시간" density="comfortable"
                           :disabled="!lecture.schedule.WED.checked"></v-text-field>
           </v-col>
           <v-col cols="4">
-            <v-text-field v-model="lecture.schedule.WED.endTime" type="time" label="종료시간"
+            <v-text-field v-model="lecture.schedule.WED.endTime" type="time" label="종료시간" density="comfortable"
                           :disabled="!lecture.schedule.WED.checked"></v-text-field>
           </v-col>
         </v-row>
@@ -58,11 +58,11 @@
             <v-checkbox v-model="lecture.schedule.THU.checked" label="목요일"></v-checkbox>
           </v-col>
           <v-col cols="4">
-            <v-text-field v-model="lecture.schedule.THU.startTime" type="time" label="시작시간"
+            <v-text-field v-model="lecture.schedule.THU.startTime" type="time" label="시작시간" density="comfortable"
                           :disabled="!lecture.schedule.THU.checked"></v-text-field>
           </v-col>
           <v-col cols="4">
-            <v-text-field v-model="lecture.schedule.THU.endTime" type="time" label="종료시간"
+            <v-text-field v-model="lecture.schedule.THU.endTime" type="time" label="종료시간" density="comfortable"
                           :disabled="!lecture.schedule.THU.checked"></v-text-field>
           </v-col>
         </v-row>
@@ -71,11 +71,11 @@
             <v-checkbox v-model="lecture.schedule.FRI.checked" label="금요일"></v-checkbox>
           </v-col>
           <v-col cols="4">
-            <v-text-field v-model="lecture.schedule.FRI.startTime" type="time" label="시작시간"
+            <v-text-field v-model="lecture.schedule.FRI.startTime" type="time" label="시작시간" density="comfortable"
                           :disabled="!lecture.schedule.FRI.checked"></v-text-field>
           </v-col>
           <v-col cols="4">
-            <v-text-field v-model="lecture.schedule.FRI.endTime" type="time" label="종료시간"
+            <v-text-field v-model="lecture.schedule.FRI.endTime" type="time" label="종료시간" density="comfortable"
                           :disabled="!lecture.schedule.FRI.checked"></v-text-field>
           </v-col>
         </v-row>
@@ -84,11 +84,11 @@
             <v-checkbox v-model="lecture.schedule.SAT.checked" label="토요일"></v-checkbox>
           </v-col>
           <v-col cols="4">
-            <v-text-field v-model="lecture.schedule.SAT.startTime" type="time" label="시작시간"
+            <v-text-field v-model="lecture.schedule.SAT.startTime" type="time" label="시작시간" density="comfortable"
                           :disabled="!lecture.schedule.SAT.checked"></v-text-field>
           </v-col>
           <v-col cols="4">
-            <v-text-field v-model="lecture.schedule.SAT.endTime" type="time" label="종료시간"
+            <v-text-field v-model="lecture.schedule.SAT.endTime" type="time" label="종료시간" density="comfortable"
                           :disabled="!lecture.schedule.SAT.checked"></v-text-field>
           </v-col>
         </v-row>
@@ -97,11 +97,11 @@
             <v-checkbox v-model="lecture.schedule.SUN.checked" label="일요일"></v-checkbox>
           </v-col>
           <v-col cols="4">
-            <v-text-field v-model="lecture.schedule.SUN.startTime" type="time" label="시작시간"
+            <v-text-field v-model="lecture.schedule.SUN.startTime" type="time" label="시작시간" density="comfortable"
                           :disabled="!lecture.schedule.SUN.checked"></v-text-field>
           </v-col>
           <v-col cols="4">
-            <v-text-field v-model="lecture.schedule.SUN.endTime" type="time" label="종료시간"
+            <v-text-field v-model="lecture.schedule.SUN.endTime" type="time" label="종료시간" density="comfortable"
                           :disabled="!lecture.schedule.SUN.checked"></v-text-field>
           </v-col>
         </v-row>

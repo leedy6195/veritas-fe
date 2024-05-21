@@ -204,6 +204,11 @@ const lectureToDto = (lecture) => {
 }
 
 const addLecture = () => {
+  if (!newLecture.value || !newLecture.value.name || !newLecture.value.instructor || !newLecture.value.startDate || !newLecture.value.endDate || !newLecture.value.fee) {
+    alert('필수 입력값을 입력해주세요')
+    return
+  }
+
   const lectureCreateRequest = lectureToDto(newLecture.value)
 
   axios.post('https://veritas-s.app/api/lectures', lectureCreateRequest).then(() => {

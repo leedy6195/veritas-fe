@@ -50,6 +50,7 @@
                 item-value="id"
                 label="강의"
                 required
+                density="comfortable"
             ></v-autocomplete>
             <v-autocomplete
                 v-model="newEnrollment.studentId"
@@ -58,11 +59,12 @@
                 item-value="id"
                 label="학생"
                 required
+                density="comfortable"
             ></v-autocomplete>
-            <v-text-field v-model="newEnrollment.paymentAmount" label="결제금액" required></v-text-field>
+            <v-text-field v-model="newEnrollment.paymentAmount" label="결제금액" required density="comfortable"></v-text-field>
             <v-radio-group v-model="newEnrollment.paymentMethod" inline>
-              <v-radio label="신용카드" value="CREDIT_CARD"></v-radio>
-              <v-radio label="계좌이체" value="BANK_TRANSFER"></v-radio>
+              <v-radio label="신용카드" value="CREDIT_CARD" class="mr-6"></v-radio>
+              <v-radio label="계좌이체" value="BANK_TRANSFER" class="mr-6"></v-radio>
               <v-radio label="현금" value="CASH"></v-radio>
             </v-radio-group>
           </v-form>
@@ -80,13 +82,13 @@
         <v-card-title>수강신청 수정</v-card-title>
         <v-card-text>
 
-          <v-text-field disabled label="강의" v-model="editedEnrollment.lecture.name"></v-text-field>
-          <v-text-field disabled label="학생" v-model="editedEnrollment.student.name"></v-text-field>
+          <v-text-field disabled label="강의" v-model="editedEnrollment.lecture.name" density="comfortable"></v-text-field>
+          <v-text-field disabled label="학생" v-model="editedEnrollment.student.name" density="comfortable"></v-text-field>
 
-          <v-text-field v-model="editedEnrollment.paymentAmount" label="결제금액" required></v-text-field>
+          <v-text-field v-model="editedEnrollment.paymentAmount" label="결제금액" required density="comfortable"></v-text-field>
           <v-radio-group v-model="editedEnrollment.paymentMethod" inline>
-            <v-radio label="신용카드" value="CREDIT_CARD"></v-radio>
-            <v-radio label="계좌이체" value="BANK_TRANSFER"></v-radio>
+            <v-radio label="신용카드" value="CREDIT_CARD" class="mr-6"></v-radio>
+            <v-radio label="계좌이체" value="BANK_TRANSFER" class="mr-6"></v-radio>
             <v-radio label="현금" value="CASH"></v-radio>
           </v-radio-group>
 
