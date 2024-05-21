@@ -26,7 +26,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="(schedule, index) in lecture.schedules" :key="schedule.id" @click="editSchedule(schedule)">
+          <tr v-for="(schedule, index) in lecture.schedules" :key="schedule.id" @click="editSchedule(schedule)" style="cursor: pointer;">
             <td>{{ index + 1 }}</td>
             <td>{{ schedule.date }}</td>
             <td>
@@ -179,13 +179,16 @@ const updateSchedule = () => {
 }
 
 const deleteSchedule = () => {
-  axios.delete(`/api/lectures/${lectureId}/schedules/${editedSchedule.value.id}`)
-      .then(() => {
-        location.reload()
-      })
-      .catch(error => {
-        console.error(error)
-      })
+  if (confirm('일정을 삭제하시겠습니까?')) {
+    axios.delete(`/api/lectures/${lectureId}/schedules/${editedSchedule.value.id}`)
+        .then(() => {
+          location.reload()
+        })
+        .catch(error => {
+          console.error(error)
+        })
+  }
+
 }
 
 
