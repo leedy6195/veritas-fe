@@ -1,7 +1,7 @@
 <template>
-  <v-card v-for="enrollment in enrollments" max-width="358" :key="enrollment.id" class="ma-8" elevation="4">
+  <v-card v-for="enrollment in enrollments" prepend-icon="mdi-file-document-edit-outline" max-width="358" :key="enrollment.id" class="ma-4" elevation="2">
     <v-card-item>
-      <v-card-title>
+      <v-card-title style="font-weight: 800;">
         {{ enrollment.lecture.name }}
       </v-card-title>
       <v-card-subtitle>

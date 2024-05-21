@@ -6,6 +6,7 @@
         <v-text-field v-model="lecture.name" label="강의명" density="comfortable"></v-text-field>
         <v-text-field v-model="lecture.instructor" label="강사명" density="comfortable"></v-text-field>
         <v-text-field v-model="lecture.fee" label="수강료" type="number" density="comfortable"></v-text-field>
+        <v-textarea v-model="lecture.description" label="강의설명" density="comfortable"></v-textarea>
       </v-col>
       <v-col cols="6">
         <v-text-field v-model="lecture.startDate" label="시작일" type="date" density="comfortable"></v-text-field>
