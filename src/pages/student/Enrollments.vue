@@ -1,20 +1,26 @@
 <template>
-  <v-card v-for="enrollment in enrollments" prepend-icon="mdi-file-document-edit-outline" max-width="358" :key="enrollment.id" class="ma-4" elevation="2">
-    <v-card-item>
-      <v-card-title style="font-weight: 800;">
-        {{ enrollment.lecture.name }}
-      </v-card-title>
-      <v-card-subtitle>
-        {{ enrollment.lecture.startDate }} ~ {{ enrollment.lecture.endDate }}
-      </v-card-subtitle>
-    </v-card-item>
-    <v-card-text>
+  <v-card v-for="enrollment in enrollments" prepend-icon="mdi-file-document-edit-outline" max-width="358"
+          :key="enrollment.id" class="ma-4" elevation="2">
+
+    <v-card-title style="font-weight: 800;">
+      {{ enrollment.lecture.name }}
+    </v-card-title>
+    <v-card-subtitle>
+      {{ enrollment.lecture.startDate }} ~ {{ enrollment.lecture.endDate }}
+    </v-card-subtitle>
+
+    <v-card-text class="bg-grey-lighten-5">
       <v-row>
         <v-col>
           강사 <b>{{ enrollment.lecture.instructor }}</b>
         </v-col>
         <v-col class="text-right" style="color: blue">
           총 {{ enrollment.lecture.schedules.length }} 회
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          {{enrollment.lecture.description}}
         </v-col>
       </v-row>
       <v-row>
