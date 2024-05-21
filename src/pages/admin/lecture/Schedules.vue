@@ -26,11 +26,14 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="(schedule, index) in lecture.schedules" :key="schedule.id">
+          <tr v-for="(schedule, index) in lecture.schedules" :key="schedule.id" @click="editSchedule(schedule)">
             <td>{{ index + 1 }}</td>
             <td>{{ schedule.date }}</td>
-            <td><v-chip>{{ formatTime(schedule.startTime) }}</v-chip>
-              ~ <v-chip>{{ formatTime(schedule.endTime) }}</v-chip></td>
+            <td>
+              <v-chip>{{ formatTime(schedule.startTime) }}</v-chip>
+              ~
+              <v-chip>{{ formatTime(schedule.endTime) }}</v-chip>
+            </td>
             <td>{{ schedule.description }}</td>
           </tr>
           </tbody>
@@ -78,6 +81,46 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="editScheduleDialog" max-width="600">
+      <v-card>
+        <v-card-title>일정 수정</v-card-title>
+        <v-card-text>
+
+
+          <v-text-field
+              v-model="editedSchedule.date"
+              label="강의일"
+              type="date"
+              required
+
+          ></v-text-field>
+          <v-text-field
+              v-model="editedSchedule.startTime"
+              label="시작시간"
+              type="time"
+              required
+          ></v-text-field>
+          <v-text-field
+              v-model="editedSchedule.endTime"
+              label="종료시간"
+              type="time"
+              required
+          ></v-text-field>
+          <v-text-field
+              v-model="editedSchedule.description"
+              label="강의내용"
+              required
+          ></v-text-field>
+
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="error" @click="deleteSchedule">삭제</v-btn>
+          <v-btn color="primary" @click="updateSchedule">수정</v-btn>
+          <v-btn color="error" @click="editScheduleDialog = false">취소</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -87,6 +130,7 @@ import axios from "axios";
 import {onMounted, ref} from "vue";
 
 const addScheduleDialog = ref(false)
+const editScheduleDialog = ref(false)
 const route = useRoute()
 const lectureId = route.params.lectureId
 
@@ -110,6 +154,40 @@ const newSchedule = ref({
   endTime: '',
   description: ''
 })
+
+const editedSchedule = ref({
+  id: null,
+  date: '',
+  startTime: '',
+  endTime: '',
+  description: ''
+})
+
+const editSchedule = (schedule) => {
+  editedSchedule.value = {...schedule}
+  editScheduleDialog.value = true
+}
+
+const updateSchedule = () => {
+  axios.put(`/api/lectures/${lectureId}/schedules/${editedSchedule.value.id}`, editedSchedule.value)
+      .then(() => {
+        location.reload()
+      })
+      .catch(error => {
+        console.error(error)
+      })
+}
+
+const deleteSchedule = () => {
+  axios.delete(`/api/lectures/${lectureId}/schedules/${editedSchedule.value.id}`)
+      .then(() => {
+        location.reload()
+      })
+      .catch(error => {
+        console.error(error)
+      })
+}
+
 
 const addSchedule = () => {
   axios.post(`/api/lectures/${lectureId}/schedules`, newSchedule.value)

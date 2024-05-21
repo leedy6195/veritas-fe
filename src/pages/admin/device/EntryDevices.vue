@@ -25,10 +25,15 @@
           <tr v-for="item in entryDevices" :key="item.id">
             <td @click="editEntryDevice(item)" style="cursor: pointer;">{{ item.name }}</td>
             <td>{{ item.parentKioskName ? '독서실' : '강의실' }}</td>
-            <td>{{ item.accessType === 'IN' ? '입실' : '퇴실'}}</td>
+            <td>{{ item.accessType === 'IN' ? '입실' : '퇴실' }}</td>
             <td>{{ item.parentKioskName || '' }}</td>
             <td>{{ item.lectureRoomName || '' }}</td>
-            <td><router-link :to="`/views/${item.parentKioskName ? 'readingroom' : 'lectureroom'}/${item.accessType === 'IN' ? 'enter' : 'exit'}/${item.id}`">링크</router-link></td>
+            <td>
+              <router-link
+                  :to="`/views/${item.parentKioskName ? 'readingroom' : 'lectureroom'}/${item.accessType === 'IN' ? 'enter' : 'exit'}/${item.id}`">
+                링크
+              </router-link>
+            </td>
           </tr>
 
           </tbody>
@@ -51,8 +56,8 @@
           <v-row>
             <v-col>
               <v-radio-group label="용도" v-model="kioskSync" @change="onKioskSyncChange" inline>
-                <v-radio label="독서실" :value="true" ></v-radio>
-                <v-radio class="mr-6" label="강의실" :value="false" ></v-radio>
+                <v-radio label="독서실" :value="true"></v-radio>
+                <v-radio class="mr-6" label="강의실" :value="false"></v-radio>
               </v-radio-group>
             </v-col>
           </v-row>
@@ -96,7 +101,8 @@
         <v-card-text>
           <v-row>
             <v-col>
-              <v-text-field v-model="editedEntryDevice.name" label="디바이스 관리명" density="compact" variant="outlined" required
+              <v-text-field v-model="editedEntryDevice.name" label="디바이스 관리명" density="compact" variant="outlined"
+                            required
                             :rules="[v => !!v || '필수 입력']"></v-text-field>
             </v-col>
           </v-row>
@@ -104,8 +110,8 @@
           <v-row>
             <v-col>
               <v-radio-group label="용도" v-model="editedEntryDevice.kioskSync" @change="onEditKioskSyncChange" inline>
-                <v-radio label="독서실" :value="true" ></v-radio>
-                <v-radio class="mr-6" label="강의실" :value="false" ></v-radio>
+                <v-radio label="독서실" :value="true"></v-radio>
+                <v-radio class="mr-6" label="강의실" :value="false"></v-radio>
               </v-radio-group>
             </v-col>
           </v-row>
@@ -121,14 +127,16 @@
 
           <v-row v-if="editedEntryDevice.kioskSync">
             <v-col>
-              <v-select v-model="editedEntryDevice.selectedKiosk" :items="kiosks" item-title="name" item-value="id" label="키오스크 선택"
+              <v-select v-model="editedEntryDevice.selectedKiosk" :items="kiosks" item-title="name" item-value="id"
+                        label="키오스크 선택"
                         density="compact" variant="outlined" required></v-select>
             </v-col>
           </v-row>
 
           <v-row v-if="!editedEntryDevice.kioskSync">
             <v-col>
-              <v-select v-model="editedEntryDevice.selectedLectureRoom" :items="lectureRooms" item-title="name" item-value="id"
+              <v-select v-model="editedEntryDevice.selectedLectureRoom" :items="lectureRooms" item-title="name"
+                        item-value="id"
                         label="강의실 선택" density="compact" variant="outlined"></v-select>
             </v-col>
           </v-row>
@@ -175,10 +183,10 @@ const editEntryDevice = (item) => {
     name: item.name,
     accessType: item.accessType,
     kioskSync: item.parentKioskName ? true : false,
-      selectedKiosk: kiosks.value.find(kiosk => kiosk.id === item.parentKioskId),
-    //selectedKiosk: item.parentKioskId,
-      selectedLectureRoom: lectureRooms.value.find(lectureRoom => lectureRoom.id === item.lectureRoomId)
-    //selectedLectureRoom: item.lectureRoomId,
+    selectedKiosk: kiosks.value.find(kiosk => kiosk.name === item.parentKioskName),
+
+    selectedLectureRoom: lectureRooms.value.find(lectureRoom => lectureRoom.name === item.lectureRoomName)
+
   };
   editEntryDeviceDialog.value = true;
 };
