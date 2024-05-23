@@ -252,10 +252,12 @@ onMounted(() => {
   font-weight: bold;
   width: 2rem;
   height: 3rem;
-  margin: 0.2rem 0.4rem;
+  margin: 0.2rem 0.6rem;
   border: 0.1rem solid lightgray;
   text-align: center;
-  line-height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   background-color: white;
 }

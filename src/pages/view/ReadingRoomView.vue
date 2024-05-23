@@ -384,8 +384,8 @@ onMounted(() => {
   font-weight: bold;
   font-size: 2rem;
   width: 4rem;
-  height: 8rem;
-  margin: 0.4rem 1rem;
+  height: 6rem;
+  margin: 0.4rem 1.4rem;
   text-align: center;
   display: flex;
   justify-content: center;
