@@ -250,9 +250,9 @@ onMounted(() => {
 
 .seat {
   font-weight: bold;
-  width: 3rem;
-  height: 2rem;
-  margin: 0.2rem;
+  width: 2rem;
+  height: 3rem;
+  margin: 0.2rem 0.4rem;
   border: 0.1rem solid lightgray;
   text-align: center;
   line-height: 2rem;
