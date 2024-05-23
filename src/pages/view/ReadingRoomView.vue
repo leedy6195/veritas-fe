@@ -67,6 +67,15 @@
         </v-col>
       </v-row>
 
+      <v-row>
+        <v-col cols="3" class="d-flex justify-start align-center">
+          <div class="entrance">
+            <div class="entrance-line"></div>
+            <div class="entrance-text">출입문</div>
+          </div>
+        </v-col>
+      </v-row>
+
     </v-container>
   </fullscreen>
 
@@ -385,7 +394,7 @@ onMounted(() => {
   font-size: 2rem;
   width: 4rem;
   height: 6rem;
-  margin: 0.4rem 1.4rem;
+  margin: 0.4rem 1.6rem;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -462,5 +471,22 @@ onMounted(() => {
   align-items: center;
   margin-right: 20px;
   color: white;
+}
+
+.entrance {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.entrance-line {
+  width: 100px;
+  height: 4px;
+  background-color: #000;
+  margin-bottom: 8px;
+}
+
+.entrance-text {
+  font-size: 1rem;
 }
 </style>
