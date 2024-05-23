@@ -68,14 +68,11 @@
       </v-row>
 
       <v-row>
-        <v-col cols="2" offset="3" class="d-flex justify-end align-center">
+        <v-col cols="2" offset="3" class="d-flex justify-center align-center">
           <div class="entrance">
             <div class="entrance-line"></div>
             <div class="entrance-text">출입문</div>
           </div>
-        </v-col>
-        <v-col cols="1" class="d-flex justify-start align-center">
-          <div style="width: 50%;"></div>
         </v-col>
       </v-row>
 
