@@ -392,9 +392,9 @@ onMounted(() => {
 .seat {
   font-weight: bold;
   font-size: 1rem;
-  width: 2.5rem;
-  height: 4rem;
-  margin: 0.4rem 1.6rem;
+  width: 2.7rem;
+  height: 4.3rem;
+  margin: 0.4rem 1.8rem;
   text-align: center;
   display: flex;
   justify-content: center;
