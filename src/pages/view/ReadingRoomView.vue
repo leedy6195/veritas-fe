@@ -391,9 +391,9 @@ onMounted(() => {
 
 .seat {
   font-weight: bold;
-  font-size: 2rem;
-  width: 4rem;
-  height: 6rem;
+  font-size: 1rem;
+  width: 2.5rem;
+  height: 4rem;
   margin: 0.4rem 1.6rem;
   text-align: center;
   display: flex;
@@ -420,7 +420,7 @@ onMounted(() => {
 .blue-container {
   background-color: #236DB5;
   padding: 20px;
-  height: 20rem;
+  height: 15rem;
   display: flex;
   flex-direction: column;
   align-items: center;
