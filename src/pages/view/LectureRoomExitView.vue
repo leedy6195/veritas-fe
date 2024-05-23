@@ -119,9 +119,10 @@ const openAlertDialog = (message) => {
 };
 
 const closeAlertDialogWithFocus = () => {
-  resetInput();
   alertMessage.value = "";
   alertDialog.value = false;
+  qrCodeInput.value = ""
+  inputDisabled.value = false;
   nextTick(() => {
     document.querySelector("input").focus();
   });
