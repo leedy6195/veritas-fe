@@ -477,6 +477,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-left: 25px;
 }
 
 .entrance-line {
