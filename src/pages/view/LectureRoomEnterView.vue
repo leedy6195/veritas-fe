@@ -133,13 +133,12 @@ const resetInput = () => {
   onInputBlur();
 }
 const onInputBlur = () => {
-
-  nextTick(() => {
-    document.querySelector("input").focus();
-  });
-
+  if (!alertDialog.value) {
+    nextTick(() => {
+      document.querySelector("input").focus();
+    });
+  }
 }
-
 
 const currentTime = ref("");
 const currentDate = ref("");
