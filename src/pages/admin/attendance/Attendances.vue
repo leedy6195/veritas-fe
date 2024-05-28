@@ -168,7 +168,7 @@ const deleteItem = async (item) => {
   }
 
   const attendanceCode = item.attendanceCode.slice(1);
-  const isLectureRoom = attendanceCode.startsWith('L');
+  const isLectureRoom = item.attendanceCode.startsWith('L');
   const apiUrl = isLectureRoom ?
       `https://veritas-s.app/api/access/lectureroom/${attendanceCode}` :
       `https://veritas-s.app/api/access/readingroom/${attendanceCode}`;
