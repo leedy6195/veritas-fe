@@ -179,6 +179,7 @@ const headers = [
   {title: '학년', key: 'formattedGradeType'},
   {title: '이메일주소', key: 'email'},
   {title: '휴대폰번호', key: 'tel'},
+  {title: '부모님 연락처', key: 'parentTel'},
   {title: '회원코드', key: 'serial'},
   {title: '수강 종류', key: 'formattedCourseType'},
   {title: '가입일', align: 'start', key: 'joinDate'},
@@ -191,6 +192,7 @@ const searchColumnOptions = [
   {title: '학년', value: 'formattedGradeType'},
   {title: '이메일주소', value: 'email'},
   {title: '휴대폰번호', value: 'tel'},
+  {title: '부모님 연락처', value: 'parentTel'},
   {title: '회원코드', value: 'serial'},
   {title: '수강 종류', value: 'formattedCourseType'},
 ];
@@ -323,6 +325,7 @@ const exportToExcel = () => {
     '학년': member.formattedGradeType,
     '이메일주소': member.email,
     '휴대폰번호': member.tel,
+    '부모님 연락처': member.parentTel,
     '회원코드': member.serial,
     '수강 종류': member.formattedCourseType,
     '가입일': member.joinDate,
