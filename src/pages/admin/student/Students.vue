@@ -210,9 +210,12 @@ const courseTypeOptions = [
 ];
 
 const gradeTypeOptions = [
-  {title: '1학년', value: 'GRADE1'},
-  {title: '2학년', value: 'GRADE2'},
-  {title: '3학년', value: 'GRADE3'},
+  {title: '중1', value: 'MIDDLE1'},
+  {title: '중2', value: 'MIDDLE2'},
+  {title: '중3', value: 'MIDDLE3'},
+  {title: '고1', value: 'HIGH1'},
+  {title: '고2', value: 'HIGH2'},
+  {title: '고3', value: 'HIGH3'},
   {title: '졸업생', value: 'GRADUATE'},
 
 ]
@@ -225,7 +228,7 @@ const newMember = ref({
   tel: '',
   parentTel: '',
   courseType: 'GENERAL',
-  gradeType: 'GRADE1',
+  gradeType: 'MIDDLE1',
 });
 
 const editMemberDialog = ref(false);
@@ -377,7 +380,7 @@ const resetNewMember = () => {
     tel: '',
     parentTel: '',
     courseType: 'GENERAL',
-    gradeType: 'GRADE1',
+    gradeType: 'MIDDLE1',
   };
 };
 const formatCourseType = (courseType) => {
@@ -395,12 +398,18 @@ const formatCourseType = (courseType) => {
 
 const formatGradeType = (gradeType) => {
   switch (gradeType) {
-    case 'GRADE1':
-      return '1학년';
-    case 'GRADE2':
-      return '2학년';
-    case 'GRADE3':
-      return '3학년';
+    case 'MIDDLE1':
+      return '중1';
+    case 'MIDDLE2':
+      return '중2';
+    case 'MIDDLE3':
+      return '중3';
+    case 'HIGH1':
+      return '고1';
+    case 'HIGH2':
+      return '고2';
+    case 'HIGH3':
+      return '고3';
     case 'GRADUATE':
       return '졸업생';
     default:
