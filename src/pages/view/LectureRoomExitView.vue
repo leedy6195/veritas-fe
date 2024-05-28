@@ -26,7 +26,7 @@
   </fullscreen>
 
 
-  <v-overlay opacity="0.3" v-model="exitCardOverlay" class="d-flex align-center justify-center" transition="false">
+  <v-overlay attach="#fullscreen" opacity="0.3" v-model="exitCardOverlay" class="d-flex align-center justify-center" transition="false">
     <v-card class="mt-5 ml-16 mr-16" flat>
       <v-card-text class="text-center" style="color:#DD6396">
         <h3>{{ exitStudentName }}</h3>
