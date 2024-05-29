@@ -12,7 +12,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-text-field class="mx-3" label="휴대폰 번호" v-model="hp" placeholder="휴대폰 번호를 입력하세요(- 제외)" density="comfortable"
+        <v-text-field class="mx-3" label="휴대폰 번호" v-model="tel" placeholder="휴대폰 번호를 입력하세요(- 제외)" density="comfortable"
                       required></v-text-field>
       </v-col>
     </v-row>
