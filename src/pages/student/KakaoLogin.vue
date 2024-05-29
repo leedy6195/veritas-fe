@@ -18,7 +18,7 @@
     </v-row>
     <v-row>
       <v-col class="centered">
-        <v-btn color="primary" width="10em" @click="login">로그인</v-btn>
+        <v-btn color="black" width="16em" height="3.5em" @click="login">로그인</v-btn>
       </v-col>
     </v-row>
     <v-row>
@@ -37,6 +37,35 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import axios from "axios";
+import router from "@/scripts/router";
+
+const email = ref("");
+const hp = ref("");
+
+const login = async () => {
+  if (!email.value) {
+    alert("이메일 주소를 입력하세요.");
+    return;
+  }
+  if (!hp.value) {
+    alert("휴대폰 번호를 입력하세요.");
+    return;
+  }
+
+  try {
+    const response = await axios.post("https://veritas-s.app/api/auth/login", {
+      email: email.value,
+      hp: hp.value,
+    });
+    if (response.data.header.success) {
+      router.push("/");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
 const kakaoLogin = () => {
   const clientId = process.env.VUE_APP_KAKAO_CLIENT_ID;
   const redirectUri = process.env.VUE_APP_REDIRECT_URI;
