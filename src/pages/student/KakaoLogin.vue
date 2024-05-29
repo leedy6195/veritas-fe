@@ -61,6 +61,8 @@ const login = async () => {
     });
     if (response.data.header.success) {
       router.push("/");
+    } else {
+      alert(response.data.header.message);
     }
   } catch (error) {
     console.error(error);
