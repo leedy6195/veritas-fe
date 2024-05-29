@@ -7,12 +7,12 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-text-field class="mx-3" variant="underlined" type="email" label="이메일 주소" v-model="email" density="comfortable" required></v-text-field>
+        <v-text-field class="mx-3" variant="underlined" type="email" label="이메일 주소" v-model="email" required></v-text-field>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <v-text-field class="mx-3" variant="underlined" type="tel" label="휴대폰 번호" v-model="tel" placeholder="휴대폰 번호를 입력하세요(- 제외)" density="comfortable"
+        <v-text-field class="mx-3" variant="underlined" type="tel" label="휴대폰 번호" v-model="tel" placeholder="휴대폰 번호를 입력하세요(- 제외)"
                       required></v-text-field>
       </v-col>
     </v-row>
