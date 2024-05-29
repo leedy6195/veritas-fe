@@ -1,27 +1,27 @@
 <template>
-  <v-container class="fill-height">
+  <v-container>
     <v-row>
-      <v-col class="centered" cols="12">
+      <v-col>
         <v-img src="@/assets/daechi-logo.png" min-width="10" max-width="12em" ></v-img>
       </v-col>
     </v-row>
     <v-row>
-      <v-col class="centered" cols="12">
-        <v-text-field label="아이디" v-model="id" density="comfortable" required></v-text-field>
+      <v-col>
+        <v-text-field class="mx-3" label="아이디" v-model="id" density="comfortable" required></v-text-field>
       </v-col>
     </v-row>
     <v-row>
-      <v-col class="centered" cols="12">
-        <v-text-field label="비밀번호" v-model="password" type="password" density="comfortable" required></v-text-field>
+      <v-col>
+        <v-text-field class="mx-3" label="비밀번호" v-model="password" type="password" density="comfortable" required></v-text-field>
       </v-col>
     </v-row>
     <v-row>
-      <v-col class="centered" cols="12">
-        <v-btn color="primary" @click="login">로그인</v-btn>
+      <v-col>
+        <v-btn color="primary" min-width="10em" max-width="14em" @click="login">로그인</v-btn>
       </v-col>
     </v-row>
     <v-row>
-      <v-col class="centered" cols="12">
+      <v-col>
         <v-img src="@/assets/kakao_login_medium_narrow.png" min-width="10em" max-width="14em"  @click="kakaoLogin"></v-img>
       </v-col>
     </v-row>
