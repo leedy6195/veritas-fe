@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col>
+      <v-col class="centered">
         <v-img src="@/assets/daechi-logo.png" min-width="10" max-width="12em" ></v-img>
       </v-col>
     </v-row>
@@ -16,13 +16,18 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col>
-        <v-btn color="primary" min-width="10em" max-width="14em" @click="login">로그인</v-btn>
+      <v-col class="centered">
+        <v-btn color="primary" width="14em" @click="login">로그인</v-btn>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <v-img src="@/assets/kakao_login_medium_narrow.png" min-width="10em" max-width="14em"  @click="kakaoLogin"></v-img>
+        <v-divider>OR</v-divider>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col class="centered">
+        <v-img src="@/assets/kakao_login_medium_narrow.png" width="14em"  @click="kakaoLogin"></v-img>
       </v-col>
     </v-row>
   </v-container>
