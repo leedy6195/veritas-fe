@@ -21,7 +21,12 @@
         <v-btn color="primary" width="10em" @click="login">로그인</v-btn>
       </v-col>
     </v-row>
-    <v-divider>OR</v-divider>
+    <v-row>
+      <v-col>
+        <v-divider>OR</v-divider>
+      </v-col>
+    </v-row>
+
     <v-row>
       <v-col class="centered">
         <v-img src="@/assets/kakao_login_medium_narrow.png" min-width="14em" max-width="14em"
