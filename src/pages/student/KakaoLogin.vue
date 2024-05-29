@@ -1,13 +1,20 @@
 <template>
   <v-container class="fill-height">
-    <v-row class="ma-4">
-      <v-col>
-        <v-img src="@/assets/daechi-logo.png" min-width="10em" ></v-img>
+    <v-row>
+      <v-col class="centered">
+        <v-img src="@/assets/daechi-logo.png" min-width="10" max-width="12em" ></v-img>
       </v-col>
     </v-row>
-    <v-row class="ma-12">
-      <v-col class="text-center">
-        <v-img src="@/assets/kakao_login_medium_narrow.png" min-width="6em" max-width="14em"  @click="kakaoLogin"></v-img>
+    <v-row>
+      <v-col class="centered">
+        <v-text-field label="아이디" v-model="id" density="comfortable" required></v-text-field>
+        <v-text-field label="비밀번호" v-model="password" type="password" density="comfortable" required></v-text-field>
+        <v-btn color="primary" @click="login">로그인</v-btn>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col class="centered">
+        <v-img src="@/assets/kakao_login_medium_narrow.png" min-width="10em" max-width="14em"  @click="kakaoLogin"></v-img>
       </v-col>
     </v-row>
   </v-container>
@@ -54,3 +61,10 @@ const logout = async () => {
 
 
 </script>
+<style scoped>
+  .centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>
