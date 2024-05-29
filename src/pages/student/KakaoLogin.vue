@@ -2,32 +2,30 @@
   <v-container>
     <v-row>
       <v-col class="centered">
-        <v-img src="@/assets/daechi-logo.png" min-width="10" max-width="12em" ></v-img>
+        <v-img src="@/assets/daechi-logo.png" min-width="10" max-width="12em"></v-img>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <v-text-field class="mx-3" label="아이디" v-model="id" density="comfortable" required></v-text-field>
+        <v-text-field class="mx-3" label="이메일 주소" v-model="email" density="comfortable" required></v-text-field>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <v-text-field class="mx-3" label="비밀번호" v-model="password" type="password" density="comfortable" required></v-text-field>
+        <v-text-field class="mx-3" label="휴대폰 번호" v-model="hp" placeholder="휴대폰 번호를 입력하세요(- 제외)" density="comfortable"
+                      required></v-text-field>
       </v-col>
     </v-row>
     <v-row>
       <v-col class="centered">
-        <v-btn color="primary" width="14em" @click="login">로그인</v-btn>
+        <v-btn color="primary" width="10em" @click="login">로그인</v-btn>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <v-divider>OR</v-divider>
-      </v-col>
-    </v-row>
+    <v-divider>OR</v-divider>
     <v-row>
       <v-col class="centered">
-        <v-img src="@/assets/kakao_login_medium_narrow.png" width="14em"  @click="kakaoLogin"></v-img>
+        <v-img src="@/assets/kakao_login_medium_narrow.png" min-width="14em" max-width="14em"
+               @click="kakaoLogin"></v-img>
       </v-col>
     </v-row>
   </v-container>
@@ -75,9 +73,9 @@ const logout = async () => {
 
 </script>
 <style scoped>
-  .centered {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>
