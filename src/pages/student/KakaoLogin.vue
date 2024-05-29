@@ -42,14 +42,14 @@ import axios from "axios";
 import router from "@/scripts/router";
 
 const email = ref("");
-const hp = ref("");
+const tel = ref("");
 
 const login = async () => {
   if (!email.value) {
     alert("이메일 주소를 입력하세요.");
     return;
   }
-  if (!hp.value) {
+  if (!tel.value) {
     alert("휴대폰 번호를 입력하세요.");
     return;
   }
@@ -57,7 +57,7 @@ const login = async () => {
   try {
     const response = await axios.post("https://veritas-s.app/api/auth/login", {
       email: email.value,
-      hp: hp.value,
+      tel: tel.value,
     });
     if (response.data.header.success) {
       router.push("/");
