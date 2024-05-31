@@ -25,6 +25,7 @@
           <thead>
           <tr>
             <th class="text-left">이름</th>
+            <th class="text-left">기기 토큰</th>
           </tr>
           </thead>
           <tbody>
@@ -32,6 +33,7 @@
             <td>
               <a @click="openEditLectureRoomDialog(item)" style="cursor: pointer;">{{ item.name }}</a>
             </td>
+            <td>{{ item.receiverToken }}</td>
           </tr>
           </tbody>
         </v-table>
@@ -46,6 +48,11 @@
             <v-col>
               <v-text-field v-model="lectureRoomName" label="강의실명" density="comfortable" required
                             :rules="[v => !!v || '필수 입력']"></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-text-field v-model="receiverToken" label="수신기 토큰" density="comfortable"></v-text-field>
             </v-col>
           </v-row>
         </v-card-text>
@@ -67,6 +74,12 @@
                             :rules="[v => !!v || '필수 입력']"></v-text-field>
             </v-col>
           </v-row>
+          <v-row>
+            <v-col>
+              <v-text-field v-model="editedReceiverToken" label="수신기 토큰" density="comfortable"></v-text-field>
+            </v-col>
+          </v-row>
+
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -87,11 +100,14 @@ const lectureRooms = ref([])
 
 const addLectureRoomDialog = ref(false)
 const lectureRoomName = ref('')
+const receiverToken = ref('')
 const loading = ref(true)
 
 const editLectureRoomDialog = ref(false)
 const editedLectureRoomId = ref(null)
 const editedLectureRoomName = ref('')
+const editedReceiverToken = ref('')
+
 
 const fetchRooms = () => {
   axios.get('https://veritas-s.app/api/lecturerooms').then((response) => {
@@ -107,7 +123,8 @@ const addLectureRoom = () => {
   }
 
   axios.post('https://veritas-s.app/api/lecturerooms', {
-    name: lectureRoomName.value
+    name: lectureRoomName.value,
+    receiverToken: receiverToken.value
   }).then((response) => {
     if (response.data.header.success) {
       location.reload()
@@ -120,6 +137,7 @@ const addLectureRoom = () => {
 const openEditLectureRoomDialog = (lectureRoom) => {
   editedLectureRoomId.value = lectureRoom.id
   editedLectureRoomName.value = lectureRoom.name
+  editedReceiverToken.value = lectureRoom.receiverToken
   editLectureRoomDialog.value = true
 }
 
@@ -130,7 +148,8 @@ const updateLectureRoom = () => {
   }
 
   axios.put(`https://veritas-s.app/api/lecturerooms/${editedLectureRoomId.value}`, {
-    name: editedLectureRoomName.value
+    name: editedLectureRoomName.value,
+    receiverToken: editedReceiverToken.value
   }).then((response) => {
     if (response.data.header.success) {
       fetchRooms()
