@@ -26,6 +26,7 @@
           <tr>
             <th class="text-left">이름</th>
             <th class="text-left">기기 토큰</th>
+            <th class="text-left"></th>
           </tr>
           </thead>
           <tbody>
@@ -34,6 +35,9 @@
               <a @click="openEditLectureRoomDialog(item)" style="cursor: pointer;">{{ item.name }}</a>
             </td>
             <td>{{ item.receiverToken }}</td>
+            <td>
+              <v-btn v-if="item.receiverToken" color="primary" @click="openLectureRoom(item.receiverToken)">열림</v-btn>
+            </td>
           </tr>
           </tbody>
         </v-table>
@@ -129,6 +133,14 @@ const addLectureRoom = () => {
     if (response.data.header.success) {
       location.reload()
     }
+  }).catch((error) => {
+    console.log(error)
+  })
+}
+
+const openLectureRoom = (receiverToken) => {
+  axios.get(`https://blynk.cloud/external/api/update?token=${receiverToken}&v0=1`).then(() => {
+    console.log('강의실 열림')
   }).catch((error) => {
     console.log(error)
   })
