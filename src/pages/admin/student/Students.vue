@@ -140,7 +140,7 @@
             <v-text-field v-model="editedMember.email" label="이메일주소" :rules="[v => !!v || '필수 입력']"></v-text-field>
             <v-text-field v-model="editedMember.tel" label="연락처" :rules="[v => !!v || '필수 입력']"></v-text-field>
             <v-text-field v-model="editedMember.parentTel" label="부모님 연락처"
-                          :rules="[v => !!v || '필수 입력']"></v-text-field>
+                          ></v-text-field>
             <v-select
                 v-model="editedMember.courseType"
                 :items="courseTypeOptions"
@@ -250,8 +250,7 @@ const updateMember = () => {
       !editedMember.value.birthDate ||
       !editedMember.value.school ||
       !editedMember.value.email ||
-      !editedMember.value.tel ||
-      !editedMember.value.parentTel
+      !editedMember.value.tel
   ) {
     alert('필수 항목을 입력하세요')
     return
@@ -354,8 +353,8 @@ const addMember = () => {
       !newMember.value.birthDate ||
       !newMember.value.school ||
       !newMember.value.email ||
-      !newMember.value.tel ||
-      !newMember.value.parentTel
+      !newMember.value.tel
+
   ) {
     alert('필수 항목을 입력하세요')
     return
