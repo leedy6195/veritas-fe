@@ -102,7 +102,7 @@
             ></v-select>
             <v-text-field v-model="newMember.email" label="이메일주소" :rules="[v => !!v || '필수 입력']"></v-text-field>
             <v-text-field v-model="newMember.tel" label="연락처" :rules="[v => !!v || '필수 입력']"></v-text-field>
-            <v-text-field v-model="newMember.parentTel" label="부모님 연락처" :rules="[v => !!v || '필수 입력']"></v-text-field>
+            <v-text-field v-model="newMember.parentTel" label="부모님 연락처"></v-text-field>
             <v-select
                 v-model="newMember.courseType"
                 :items="courseTypeOptions"
