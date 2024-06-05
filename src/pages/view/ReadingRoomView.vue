@@ -103,12 +103,6 @@
       <v-card-text>
         <div>{{ alertMessage }}</div>
       </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="primary" @click="closeAlertDialogWithFocus">
-          닫기
-        </v-btn>
-      </v-card-actions>
     </v-card>
   </v-dialog>
 
@@ -301,6 +295,11 @@ const enterReadingRoom = () => {
 const openAlertDialog = (message) => {
   alertMessage.value = message;
   alertDialog.value = true;
+  inputDisabled.value = true;
+
+  setTimeout(() => {
+    closeAlertDialogWithFocus();
+  }, 3000);
 };
 const onInputBlur = () => {
   if (!qrDialog.value && !alertDialog.value) {
