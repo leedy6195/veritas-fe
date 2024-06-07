@@ -40,7 +40,7 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
+import {onMounted, onUnmounted, ref} from "vue";
 import axios from "axios";
 import QrcodeVue from "qrcode.vue";
 //import {useRouter} from "vue-router";
@@ -90,10 +90,22 @@ const goToDetailPage = () => {
   router.push({name: "DetailPage"});
 };
  */
+const handleBeforeUnload = (event) => {
+  // if target is kakao callback page, close window
+  if (event.target.URL.includes('kakaocallback')) {
+    event.preventDefault();
+    window.close();
+  }
+};
 
 onMounted(() => {
+  window.addEventListener('beforeunload', handleBeforeUnload);
   getStudentInfo();
   getMyAccess();
+});
+
+onUnmounted(() => {
+  window.removeEventListener('beforeunload', handleBeforeUnload);
 });
 </script>
 
