@@ -355,6 +355,13 @@ onMounted(() => {
   updateCurrentTime();
   setInterval(updateCurrentTime, 1000);
 
+  // 매일 오전 12시 10분에 fetchSeats 실행
+  setInterval(() => {
+    const now = new Date();
+    if (now.getHours() === 0 && now.getMinutes() === 10) {
+      fetchSeats();
+    }
+  }, 60000); // 1분마다 체크
 });
 </script>
 
